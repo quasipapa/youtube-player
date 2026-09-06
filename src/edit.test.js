@@ -8,6 +8,11 @@ jest.mock( '@wordpress/block-editor', () => ( {
 } ) );
 
 jest.mock( '@wordpress/components', () => ( {
+	Button: ( { children, onClick } ) => (
+		<button type="button" onClick={ onClick }>
+			{ children }
+		</button>
+	),
 	Disabled: ( { children } ) => (
 		<div data-testid="disabled-preview">{ children }</div>
 	),
@@ -48,6 +53,14 @@ jest.mock( '@wordpress/components', () => ( {
 } ) );
 
 describe( 'Edit', () => {
+	beforeEach( () => {
+		window.ytppEditorSettings = {
+			previewUrl:
+				'http://localhost/wp-admin/admin-ajax.php?action=ytpp_editor_preview&nonce=test',
+		};
+		localStorage.clear();
+	} );
+
 	it( 'places the playlist field in the block settings sidebar', () => {
 		const setAttributes = jest.fn();
 
@@ -108,19 +121,43 @@ describe( 'Edit', () => {
 		expect(
 			preview.closest( '[data-testid="disabled-preview"]' )
 		).not.toBeNull();
-		expect( previewUrl.origin ).toBe( 'https://www.youtube-nocookie.com' );
-		expect( previewUrl.searchParams.get( 'list' ) ).toBe( playlistId );
-		expect( previewUrl.searchParams.get( 'origin' ) ).toBe(
-			window.location.origin
+		expect( previewUrl.origin ).toBe( 'http://localhost' );
+		expect( previewUrl.searchParams.get( 'action' ) ).toBe(
+			'ytpp_editor_preview'
 		);
-		expect( previewUrl.searchParams.get( 'widget_referrer' ) ).toBe(
-			window.location.origin
-		);
-		expect( preview.getAttribute( 'referrerpolicy' ) ).toBe(
-			'origin-when-cross-origin'
+		expect( previewUrl.searchParams.get( 'playlist_id' ) ).toBe(
+			playlistId
 		);
 		expect(
 			screen.getByText( /editor preview connects directly/ )
+		).not.toBeNull();
+		expect(
+			screen.getByLabelText( 'Playlist navigation preview' )
+		).not.toBeNull();
+	} );
+
+	it( 'removes saved consent for the selected playlist', () => {
+		const playlistId = 'PL-test-playlist';
+		localStorage.setItem( `ytpp-consent-v1:${ playlistId }`, '1' );
+
+		render(
+			<Edit
+				attributes={ { playlistId, requireConsent: true } }
+				setAttributes={ jest.fn() }
+			/>
+		);
+
+		fireEvent.click(
+			screen.getByRole( 'button', {
+				name: 'Forget saved consent for this playlist',
+			} )
+		);
+
+		expect(
+			localStorage.getItem( `ytpp-consent-v1:${ playlistId }` )
+		).toBeNull();
+		expect(
+			screen.getByText( 'Saved consent for this playlist was removed.' )
 		).not.toBeNull();
 	} );
 

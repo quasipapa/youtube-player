@@ -32,6 +32,7 @@ final class Test_Plugin_Metadata extends TestCase {
 	 */
 	public function test_plugin_registers_block_from_build_directory(): void {
 		$GLOBALS['ytpp_test_registered_blocks'] = array();
+		$GLOBALS['ytpp_test_inline_scripts']    = array();
 
 		ytpp_register_block();
 
@@ -39,6 +40,15 @@ final class Test_Plugin_Metadata extends TestCase {
 		$this->assertSame(
 			YTPP_PLUGIN_DIR . 'build',
 			$GLOBALS['ytpp_test_registered_blocks'][0]->path
+		);
+		$this->assertSame(
+			'yt-playlist-player-player-editor-script',
+			$GLOBALS['ytpp_test_inline_scripts'][0]['handle']
+		);
+		$this->assertSame( 'before', $GLOBALS['ytpp_test_inline_scripts'][0]['position'] );
+		$this->assertStringContainsString(
+			'action=ytpp_editor_preview',
+			$GLOBALS['ytpp_test_inline_scripts'][0]['data']
 		);
 	}
 }

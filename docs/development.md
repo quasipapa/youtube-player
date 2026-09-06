@@ -179,17 +179,25 @@ malformed IDs are rejected. Additional query parameters such as YouTube's `si`
 tracking parameter are discarded when the canonical playlist ID is stored.
 
 Select the block and enter the value in **Playlist settings** in the block
-settings sidebar. For valid input, confirm that the block canvas shows a preview
-loaded from `youtube-nocookie.com`; the inspector explains that this editor
-preview makes an external connection.
+settings sidebar. For valid input, confirm that the block canvas shows the video
+preview without YouTube player error 153 and displays the navigation bar below
+it. The inspector explains that the preview makes an external connection. The
+outer preview document is loaded from the local WordPress site and embeds its
+player exclusively from `youtube-nocookie.com` to preserve the required HTTP
+referrer inside Gutenberg's editor canvas.
+
+Change the playlist setting, then use WordPress **Undo** and **Redo**. Confirm
+that the playlist selection follows both commands. This was manually verified
+during step 8.
 
 Save the post, reload the editor and confirm that the canonical ID is retained.
-View the post and confirm that a local consent message is shown. Clear the site's
-browser storage before testing a fresh consent state. Before selecting **Load
-YouTube playlist**, use the browser network panel to confirm that no YouTube
-request occurs. After selecting it, confirm that the first video appears without
-autoplay and that the iframe uses `www.youtube-nocookie.com`. Reload the page and
-confirm that this playlist now loads without asking again.
+View the post and confirm that a local consent message is shown. To test a fresh
+consent state after previously agreeing, select **Forget saved consent for this
+playlist** in the block inspector and reload the public page. Before selecting
+**Load YouTube playlist**, use the browser network panel to confirm that no
+YouTube request occurs. After selecting it, confirm that the first video appears
+without autoplay and that the iframe uses `www.youtube-nocookie.com`. Reload the
+page and confirm that this playlist now loads without asking again.
 
 Also enter `invalid!` and confirm that both editor and frontend show the plugin's
 validation message without rendering player controls or an external preview.

@@ -23,9 +23,11 @@ The plugin does not add analytics or telemetry and does not store visitor
 identity or other personal data. After activation it stores the value `1` under
 a key derived from the canonical playlist ID in the browser's `localStorage`.
 This allows the same playlist to load after a refresh without asking again. The
-choice applies only to that playlist and browser and remains until the visitor
-clears the site's browser data. If storage is unavailable, loading still works,
-but the choice lasts only for the current page.
+choice applies only to that playlist and browser. An editor can select **Forget
+saved consent for this playlist** in the block inspector to remove only that
+playlist's choice and test the consent gate again. Visitors can clear the site's
+browser data. If storage is unavailable, loading still works, but the choice
+lasts only for the current page.
 
 When a visitor activates a player, its block wrapper dispatches the bubbling
 JavaScript event `ytpp:consent`. The event's `detail.playlistId` contains the
@@ -47,22 +49,28 @@ consent protection.
 
 ## Block editor preview
 
-For editors, a syntactically valid playlist ID immediately creates a preview
-iframe from `https://www.youtube-nocookie.com`. This lets the editor see the
-playlist while editing, but it also establishes an external connection before
-the post is viewed on the public site. The block inspector displays this notice.
-No preview or external resource is created for empty or syntactically invalid
-input. The preview is deliberately non-interactive so that clicks select the
-block and expose its settings. Its URL and referrer policy provide YouTube with
-the origin identification required for embedded players.
+For editors, a syntactically valid playlist ID immediately creates a preview.
+The outer iframe uses an authenticated, nonce-protected URL on the same WordPress
+site. Its minimal document embeds the actual player exclusively from
+`https://www.youtube-nocookie.com`. This extra same-origin boundary supplies the
+HTTP referrer YouTube requires even when Gutenberg renders its editor canvas from
+a `blob:` URL. It does not proxy video data through WordPress.
+
+The preview lets the editor see the playlist while editing, but it also
+establishes an external connection before the post is viewed on the public site.
+The block inspector displays this notice. No preview or external resource is
+created for empty or syntactically invalid input. The preview and its visible
+navigation representation are deliberately non-interactive so that clicks select
+the block and expose its settings.
 
 ## Verification
 
 Use the browser network panel on a public post and filter for `youtube` before
 and after selecting the consent button:
 
-1. Clear this site's browser storage, reload the page with the built-in gate
-   enabled and preserve the network log.
+1. In the editor, select **Forget saved consent for this playlist**, or clear the
+   site's browser storage. Reload the public page with the built-in gate enabled
+   and preserve the network log.
 2. Confirm that no request to a YouTube domain occurs before activation.
 3. Select **Load YouTube playlist**.
 4. Confirm that the API request occurs only now and that the player iframe uses

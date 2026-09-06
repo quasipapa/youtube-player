@@ -1,49 +1,11 @@
 import { __, sprintf } from '@wordpress/i18n';
 
+import { hasStoredConsent, rememberConsent } from './consent-storage';
+
 const API_URL = 'https://www.youtube.com/iframe_api';
 const PLAYER_SELECTOR =
 	'.ytpp-player[data-playlist-id]:not([data-playlist-id=""])';
-const CONSENT_STORAGE_PREFIX = 'ytpp-consent-v1:';
 let apiPromise;
-
-/**
- * Build the local-storage key for one playlist.
- *
- * @param {HTMLElement} container Player wrapper.
- * @return {string} Storage key.
- */
-function getConsentStorageKey( container ) {
-	return `${ CONSENT_STORAGE_PREFIX }${ container.dataset.playlistId }`;
-}
-
-/**
- * Check whether this browser previously allowed the playlist to load.
- *
- * @param {HTMLElement} container Player wrapper.
- * @return {boolean} Whether consent is stored.
- */
-function hasStoredConsent( container ) {
-	try {
-		return (
-			localStorage.getItem( getConsentStorageKey( container ) ) === '1'
-		);
-	} catch {
-		return false;
-	}
-}
-
-/**
- * Remember consent locally without storing visitor identity.
- *
- * @param {HTMLElement} container Player wrapper.
- */
-function rememberConsent( container ) {
-	try {
-		localStorage.setItem( getConsentStorageKey( container ), '1' );
-	} catch {
-		// Loading still works when storage is blocked; consent then lasts one page.
-	}
-}
 
 /**
  * Load the YouTube IFrame API once while preserving an existing ready callback.
@@ -249,7 +211,7 @@ export function activatePlayer( container, consentGrantedNow = false ) {
 	}
 
 	if ( consentGrantedNow ) {
-		rememberConsent( container );
+		rememberConsent( container.dataset.playlistId );
 		container.dispatchEvent(
 			new CustomEvent( 'ytpp:consent', {
 				bubbles: true,
@@ -298,7 +260,7 @@ export function initializePlayers( root = document ) {
 
 		if (
 			container.dataset.requireConsent === 'false' ||
-			hasStoredConsent( container )
+			hasStoredConsent( container.dataset.playlistId )
 		) {
 			activatePlayer( container );
 		} else if ( consentButton ) {

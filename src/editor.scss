@@ -23,3 +23,16 @@
 	height: 100%;
 	border: 0;
 }
+
+.ytpp-player-editor__controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	background: #f0f0f0;
+}
+
+.ytpp-player-editor__controls button {
+	padding: 0.5rem 0.75rem;
+}
