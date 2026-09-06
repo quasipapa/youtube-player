@@ -40,6 +40,7 @@ final class Test_Block_Render extends TestCase {
 		$this->assertStringContainsString( 'data-require-consent="true"', $output );
 		$this->assertStringContainsString( 'ytpp-player__consent-button', $output );
 		$this->assertStringContainsString( 'Load YouTube playlist', $output );
+		$this->assertStringContainsString( 'saved for this playlist', $output );
 		$this->assertStringContainsString( '<nav', $output );
 		$this->assertStringNotContainsString( '<iframe', $output );
 		$this->assertStringNotContainsString( 'https://www.youtube', $output );

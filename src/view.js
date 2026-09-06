@@ -3,7 +3,47 @@ import { __, sprintf } from '@wordpress/i18n';
 const API_URL = 'https://www.youtube.com/iframe_api';
 const PLAYER_SELECTOR =
 	'.ytpp-player[data-playlist-id]:not([data-playlist-id=""])';
+const CONSENT_STORAGE_PREFIX = 'ytpp-consent-v1:';
 let apiPromise;
+
+/**
+ * Build the local-storage key for one playlist.
+ *
+ * @param {HTMLElement} container Player wrapper.
+ * @return {string} Storage key.
+ */
+function getConsentStorageKey( container ) {
+	return `${ CONSENT_STORAGE_PREFIX }${ container.dataset.playlistId }`;
+}
+
+/**
+ * Check whether this browser previously allowed the playlist to load.
+ *
+ * @param {HTMLElement} container Player wrapper.
+ * @return {boolean} Whether consent is stored.
+ */
+function hasStoredConsent( container ) {
+	try {
+		return (
+			localStorage.getItem( getConsentStorageKey( container ) ) === '1'
+		);
+	} catch {
+		return false;
+	}
+}
+
+/**
+ * Remember consent locally without storing visitor identity.
+ *
+ * @param {HTMLElement} container Player wrapper.
+ */
+function rememberConsent( container ) {
+	try {
+		localStorage.setItem( getConsentStorageKey( container ), '1' );
+	} catch {
+		// Loading still works when storage is blocked; consent then lasts one page.
+	}
+}
 
 /**
  * Load the YouTube IFrame API once while preserving an existing ready callback.
@@ -142,6 +182,7 @@ function createPlayer( container, youtube ) {
 	iframe.title = __( 'YouTube playlist player', 'yt-playlist-player' );
 	iframe.allow = 'encrypted-media; picture-in-picture; fullscreen';
 	iframe.allowFullscreen = true;
+	iframe.referrerPolicy = 'origin-when-cross-origin';
 	playerTarget.replaceChildren( iframe );
 
 	const player = new youtube.Player( iframe, {
@@ -184,9 +225,10 @@ function createPlayer( container, youtube ) {
 /**
  * Start one player after consent or immediately when the local gate is disabled.
  *
- * @param {HTMLElement} container Player wrapper.
+ * @param {HTMLElement} container         Player wrapper.
+ * @param {boolean}     consentGrantedNow Whether this call follows a new choice.
  */
-export function activatePlayer( container ) {
+export function activatePlayer( container, consentGrantedNow = false ) {
 	if ( container.dataset.ytppState ) {
 		return;
 	}
@@ -204,6 +246,10 @@ export function activatePlayer( container ) {
 
 	if ( consentButton ) {
 		consentButton.disabled = true;
+	}
+
+	if ( consentGrantedNow ) {
+		rememberConsent( container );
 		container.dispatchEvent(
 			new CustomEvent( 'ytpp:consent', {
 				bubbles: true,
@@ -250,11 +296,14 @@ export function initializePlayers( root = document ) {
 			'.ytpp-player__consent-button'
 		);
 
-		if ( container.dataset.requireConsent === 'false' ) {
+		if (
+			container.dataset.requireConsent === 'false' ||
+			hasStoredConsent( container )
+		) {
 			activatePlayer( container );
 		} else if ( consentButton ) {
 			consentButton.addEventListener( 'click', () => {
-				activatePlayer( container );
+				activatePlayer( container, true );
 			} );
 		}
 	} );

@@ -20,8 +20,12 @@ can transfer technical connection data. The `youtube-nocookie.com` host does not
 eliminate every external data transfer.
 
 The plugin does not add analytics or telemetry and does not store visitor
-consent or other personal data. Consent therefore applies to the current player
-load, not globally or permanently.
+identity or other personal data. After activation it stores the value `1` under
+a key derived from the canonical playlist ID in the browser's `localStorage`.
+This allows the same playlist to load after a refresh without asking again. The
+choice applies only to that playlist and browser and remains until the visitor
+clears the site's browser data. If storage is unavailable, loading still works,
+but the choice lasts only for the current page.
 
 When a visitor activates a player, its block wrapper dispatches the bubbling
 JavaScript event `ytpp:consent`. The event's `detail.playlistId` contains the
@@ -48,19 +52,24 @@ iframe from `https://www.youtube-nocookie.com`. This lets the editor see the
 playlist while editing, but it also establishes an external connection before
 the post is viewed on the public site. The block inspector displays this notice.
 No preview or external resource is created for empty or syntactically invalid
-input.
+input. The preview is deliberately non-interactive so that clicks select the
+block and expose its settings. Its URL and referrer policy provide YouTube with
+the origin identification required for embedded players.
 
 ## Verification
 
 Use the browser network panel on a public post and filter for `youtube` before
 and after selecting the consent button:
 
-1. Reload the page with the built-in gate enabled and preserve the network log.
+1. Clear this site's browser storage, reload the page with the built-in gate
+   enabled and preserve the network log.
 2. Confirm that no request to a YouTube domain occurs before activation.
 3. Select **Load YouTube playlist**.
 4. Confirm that the API request occurs only now and that the player iframe uses
    `www.youtube-nocookie.com`.
 5. Confirm that playback does not start automatically.
+6. Reload the page and confirm that the same playlist now loads without asking
+   again.
 
 This document describes the plugin's technical behavior and is not legal advice
 or a guarantee that a complete website meets a particular privacy law.
