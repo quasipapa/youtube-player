@@ -1,7 +1,7 @@
 === YouTube Playlist Player ===
 Contributors: quasipapa
 Tags: youtube, playlist, video, block, privacy
-Requires at least: 6.0
+Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 8.0
 Stable tag: 0.1.0
@@ -12,8 +12,9 @@ A privacy-aware Gutenberg block for embedding and navigating YouTube playlists.
 
 == Description ==
 
-YouTube Playlist Player will provide a Gutenberg block with controls for the
-first, previous, next, and last video in a public YouTube playlist.
+YouTube Playlist Player provides an initial Gutenberg block for a public YouTube
+playlist. Full navigation, validation and privacy controls are being added
+incrementally.
 
 The plugin is under active development and is not ready for production use.
 

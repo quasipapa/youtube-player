@@ -3,7 +3,7 @@
  * Plugin Name:       YouTube Playlist Player
  * Description:       Adds an enhanced navigation interface to embedded YouTube playlists.
  * Version:           0.1.0
- * Requires at least: 6.0
+ * Requires at least: 6.1
  * Requires PHP:      8.0
  * Author:            quasipapa
  * Copyright:         2026 quasipapa
@@ -34,39 +34,12 @@ define(
 
 
 /**
- * Enqueue the prototype player assets.
+ * Register the player block and its metadata-defined assets.
  *
  * @return void
  */
-function ytpp_enqueue_assets(): void {
-	wp_enqueue_style(
-		'ytpp-player',
-		YTPP_PLUGIN_URL . 'build/style-index.css',
-		array(),
-		YTPP_VERSION
-	);
-
-	$asset_file = YTPP_PLUGIN_DIR . 'build/index.asset.php';
-	$asset      = file_exists( $asset_file )
-		? require $asset_file
-		: array(
-			'dependencies' => array(),
-			'version'      => YTPP_VERSION,
-		);
-
-	wp_enqueue_script(
-		'ytpp-player',
-		YTPP_PLUGIN_URL . 'build/index.js',
-		$asset['dependencies'],
-		$asset['version'],
-		array(
-			'in_footer' => true,
-			'strategy'  => 'defer',
-		)
-	);
+function ytpp_register_block(): void {
+	register_block_type( YTPP_PLUGIN_DIR . 'build' );
 }
 
-add_action(
-	'wp_enqueue_scripts',
-	'ytpp_enqueue_assets'
-);
+add_action( 'init', 'ytpp_register_block' );

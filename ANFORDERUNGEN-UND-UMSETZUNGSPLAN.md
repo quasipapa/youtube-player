@@ -131,6 +131,32 @@ Noch offen in M0:
 - den Schutz von `main` nach dem ersten erfolgreichen CI-Lauf um verpflichtende
   Statusprüfungen ergänzen.
 
+### 3.2 Fortschritt in M1
+
+Für Schritt 6 technisch umgesetzt:
+
+- die Mindestplattform wurde auf WordPress 6.1 angehoben, damit dynamische Blöcke
+  über die `render`-Eigenschaft in `block.json` aufgebaut werden können;
+- der Block `yt-playlist-player/player` ist serverseitig aus den gebauten
+  Metadaten registriert;
+- der Editor bietet ein übersetzbares Feld für eine reine Playlist-ID und
+  speichert diese als Blockattribut;
+- die PHP-Render-Vorlage erzeugt je nach Eingabe ein leeres Platzhalter-Markup
+  oder das minimale Player-Markup mit Navigation;
+- Editor-JavaScript, Block-CSS und View-JavaScript werden über `block.json`
+  bedarfsgerecht geladen;
+- erste PHPUnit-Tests prüfen Registrierung, leeren Zustand, Escaping und
+  Player-Markup; Jest-Tests prüfen Blockregistrierung, dynamisches Speichern und
+  das Editorfeld;
+- der vollständige lokale Lauf `npm run check` ist erfolgreich und WordPress
+  registriert und rendert den Block mit der vereinbarten Test-Playlist-ID.
+
+Für die manuelle Abnahme von Schritt 6 noch offen:
+
+- den Block in einen Testbeitrag einfügen, die Playlist-ID speichern und den
+  Editor neu laden;
+- Editor und Frontend im Browser auf das erwartete Grundgerüst prüfen.
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen
@@ -244,11 +270,11 @@ pauschal die rechtliche Konformität einer gesamten Website.
 
 ### 4.6 Technische Anforderungen
 
-- Mindestplattform zum Projektstart: WordPress 6.0 und PHP 8.0.
+- Mindestplattform zum Projektstart: WordPress 6.1 und PHP 8.0.
 - Zusätzlich wird gegen die jeweils aktuelle stabile WordPress-Version getestet.
 - Registrierung des Blocks über `block.json`.
-- Dynamisches, serverseitiges Rendering über einen PHP-`render_callback`, damit
-  die deklarierte Unterstützung für WordPress 6.0 erhalten bleibt.
+- Dynamisches, serverseitiges Rendering über die seit WordPress 6.1 verfügbare
+  `render`-Eigenschaft in `block.json` und eine PHP-Render-Vorlage.
 - Block-Assets werden nur auf Seiten geladen, auf denen der Block vorkommt.
 - Sämtliche Eingaben werden validiert und sämtliche Ausgaben kontextbezogen
   escaped.
@@ -767,7 +793,7 @@ Zwischenschritte ausführen kann.
    - Bau und Smoke-Test eines installierbaren ZIPs.
 5. Lädt das geprüfte ZIP bei jedem erfolgreichen CI-Lauf als zeitlich begrenztes
    Workflow-Artefakt hoch.
-6. Testet mindestens WordPress 6.0/PHP 8.0 sowie aktuelle WordPress- und
+6. Testet mindestens WordPress 6.1/PHP 8.0 sowie aktuelle WordPress- und
    PHP-Versionen in einer sinnvollen Matrix.
 
 **Du:**
@@ -996,7 +1022,7 @@ Aktueller Entscheidungsstand:
   `https://youtube.com/playlist?list=OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU&si=xkRDc2cSiYN9u7jP`
   verwendet. Die daraus extrahierte Playlist-ID lautet
   `OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU`.
-- Die Mindestplattform ist WordPress 6.0 mit PHP 8.0; zusätzlich werden aktuelle
+- Die Mindestplattform ist WordPress 6.1 mit PHP 8.0; zusätzlich werden aktuelle
   WordPress- und PHP-Versionen getestet.
 - Copyright-Inhaber ist `quasipapa`; das Plugin wird unter
   `GPL-2.0-or-later` veröffentlicht.

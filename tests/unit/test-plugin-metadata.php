@@ -24,4 +24,21 @@ final class Test_Plugin_Metadata extends TestCase {
 		);
 		$this->assertDirectoryExists( YTPP_PLUGIN_DIR );
 	}
+
+	/**
+	 * The plugin registers the generated metadata directory.
+	 *
+	 * @return void
+	 */
+	public function test_plugin_registers_block_from_build_directory(): void {
+		$GLOBALS['ytpp_test_registered_blocks'] = array();
+
+		ytpp_register_block();
+
+		$this->assertCount( 1, $GLOBALS['ytpp_test_registered_blocks'] );
+		$this->assertSame(
+			YTPP_PLUGIN_DIR . 'build',
+			$GLOBALS['ytpp_test_registered_blocks'][0]->path
+		);
+	}
 }
