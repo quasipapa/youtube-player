@@ -81,12 +81,21 @@ Bereits umgesetzt:
 - Konfigurationen für aktuelle und minimale WordPress-Testinstanzen sind angelegt;
 - README, Entwicklungsanleitung, Drittanbieterhinweise sowie GitHub-Issue- und
   Pull-Request-Templates sind vorbereitet;
-- die npm-Entwicklungsabhängigkeiten weisen nach einer gezielten
-  Sicherheitsüberschreibung keine bekannten `npm audit`-Funde auf.
+- `@wordpress/scripts` 34.2.0 stellt den reproduzierbaren Gutenberg-Build sowie
+  ESLint, Stylelint und Formatprüfung bereit; die dabei derzeit gemeldeten
+  npm-Advisories betreffen ausschließlich transitive Entwicklungswerkzeuge und
+  werden nicht in das Plugin oder sein Release-ZIP übernommen;
 - Composer läuft reproduzierbar im Docker-Image `composer:2.9.5`; eine lokale
   PHP- oder Composer-Installation in WSL ist nicht erforderlich;
 - PHP-Syntaxprüfung, WordPress Coding Standards und die Kompatibilitätsprüfung
   für PHP 8.0 oder neuer sind eingerichtet und laufen fehlerfrei;
+- PHPUnit 9.6 ist über die Docker-basierte Composer-Strategie eingerichtet; ein
+  isolierter erster Test lädt das Plugin und prüft seine Laufzeitkonstanten;
+- der vorhandene JavaScript-/CSS-Prototyp liegt als bearbeitbare Quelle in `src`,
+  wird mit `npm run build` nach `build` übersetzt und besteht ESLint, Stylelint
+  sowie die Formatprüfung;
+- `npm run check` führt Formatprüfung, JavaScript-/CSS- und PHP-Linting, PHPUnit
+  sowie den Produktions-Build gemeinsam aus;
 - die sieben Milestones, die geplanten Type-/Area-/Status-Labels und Issues für
   alle Schritte 0 bis 17 sind im GitHub-Repository angelegt;
 - vor der Veröffentlichung wurden aktueller Dateistand und Git-Historie auf
@@ -114,8 +123,8 @@ Am 6. September 2026 manuell geprüft:
 
 Noch offen in M0:
 
-- JavaScript-/Block-Build-Werkzeuge und die erste PHPUnit-Konfiguration als
-  verbleibenden Teil von Schritt 4 ergänzen;
+- die IntelliJ-Erkennung der PHP-/JavaScript-Abhängigkeiten und die Behandlung
+  von `build` als generiertes Verzeichnis für Schritt 4 manuell bestätigen;
 - den Schutz von `main` nach dem ersten erfolgreichen CI-Lauf um verpflichtende
   Statusprüfungen ergänzen.
 

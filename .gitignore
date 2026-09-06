@@ -6,6 +6,7 @@
 /build/
 /dist/
 /coverage/
+/.phpunit.result.cache
 /.wp-env.override.json
 /.wp-env.test.override.json
 

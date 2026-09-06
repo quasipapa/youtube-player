@@ -27,6 +27,11 @@ define(
 	plugin_dir_url( __FILE__ )
 );
 
+define(
+	'YTPP_PLUGIN_DIR',
+	plugin_dir_path( __FILE__ )
+);
+
 
 /**
  * Enqueue the prototype player assets.
@@ -36,16 +41,24 @@ define(
 function ytpp_enqueue_assets(): void {
 	wp_enqueue_style(
 		'ytpp-player',
-		YTPP_PLUGIN_URL . 'assets/css/yt-playlist-player.css',
+		YTPP_PLUGIN_URL . 'build/style-index.css',
 		array(),
 		YTPP_VERSION
 	);
 
+	$asset_file = YTPP_PLUGIN_DIR . 'build/index.asset.php';
+	$asset      = file_exists( $asset_file )
+		? require $asset_file
+		: array(
+			'dependencies' => array(),
+			'version'      => YTPP_VERSION,
+		);
+
 	wp_enqueue_script(
 		'ytpp-player',
-		YTPP_PLUGIN_URL . 'assets/js/yt-playlist-player.js',
-		array(),
-		YTPP_VERSION,
+		YTPP_PLUGIN_URL . 'build/index.js',
+		$asset['dependencies'],
+		$asset['version'],
 		array(
 			'in_footer' => true,
 			'strategy'  => 'defer',
