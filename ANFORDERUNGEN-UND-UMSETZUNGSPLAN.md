@@ -179,11 +179,17 @@ Für Schritt 7 technisch umgesetzt:
 - PHPUnit- und Jest-Datensätze decken gültige URL-Varianten, Normalisierung und
   manipulierte Eingaben ab; `npm run check` ist vollständig erfolgreich.
 
-Für den Abschluss von Schritt 7 noch manuell zu prüfen:
+Für Schritt 7 manuell geprüft:
 
 - mehrere reale URL-Formen werden im Editor auf dieselbe ID normalisiert;
 - die Meldungen für gültige und ungültige Syntax sind verständlich;
-- Speichern, erneutes Laden und Frontend-Ausgabe verhalten sich wie dokumentiert.
+- Speichern, erneutes Laden und Frontend-Ausgabe verhalten sich wie dokumentiert;
+- eine syntaktisch gültige, aber nicht verfügbare ID wird korrekt von einer
+  syntaktisch ungültigen Eingabe unterschieden und nicht fälschlich als bei
+  YouTube geprüft dargestellt.
+
+Damit ist Schritt 7 vollständig abgenommen. Die tatsächliche Remote-Prüfung der
+Playlist-Verfügbarkeit bleibt bewusst Gegenstand von Schritt 8a.
 
 ## 4. Anforderungen
 
