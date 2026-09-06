@@ -151,11 +151,14 @@ Für Schritt 6 technisch umgesetzt:
 - der vollständige lokale Lauf `npm run check` ist erfolgreich und WordPress
   registriert und rendert den Block mit der vereinbarten Test-Playlist-ID.
 
-Für die manuelle Abnahme von Schritt 6 noch offen:
+Für Schritt 6 manuell geprüft:
 
-- den Block in einen Testbeitrag einfügen, die Playlist-ID speichern und den
-  Editor neu laden;
-- Editor und Frontend im Browser auf das erwartete Grundgerüst prüfen.
+- der Block lässt sich in einen Testbeitrag einfügen und speichert die
+  Playlist-ID über ein erneutes Laden des Editors hinweg;
+- Editor und Frontend zeigen das erwartete Grundgerüst;
+- eine ungültige ID kann im minimalen Stand noch gespeichert werden; im Frontend
+  zeigt YouTube anschließend an, dass das Video nicht vorhanden ist. Lokale
+  Validierung und verständliches Plugin-Feedback folgen in Schritt 7.
 
 ## 4. Anforderungen
 
@@ -190,6 +193,13 @@ Für die manuelle Abnahme von Schritt 6 noch offen:
 13. Ungültige, private, leere, gelöschte oder nicht einbettbare Playlists führen zu
     einer verständlichen, übersetzbaren Fehlermeldung.
 14. Es gibt standardmäßig kein Autoplay.
+15. Der Editor prüft IDs und unterstützte Links zunächst lokal und ohne externe
+    Anfrage auf syntaktische Gültigkeit.
+16. Nach erfolgreicher lokaler Prüfung kann der Redakteur die tatsächliche
+    Verfügbarkeit der Playlist und mindestens eines abspielbaren Eintrags bereits
+    im Editor prüfen. Das Ergebnis unterscheidet zwischen verfügbar, nicht
+    verfügbar und wegen Netzwerk-, Datenschutz- oder API-Einschränkungen nicht
+    eindeutig prüfbar.
 
 ### 4.2 Datenschutzanforderungen
 
@@ -665,6 +675,45 @@ führen und ungültige Eingaben keine unsichere Ausgabe erzeugen.
 
 **Fertig, wenn:** Datenschutz-Gate und erster Playlist-Eintrag lokal und in Tests
 nachweisbar funktionieren.
+
+### Schritt 8a – Playlist-Verfügbarkeit im Editor prüfen
+
+**Milestone:** `M2 – Playlist-Navigation`
+
+**Voraussetzung:** Die lokale syntaktische Validierung aus Schritt 7 und die
+Player-/Fehlerbehandlung aus Schritt 8 sind umgesetzt.
+
+**Codex:**
+
+1. Vergleicht für die Remote-Prüfung die YouTube-IFrame-API ohne Data-API-Key mit
+   der genaueren YouTube Data API, die API-Key beziehungsweise OAuth und Quota
+   erfordert, und dokumentiert Grenzen und Datenschutzfolgen.
+2. Implementiert die gewählte Prüfung erst nach erfolgreicher lokaler Validierung
+   und nach einer bewussten Aktion des Redakteurs, damit nicht bereits beim Tippen
+   unnötige externe Anfragen entstehen.
+3. Zeigt die Zustände „wird geprüft“, „verfügbar“, „nicht verfügbar“ und „derzeit
+   nicht eindeutig prüfbar“ verständlich und übersetzbar im Editor an.
+4. Prüft neben der Existenz der Playlist, soweit die gewählte Schnittstelle dies
+   zuverlässig erlaubt, dass mindestens ein abspielbarer beziehungsweise
+   einbettbarer Eintrag vorhanden ist.
+5. Behandelt private, gelöschte, leere oder nicht einbettbare Inhalte sowie
+   Netzwerkfehler, API-Limits und blockierte YouTube-Anfragen ohne falsche
+   Erfolgsmeldung.
+6. Ergänzt automatisierte JavaScript-Tests mit simulierten Erfolgs-, Fehler- und
+   nicht eindeutig entscheidbaren Antworten.
+
+**Du:**
+
+1. Entscheidest nach Gegenüberstellung der Varianten, ob eine optionale
+   Data-API-Key-Konfiguration akzeptabel ist oder die eingeschränkte Prüfung ohne
+   Schlüssel genügt.
+2. Prüfst im Editor eine verfügbare, eine ungültige und soweit möglich eine leere
+   oder nicht einbettbare Playlist.
+3. Bestätigst Texte, Auslösezeitpunkt und Datenschutzhinweis der externen Prüfung.
+
+**Fertig, wenn:** Der Editor nach lokaler Validierung eine kontrolliert ausgelöste
+Remote-Prüfung anbietet, den ermittelbaren Verfügbarkeitszustand korrekt anzeigt
+und technische Unsicherheit nicht als ungültige Playlist ausgibt.
 
 ### Schritt 9 – Vollständige Playlist-Navigation ergänzen
 
