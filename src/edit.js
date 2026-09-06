@@ -127,7 +127,10 @@ export default function Edit( { attributes, setAttributes } ) {
 								) }
 							</Button>
 							{ consentRemoved && (
-								<p role="status">
+								<p
+									className="ytpp-player-editor__consent-status"
+									role="status"
+								>
 									{ __(
 										'Saved consent for this playlist was removed.',
 										'yt-playlist-player'
