@@ -7,6 +7,7 @@
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            quasipapa
+ * Copyright:         2026 quasipapa
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Text Domain:       yt-playlist-player

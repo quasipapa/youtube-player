@@ -91,9 +91,6 @@ Am 6. September 2026 manuell geprüft:
   lokalen Standardzugangsdaten `admin` / `password`;
 - das Plugin wird als „YouTube Playlist Player“ in Version 0.1.0 angezeigt und
   ist aktiviert.
-
-Noch manuell in M0 zu prüfen:
-
 - die Plugin-Ansicht zeigt `quasipapa` als Autor und bietet kein Update des
   fremden WordPress.org-Plugins mit dem früher kollidierenden Slug an;
 - nach `npm run env:stop` und `npm run env:start` sind WordPress, Anmeldung und
@@ -108,9 +105,6 @@ Noch offen in M0:
 - PHP-/Composer-Strategie festlegen und die PHP-Qualitätswerkzeuge ergänzen;
 - GitHub-Milestones, Labels und Issues anlegen;
 - Branch-Schutz nach Vorhandensein der ersten CI-Prüfungen abschließend aktivieren;
-- einen echten Playlist-Link mit mindestens drei Videos für den Smoke-Test
-  bereitstellen;
-- Mindestplattform und Copyright-Angabe bestätigen.
 
 ## 4. Anforderungen
 
@@ -248,6 +242,8 @@ veröffentlicht. Der SPDX-Ausdruck lautet:
 ```text
 GPL-2.0-or-later
 ```
+
+Copyright-Inhaber ist `quasipapa`.
 
 Folgende Stellen müssen konsistent sein:
 
@@ -915,11 +911,14 @@ Aktueller Entscheidungsstand:
 - Der technische Plugin-Slug lautet `yt-playlist-player`. Der sichtbare Name
   „YouTube Playlist Player“ und die GitHub-Repository-URL bleiben davon
   unberührt.
-- Als Smoke-Test-Kandidat wurde
-  `https://youtu.be/TsCvNtCgKZ8?si=EVPpNXAjKe4APUbM` angegeben. Dieser Link
-  verweist auf ein einzelnes Video und enthält keine Playlist-ID. Für die
-  Navigationstests wird deshalb noch ein Playlist-Link mit `list`-Parameter oder
-  eine reine Playlist-ID benötigt.
+- Für manuelle Playlist-Smoke-Tests wird
+  `https://youtube.com/playlist?list=OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU&si=xkRDc2cSiYN9u7jP`
+  verwendet. Die daraus extrahierte Playlist-ID lautet
+  `OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU`.
+- Die Mindestplattform ist WordPress 6.0 mit PHP 8.0; zusätzlich werden aktuelle
+  WordPress- und PHP-Versionen getestet.
+- Copyright-Inhaber ist `quasipapa`; das Plugin wird unter
+  `GPL-2.0-or-later` veröffentlicht.
 - Die lokale Git-Identität ist in WSL als `quasipapa` mit einer
   GitHub-Noreply-Adresse eingerichtet.
 - Die Autorenangabe des Plugins lautet `quasipapa`.
@@ -930,10 +929,6 @@ Aktueller Entscheidungsstand:
 Noch zu entscheiden beziehungsweise bereitzustellen:
 
 - Sichtbarkeit des GitHub-Repositorys;
-- gewünschte Copyright-Angabe unter GPL-2.0-or-later;
-- öffentliche Playlist mit mindestens drei Videos für manuelle Smoke-Tests;
-- Bestätigung, dass WordPress 6.0/PHP 8.0 tatsächlich langfristig als
-  Mindestplattform beibehalten werden soll.
 
 Diese Entscheidungen blockieren nicht die technische Planung, müssen aber vor den
 jeweils betroffenen Implementierungs- und Veröffentlichungsschritten getroffen

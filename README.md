@@ -45,5 +45,7 @@ management system already blocks YouTube content.
 
 ## License
 
-This project is licensed under the GNU General Public License v2.0 or later. See
-[LICENSE](LICENSE).
+Copyright (C) 2026 quasipapa.
+
+This project is licensed under the GNU General Public License v2.0 or later
+(`GPL-2.0-or-later`). See [LICENSE](LICENSE).
