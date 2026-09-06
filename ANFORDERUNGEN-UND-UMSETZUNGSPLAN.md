@@ -214,14 +214,22 @@ Für Schritt 8 technisch umgesetzt:
 - PHPUnit und Jest prüfen beide Datenschutzmodi, ausbleibende Vorab-Anfragen,
   einmaliges API-Laden, Callback-Verträglichkeit, Playerparameter und Fehlerfälle.
 
-Für den Abschluss von Schritt 8 noch manuell zu prüfen:
+Für Schritt 8 manuell erfolgreich geprüft:
 
 - vor Betätigung des Consent-Buttons erscheint im Netzwerkprotokoll keine
   YouTube-Anfrage;
 - danach wird das erste Video ohne Autoplay in einem
   `youtube-nocookie.com`-IFrame angezeigt;
 - Eingabe im Inspector, Editorvorschau und Umschaltung für einen externen Content
-  Blocker sind verständlich und funktionieren wie dokumentiert.
+  Blocker sind verständlich und funktionieren wie dokumentiert;
+- ein Klick auf die nicht interaktive Vorschau wählt den Block zuverlässig aus
+  und zeigt seine Eigenschaften in der Sidebar;
+- die Editorvorschau erscheint ohne YouTube-Playerfehler 153;
+- die Navigationsleiste ist in der Editorvorschau sichtbar;
+- eine erteilte Zustimmung bleibt nach einem Refresh der Beitragsseite erhalten;
+- nach dem Löschen der gespeicherten Zustimmung im Block-Inspector erscheint das
+  Consent-Gate beim erneuten Laden der Beitragsseite wieder;
+- Undo und Redo für Änderungen der Playlist-Eigenschaft funktionieren.
 
 Nach der ersten manuellen Prüfung von Schritt 8 korrigiert:
 
@@ -239,6 +247,8 @@ Nach der ersten manuellen Prüfung von Schritt 8 korrigiert:
   Block-Inspector löschen und den Datenschutzablauf dadurch erneut testen;
 - Undo und Redo für Änderungen der Playlist-Eigenschaft wurden manuell
   erfolgreich geprüft.
+
+Damit ist Schritt 8 technisch, automatisiert und manuell vollständig abgenommen.
 
 ## 4. Anforderungen
 

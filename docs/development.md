@@ -215,6 +215,16 @@ checking is tracked separately for step 8a.
 First/last controls and complete playlist navigation belong to later development
 steps.
 
+### Step 8 manual acceptance record
+
+The complete step 8 smoke test was successfully performed in the local WordPress
+instance. The verified behavior includes block selection and inspector access,
+an editor preview without player error 153, the visible editor navigation bar,
+Undo/Redo, consent persistence after a public-page refresh, and removal of the
+playlist-specific consent followed by the consent gate appearing again. The
+previously verified syntax validation, privacy gate, no-cookie iframe, disabled
+autoplay and external-content-blocker mode remain successful as well.
+
 The editor script, block styles and frontend view script are declared in
 `block.json`. WordPress therefore enqueues them for the relevant editor or only
 when the block is rendered instead of loading player assets globally.
