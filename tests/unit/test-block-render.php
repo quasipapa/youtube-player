@@ -29,18 +29,51 @@ final class Test_Block_Render extends TestCase {
 	 * @return void
 	 */
 	public function test_playlist_id_renders_player_markup(): void {
+		$output = $this->render_block( array( 'playlistId' => 'PL-test-playlist' ) );
+
+		$this->assertStringContainsString( 'class="ytpp-player"', $output );
+		$this->assertStringContainsString(
+			'data-playlist-id="PL-test-playlist"',
+			$output
+		);
+		$this->assertStringContainsString( 'ytpp-player__target', $output );
+		$this->assertStringContainsString( '<nav', $output );
+	}
+
+	/**
+	 * A supported URL renders only its canonical playlist ID.
+	 *
+	 * @return void
+	 */
+	public function test_playlist_url_is_normalized_for_rendering(): void {
+		$playlist_id = 'OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU';
+		$output      = $this->render_block(
+			array(
+				'playlistId' => "https://youtube.com/playlist?list={$playlist_id}&si=tracking",
+			)
+		);
+
+		$this->assertStringContainsString(
+			"data-playlist-id=\"{$playlist_id}\"",
+			$output
+		);
+		$this->assertStringNotContainsString( 'si=tracking', $output );
+	}
+
+	/**
+	 * Invalid input produces a safe local error without player markup.
+	 *
+	 * @return void
+	 */
+	public function test_invalid_input_renders_local_error(): void {
 		$output = $this->render_block(
 			array( 'playlistId' => 'PL-test" onmouseover="bad' )
 		);
 
-		$this->assertStringContainsString( 'class="ytpp-player"', $output );
-		$this->assertStringContainsString(
-			'data-playlist-id="PL-test&quot; onmouseover=&quot;bad"',
-			$output
-		);
+		$this->assertStringContainsString( 'role="alert"', $output );
+		$this->assertStringContainsString( 'Enter a valid YouTube playlist ID', $output );
 		$this->assertStringNotContainsString( 'onmouseover="bad', $output );
-		$this->assertStringContainsString( 'ytpp-player__target', $output );
-		$this->assertStringContainsString( '<nav', $output );
+		$this->assertStringNotContainsString( 'ytpp-player__controls', $output );
 	}
 
 	/**

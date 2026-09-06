@@ -160,6 +160,31 @@ Für Schritt 6 manuell geprüft:
   zeigt YouTube anschließend an, dass das Video nicht vorhanden ist. Lokale
   Validierung und verständliches Plugin-Feedback folgen in Schritt 7.
 
+Für Schritt 7 technisch umgesetzt:
+
+- ein separater Playlist-Parser in PHP und JavaScript normalisiert reine IDs
+  sowie unterstützte YouTube-Links auf dieselbe kanonische Playlist-ID;
+- unterstützt werden ausschließlich die dokumentierten Hosts `youtube.com`,
+  `www.youtube.com`, `m.youtube.com`, `music.youtube.com`, `youtu.be`,
+  `www.youtu.be`, `youtube-nocookie.com` und `www.youtube-nocookie.com`;
+- fremde Hosts, Zugangsdaten in URLs, nicht standardmäßige Ports, fehlende oder
+  mehrfach angegebene `list`-Parameter und syntaktisch ungültige IDs werden
+  verworfen;
+- der Editor zeigt übersetzbares Feedback für leere, gültige und ungültige
+  Eingaben; das Frontend rendert bei ungültiger Syntax eine sichere lokale
+  Fehlermeldung statt Player und Navigation;
+- die Rückmeldung unterscheidet ausdrücklich zwischen gültiger Syntax und einer
+  noch nicht geprüften Verfügbarkeit bei YouTube. Die Remote-Prüfung bleibt als
+  Schritt 8a beziehungsweise GitHub-Issue #25 separat geplant;
+- PHPUnit- und Jest-Datensätze decken gültige URL-Varianten, Normalisierung und
+  manipulierte Eingaben ab; `npm run check` ist vollständig erfolgreich.
+
+Für den Abschluss von Schritt 7 noch manuell zu prüfen:
+
+- mehrere reale URL-Formen werden im Editor auf dieselbe ID normalisiert;
+- die Meldungen für gültige und ungültige Syntax sind verständlich;
+- Speichern, erneutes Laden und Frontend-Ausgabe verhalten sich wie dokumentiert.
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen
@@ -644,11 +669,15 @@ das erwartete, noch minimale Player-Markup rendert.
 3. Verwirft unerlaubte Hosts, fehlende IDs und manipulierte Eingaben.
 4. Zeigt Validierungsfeedback im Editor und eine sichere Meldung im Frontend.
 5. Ergänzt tabellarische PHPUnit-Datensätze für gültige und ungültige Eingaben.
+6. Dokumentiert, dass diese lokale Prüfung keine Aussage über Existenz,
+   Sichtbarkeit oder Abspielbarkeit der Playlist bei YouTube trifft.
 
 **Du:**
 
 1. Prüfst mehrere reale URL-Formen im Editor.
 2. Bestätigst die Verständlichkeit der Validierungsmeldungen.
+3. Prüfst Speichern, erneutes Laden und Frontend-Ausgabe für eine gültige URL und
+   eine syntaktisch ungültige Eingabe.
 
 **Fertig, wenn:** Alle dokumentierten URL-Formen zum selben kanonischen Ergebnis
 führen und ungültige Eingaben keine unsichere Ausgabe erzeugen.

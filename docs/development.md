@@ -150,20 +150,45 @@ npm run env:destroy
 `env:reset` recreates WordPress data. `env:destroy` removes the environment for
 this project. Do not use either command when local test content must be retained.
 
-## Minimal block smoke test
+## Playlist input and block smoke test
 
 After `npm run build` and `npm run env:start`, open the block editor and insert
-the **YouTube Playlist Player** block from the Media category. Enter this agreed
-smoke-test playlist ID:
+the **YouTube Playlist Player** block from the Media category. Enter either this
+agreed smoke-test playlist ID:
 
 ```text
 OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU
 ```
 
-Save the post, reload the editor and confirm that the ID is retained. View the
-post and confirm that the player placeholder and the previous/next controls are
-rendered. Playlist-link parsing, full navigation and the consent gate belong to
-later development steps.
+or the corresponding playlist URL:
+
+```text
+https://youtube.com/playlist?list=OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU&si=xkRDc2cSiYN9u7jP
+```
+
+The editor accepts playlist IDs containing 10 to 100 ASCII letters, digits,
+hyphens or underscores. It also extracts exactly one `list` parameter from
+HTTP(S) URLs on these exact hosts:
+
+- `youtube.com`, `www.youtube.com`, `m.youtube.com`, `music.youtube.com`
+- `youtu.be`, `www.youtu.be`
+- `youtube-nocookie.com`, `www.youtube-nocookie.com`
+
+Other hosts, credentials, non-default ports, duplicate `list` parameters and
+malformed IDs are rejected. Additional query parameters such as YouTube's `si`
+tracking parameter are discarded when the canonical playlist ID is stored.
+
+Save the post, reload the editor and confirm that the canonical ID is retained.
+View the post and confirm that the player placeholder and the previous/next
+controls are rendered. Also enter `invalid!` and confirm that both editor and
+frontend show the plugin's validation message without rendering player controls.
+
+This validation is deliberately local and syntactic. A syntactically valid but
+non-existent, private or unavailable playlist cannot be identified yet. The
+editor states that availability has not been checked; remote availability
+checking is tracked separately for step 8a.
+
+Full navigation and the consent gate belong to later development steps.
 
 The editor script, block styles and frontend view script are declared in
 `block.json`. WordPress therefore enqueues them for the relevant editor or only
