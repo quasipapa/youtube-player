@@ -31,7 +31,7 @@ Do not edit files inside `node_modules`.
 
 ## Development WordPress instance
 
-Start the current stable WordPress version with PHP 8.0:
+Start the current stable WordPress version with PHP 8.3:
 
 ```bash
 npm run env:start
@@ -138,21 +138,19 @@ the missing `newgrp` command and activating the `docker` group. The first
 `npm run env:start` attempt then reached the WordPress image build but failed at
 `apt-get -qy install $PHPIZE_DEPS` with exit code 100.
 
-The detailed log showed that Docker reused the cached `apt-get update` layer while
-Debian had already replaced one of the referenced security packages. The stale
+The detailed log initially suggested a stale Docker layer because the package
 index requested `libc-dev-bin_2.31-13+deb11u14_amd64.deb`, which returned HTTP
-404. Rebuild only this project's development images once without layer cache:
+404. A second build with `--pull --no-cache` fetched a fresh Bullseye security
+index but received the same broken package reference. The issue therefore belongs
+to the retired Debian Bullseye base used by the `wordpress:php8.0` development
+image, rather than to the plugin or the local Docker cache.
 
-```bash
-docker compose \
-  -f /home/developer/wp-env/wp-env-youtube-playlist-player-6dc1bfca/docker-compose.yml \
-  build --no-cache wordpress cli
-npm run env:start
-```
-
-This intentionally does not prune the global Docker build cache. The generated
-wp-env directory is specific to this checkout; if wp-env later reports a different
-install path, use the path printed by `npm run env:status`.
+The normal development environment consequently uses PHP 8.3, the current
+WordPress recommendation. PHP 8.0 remains the plugin's declared minimum and is
+kept in `.wp-env.test.json`; minimum-version compatibility will also be covered by
+the CI matrix without making the daily local environment depend on the old image.
+The PHP 8.3 development stack was subsequently started successfully with
+`npm run env:start`.
 
 PHP and Composer are not currently available directly in WSL. Their installation
 or a documented Docker-based Composer workflow will be decided when the PHP test
