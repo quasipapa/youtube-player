@@ -27,6 +27,16 @@
 	text-align: center;
 }
 
+.ytpp-player__consent {
+	padding: 1rem;
+	color: #fff;
+	text-align: center;
+}
+
+.ytpp-player__consent-button {
+	cursor: pointer;
+}
+
 .ytpp-player__error {
 	color: #b32d2e;
 }
@@ -46,4 +56,8 @@
 
 .ytpp-player__position {
 	text-align: center;
+}
+
+.ytpp-player__status:empty {
+	display: none;
 }

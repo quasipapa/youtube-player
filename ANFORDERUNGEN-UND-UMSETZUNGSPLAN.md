@@ -191,6 +191,38 @@ Für Schritt 7 manuell geprüft:
 Damit ist Schritt 7 vollständig abgenommen. Die tatsächliche Remote-Prüfung der
 Playlist-Verfügbarkeit bleibt bewusst Gegenstand von Schritt 8a.
 
+Für Schritt 8 technisch umgesetzt:
+
+- die Playlist-ID beziehungsweise URL wird ausschließlich im Block-Inspector
+  bearbeitet; der Block zeigt bei gültiger Syntax direkt eine Editorvorschau von
+  `youtube-nocookie.com`;
+- der Inspector weist darauf hin, dass diese Vorschau bereits beim Bearbeiten
+  eine externe Verbindung herstellt;
+- im Frontend ist das lokale Datenschutz-Gate standardmäßig aktiv und das
+  serverseitige Markup enthält vor der bewussten Freigabe weder YouTube-Script,
+  IFrame noch externes Vorschaubild;
+- die IFrame API wird erst nach Freigabe, konfliktverträglich und auch bei
+  mehreren Blöcken höchstens einmal geladen;
+- der erzeugte Player verwendet `youtube-nocookie.com`, Playlist-Index `0` und
+  deaktiviertes Autoplay;
+- das Gate kann pro Block im Inspector deaktiviert werden, wenn ein externes
+  Consent-Management- oder Content-Blocker-System die YouTube-Anfragen übernimmt;
+- lokale Lade- und Playerfehler werden zugänglich angezeigt, Navigation bleibt
+  bis zur Player-Bereitschaft deaktiviert;
+- `docs/privacy.md` dokumentiert Domains, Ladezeitpunkt, Editorvorschau,
+  Verantwortungsübergang und das JavaScript-Ereignis `ytpp:consent`;
+- PHPUnit und Jest prüfen beide Datenschutzmodi, ausbleibende Vorab-Anfragen,
+  einmaliges API-Laden, Callback-Verträglichkeit, Playerparameter und Fehlerfälle.
+
+Für den Abschluss von Schritt 8 noch manuell zu prüfen:
+
+- vor Betätigung des Consent-Buttons erscheint im Netzwerkprotokoll keine
+  YouTube-Anfrage;
+- danach wird das erste Video ohne Autoplay in einem
+  `youtube-nocookie.com`-IFrame angezeigt;
+- Eingabe im Inspector, Editorvorschau und Umschaltung für einen externen Content
+  Blocker sind verständlich und funktionieren wie dokumentiert.
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen
@@ -701,12 +733,20 @@ führen und ungültige Eingaben keine unsichere Ausgabe erzeugen.
 4. Erstellt den IFrame ausschließlich mit `youtube-nocookie.com`.
 5. Lädt die Playlist mit Index `0` ohne Autoplay.
 6. Behandelt Lade- und API-Fehler.
+7. Verschiebt die Playlist-Eingabe in den Block-Inspector und zeigt im Block eine
+   direkte, als externe Verbindung gekennzeichnete
+   `youtube-nocookie.com`-Editorvorschau.
+8. Bietet im Inspector die standardmäßig aktive Datenschutzoption an, die für
+   einen anderweitig abgesicherten Content Blocker pro Block deaktiviert werden
+   kann.
 
 **Du:**
 
 1. Prüfst im Browser-Netzwerkprotokoll, dass vor der Freigabe keine YouTube-Anfrage
    erfolgt.
 2. Prüfst mit der vereinbarten Testplaylist, dass das erste Video angezeigt wird.
+3. Prüfst Eingabe und Datenschutzumschaltung im Block-Inspector sowie die direkte
+   Editorvorschau.
 
 **Fertig, wenn:** Datenschutz-Gate und erster Playlist-Eintrag lokal und in Tests
 nachweisbar funktionieren.
