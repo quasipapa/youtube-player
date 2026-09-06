@@ -397,6 +397,7 @@ Folgende GitHub-Milestones werden angelegt:
 5. `M4 – Datenschutz und Barrierefreiheit`
 6. `M5 – Tests und CI`
 7. `M6 – Release 0.1.0`
+8. `M7 – Wiederverwendbare Plugin-Basis`
 
 ### 7.2 Labels
 
@@ -849,6 +850,57 @@ direkt installierbares Plugin-ZIP enthält.
 
 **Fertig, wenn:** Release, Dokumentation und Backlog den tatsächlichen Zustand des
 Plugins widerspiegeln.
+
+### Schritt 18 – Wiederverwendbare Plugin-Basis extrahieren
+
+**Milestone:** `M7 – Wiederverwendbare Plugin-Basis`
+
+**Zeitpunkt und Voraussetzung:** Dieser Schritt beginnt erst, nachdem die Schritte
+14 bis 17 abgeschlossen sind und mindestens ein Plugin-Release den vollständigen
+CI-, ZIP- und Release-Prozess erfolgreich durchlaufen hat. Dadurch wird ein
+praktisch bewährter Stand verallgemeinert und kein noch instabiles Zwischenmodell.
+
+**Codex:**
+
+1. Trennt die allgemein wiederverwendbare Projektbasis von Player-spezifischem
+   Quellcode, Testdaten, Anforderungen und Dokumentation.
+2. Erstellt ein eigenständiges, versioniertes GitHub-Template-Repository mit
+   Entwicklungsumgebung, Build, Qualitätswerkzeugen, Testgrundgerüst,
+   Dokumentationsvorlagen und Initialisierung für projektspezifische Werte wie
+   Plugin-Name, Slug, Text-Domain, Namespace, Autor und Repository.
+3. Ergänzt in abgeleiteten Projekten eine maschinenlesbare Angabe über verwendete
+   Basisversion und zentral verwaltete Dateien beziehungsweise Bereiche.
+4. Lagert geeignete CI- und Release-Bestandteile als versionierte,
+   wiederverwendbare GitHub-Actions beziehungsweise Workflows aus. Die einzelnen
+   Plugin-Repositories behalten kleine, nachvollziehbare Aufruf-Workflows.
+5. Erstellt einen passenden Codex-Skill mit getrennten Abläufen zum Erzeugen eines
+   neuen Plugins, Prüfen des Basisstands und Aktualisieren auf eine neue
+   Basisversion. Das Template-Repository bleibt dabei die maßgebliche Quelle; der
+   Skill dupliziert die Basisdateien nicht.
+6. Definiert Releases, Changelog und konkrete Migrationshinweise für Änderungen
+   der Basis und lässt Aktualisierungen bestehender Plugins ausschließlich über
+   prüfbare Branches und Pull Requests einfließen.
+7. Kombiniert Dependabot für Paket- und Action-Abhängigkeiten, zentrale
+   wiederverwendbare Workflows und eine regelmäßige Prüfung der Basisversion, um
+   veraltete Plugin-Projekte erkennbar zu machen.
+8. Erzeugt ein neutrales Beispiel-Plugin aus dem Template, aktualisiert es mit dem
+   Skill und prüft lokal sowie in GitHub den vollständigen Build-, Test-, ZIP- und
+   Release-Ablauf.
+
+**Du:**
+
+1. Bestätigst Namen, Sichtbarkeit und Lizenz des Template- und Skill-Projekts.
+2. Prüfst die Trennung zwischen zentral verwalteter Basis und
+   Plugin-spezifischen Dateien.
+3. Erzeugst mit der Anleitung einmal selbst ein Beispielprojekt und testest den
+   installierten Skill.
+4. Legst fest, in welchem Rhythmus bestehende Plugins auf neue Basisversionen
+   geprüft und aktualisiert werden sollen.
+
+**Fertig, wenn:** Ein neues Plugin reproduzierbar aus dem versionierten
+GitHub-Template erzeugt werden kann, die zentralen Actions verwendet, der Skill
+Basisstand und Abweichungen erkennt und ein kontrolliertes Upgrade auf eine neuere
+Basisversion als überprüfbaren Pull Request vorbereitet.
 
 ## 9. Geplanter CI- und Release-Ablauf
 
