@@ -50,9 +50,71 @@ Apply automatically fixable PHP coding-style changes:
 npm run format:php
 ```
 
+Run the isolated PHP unit-test scaffold:
+
+```bash
+npm run test:php
+```
+
+The initial test bootstrap supplies only the small set of WordPress functions
+needed to load the plugin. Later implementation steps will add the WordPress test
+suite for integration tests.
+
 Only use `npm run composer:update` when dependencies are intentionally being
 updated. Commit the resulting `composer.lock`. The `vendor` directory is local
 build output and is not committed.
+
+## JavaScript and CSS build
+
+The editable frontend sources live in `src`. Create optimized JavaScript and CSS
+in the generated `build` directory with:
+
+```bash
+npm run build
+```
+
+For continuous rebuilding during development, use:
+
+```bash
+npm start
+```
+
+Run the JavaScript/CSS checks or apply the project formatting independently
+with:
+
+```bash
+npm run lint:js
+npm run lint:css
+npm run format:check
+npm run format
+```
+
+The WordPress formatter checks the supported JavaScript, JSON and YAML files
+across the repository; the formatting command also applies safe Stylelint fixes
+to the SCSS sources.
+
+Do not edit files in `build` manually. The directory is ignored by Git and is
+recreated from `src`; release packaging will run the production build before the
+plugin ZIP is assembled.
+
+## Complete local verification
+
+After installing both npm and Composer dependencies, run all currently available
+format, lint, unit-test and production-build checks with one command:
+
+```bash
+npm run check
+```
+
+The PHP checks in this command use Docker. A shell that was opened before the
+current user joined the `docker` group must be restarted or activated with
+`newgrp docker` first.
+
+`@wordpress/scripts` and all npm packages are development-only dependencies and
+are not included in the plugin runtime or release ZIP. npm can currently report
+upstream advisories in this toolchain even at its current pinned version. Review
+updates through Dependabot; do not use `npm audit fix --force`, because npm
+currently proposes an incompatible downgrade of `@wordpress/scripts`.
 
 ## Development WordPress instance
 

@@ -1,0 +1,31 @@
+.ytpp-player {
+	width: 100%;
+}
+
+.ytpp-player__video {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+}
+
+.ytpp-player__video iframe {
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.ytpp-player__controls {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 0.75rem;
+}
+
+.ytpp-player__previous,
+.ytpp-player__next {
+	cursor: pointer;
+}
+
+.ytpp-player__position {
+	text-align: center;
+}

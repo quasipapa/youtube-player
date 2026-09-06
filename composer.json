@@ -1,35 +1,37 @@
 {
-  "name": "quasipapa/yt-playlist-player",
-  "description": "A privacy-aware Gutenberg block for navigating a YouTube playlist.",
-  "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
-  "require": {
-    "php": ">=8.0"
-  },
-  "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
-    "php-parallel-lint/php-parallel-lint": "^1.4.0",
-    "phpcompatibility/phpcompatibility-wp": "^2.1.8",
-    "wp-coding-standards/wpcs": "^3.4.1"
-  },
-  "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    },
-    "platform": {
-      "php": "8.0.0"
-    },
-    "sort-packages": true
-  },
-  "scripts": {
-    "lint": [
-      "@lint:syntax",
-      "@lint:standards",
-      "@lint:compatibility"
-    ],
-    "lint:syntax": "parallel-lint --exclude vendor --exclude node_modules --exclude build --exclude dist .",
-    "lint:standards": "phpcs --standard=phpcs.xml.dist",
-    "lint:compatibility": "phpcs --standard=PHPCompatibilityWP --runtime-set testVersion 8.0- --extensions=php --ignore=vendor,node_modules,build,dist .",
-    "format": "phpcbf --standard=phpcs.xml.dist"
-  }
+	"name": "quasipapa/yt-playlist-player",
+	"description": "A privacy-aware Gutenberg block for navigating a YouTube playlist.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=8.0"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
+		"php-parallel-lint/php-parallel-lint": "^1.4.0",
+		"phpcompatibility/phpcompatibility-wp": "^2.1.8",
+		"phpunit/phpunit": "^9.6.29",
+		"wp-coding-standards/wpcs": "^3.4.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "8.0.0"
+		},
+		"sort-packages": true
+	},
+	"scripts": {
+		"lint": [
+			"@lint:syntax",
+			"@lint:standards",
+			"@lint:compatibility"
+		],
+		"lint:syntax": "parallel-lint --exclude vendor --exclude node_modules --exclude build --exclude dist .",
+		"lint:standards": "phpcs --standard=phpcs.xml.dist",
+		"lint:compatibility": "phpcs --standard=PHPCompatibilityWP --runtime-set testVersion 8.0- --extensions=php --ignore=vendor,node_modules,build,dist .",
+		"format": "phpcbf --standard=phpcs.xml.dist",
+		"test": "phpunit --configuration phpunit.xml.dist"
+	}
 }
