@@ -150,10 +150,29 @@ npm run env:destroy
 `env:reset` recreates WordPress data. `env:destroy` removes the environment for
 this project. Do not use either command when local test content must be retained.
 
+## Minimal block smoke test
+
+After `npm run build` and `npm run env:start`, open the block editor and insert
+the **YouTube Playlist Player** block from the Media category. Enter this agreed
+smoke-test playlist ID:
+
+```text
+OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU
+```
+
+Save the post, reload the editor and confirm that the ID is retained. View the
+post and confirm that the player placeholder and the previous/next controls are
+rendered. Playlist-link parsing, full navigation and the consent gate belong to
+later development steps.
+
+The editor script, block styles and frontend view script are declared in
+`block.json`. WordPress therefore enqueues them for the relevant editor or only
+when the block is rendered instead of loading player assets globally.
+
 ## Minimum-version WordPress instance
 
 The separate `.wp-env.test.json` configuration uses the latest maintenance state
-of the WordPress 6.0 branch with PHP 8.0 and port 8889:
+of the WordPress 6.1 branch with PHP 8.0 and port 8889:
 
 ```bash
 npm run env:test:start

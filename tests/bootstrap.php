@@ -39,4 +39,67 @@ function plugin_dir_path( string $file ): string {
 function add_action( string $hook_name, callable $callback ): void {
 }
 
+/**
+ * Record block registrations without loading WordPress.
+ *
+ * @param string $block_type Block metadata directory.
+ * @return object
+ */
+function register_block_type( string $block_type ): object {
+	$registered_block = (object) array( 'path' => $block_type );
+	$GLOBALS['ytpp_test_registered_blocks'][] = $registered_block;
+
+	return $registered_block;
+}
+
+/**
+ * Minimal text sanitization for isolated renderer tests.
+ *
+ * @param string $value Untrusted value.
+ * @return string
+ */
+function sanitize_text_field( string $value ): string {
+	return trim( strip_tags( $value ) );
+}
+
+/**
+ * Build escaped wrapper attributes for isolated renderer tests.
+ *
+ * @param array $attributes Wrapper attributes.
+ * @return string
+ */
+function get_block_wrapper_attributes( array $attributes = array() ): string {
+	$parts = array();
+
+	foreach ( $attributes as $name => $value ) {
+		$parts[] = sprintf(
+			'%s="%s"',
+			htmlspecialchars( (string) $name, ENT_QUOTES, 'UTF-8' ),
+			htmlspecialchars( (string) $value, ENT_QUOTES, 'UTF-8' )
+		);
+	}
+
+	return implode( ' ', $parts );
+}
+
+/**
+ * Echo escaped translated text for isolated renderer tests.
+ *
+ * @param string $text Source text.
+ * @return void
+ */
+function esc_html_e( string $text ): void {
+	echo htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+}
+
+/**
+ * Echo an escaped translated attribute for isolated renderer tests.
+ *
+ * @param string $text Source text.
+ * @return void
+ */
+function esc_attr_e( string $text ): void {
+	echo htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+}
+
 require dirname( __DIR__ ) . '/yt-playlist-player.php';

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/wp-env.json",
-	"core": "WordPress/WordPress#6.0-branch",
+	"core": "WordPress/WordPress#6.1-branch",
 	"phpVersion": "8.0",
 	"mappings": {
 		"wp-content/plugins/yt-playlist-player": "."
