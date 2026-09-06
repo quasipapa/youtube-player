@@ -227,11 +227,18 @@ Nach der ersten manuellen Prüfung von Schritt 8 korrigiert:
 
 - die Editorvorschau ist nicht interaktiv, sodass ein Klick den Block zuverlässig
   auswählt und dessen Eigenschaften in der Sidebar öffnet;
-- die Vorschau übermittelt mit URL-Parametern und Referrer-Policy die von YouTube
-  für eingebettete Player verlangte Herkunftsidentifikation, um Playerfehler 153
-  zu vermeiden;
+- die Vorschau wird über ein authentifiziertes, Nonce-geschütztes Dokument auf
+  derselben WordPress-Instanz geladen. Dieses bettet den eigentlichen Player nur
+  von `youtube-nocookie.com` ein und erhält auch innerhalb des Gutenberg-Canvas
+  den für YouTube notwendigen HTTP-Referrer, um Playerfehler 153 zu vermeiden;
+- unter der Editorvorschau wird die nicht interaktive Navigationsleiste sichtbar
+  dargestellt;
 - eine bewusste Freigabe wird playlistbezogen und ohne Besucheridentität im
-  lokalen Browser-Speicher abgelegt, sodass sie einen Seiten-Refresh überdauert.
+  lokalen Browser-Speicher abgelegt, sodass sie einen Seiten-Refresh überdauert;
+- Redakteure können den gespeicherten Consent für die gewählte Playlist im
+  Block-Inspector löschen und den Datenschutzablauf dadurch erneut testen;
+- Undo und Redo für Änderungen der Playlist-Eigenschaft wurden manuell
+  erfolgreich geprüft.
 
 ## 4. Anforderungen
 
@@ -289,6 +296,8 @@ einem Drittdienst her. Deshalb gelten zusätzlich folgende Anforderungen:
   Browser-Speicher gehalten, damit dieselbe Playlist nach einem Refresh nicht
   erneut bestätigt werden muss. Löscht der Besucher die Website-Daten oder ist
   der Speicher nicht verfügbar, ist eine erneute Freigabe erforderlich.
+- Redakteure können die gespeicherte Freigabe für die im Block gewählte Playlist
+  im Inspector gezielt löschen, um das Einwilligungsverhalten erneut zu testen.
 - Es werden vor der Freigabe auch keine externen YouTube-Vorschaubilder verwendet.
 - Die eingebauten Datenschutzfunktionen können für einen einzelnen Block
   deaktiviert werden, wenn die erforderliche Einwilligung beziehungsweise
@@ -753,6 +762,9 @@ führen und ungültige Eingaben keine unsichere Ausgabe erzeugen.
 8. Bietet im Inspector die standardmäßig aktive Datenschutzoption an, die für
    einen anderweitig abgesicherten Content Blocker pro Block deaktiviert werden
    kann.
+9. Zeigt die Navigationsleiste auch in der nicht interaktiven Editorvorschau an.
+10. Bietet im Inspector das playlistbezogene Löschen eines zuvor gespeicherten
+    Consents für erneute Datenschutztests an.
 
 **Du:**
 
@@ -761,6 +773,11 @@ führen und ungültige Eingaben keine unsichere Ausgabe erzeugen.
 2. Prüfst mit der vereinbarten Testplaylist, dass das erste Video angezeigt wird.
 3. Prüfst Eingabe und Datenschutzumschaltung im Block-Inspector sowie die direkte
    Editorvorschau.
+4. Prüfst, dass die Editorvorschau ohne Playerfehler 153 und mit sichtbarer
+   Navigationsleiste erscheint.
+5. Prüfst Undo und Redo für eine Änderung der Playlist-Eigenschaft.
+6. Löschst den gespeicherten Consent im Inspector und prüfst nach einem Reload
+   der Beitragsseite, dass das lokale Consent-Gate erneut erscheint.
 
 **Fertig, wenn:** Datenschutz-Gate und erster Playlist-Eintrag lokal und in Tests
 nachweisbar funktionieren.

@@ -46,10 +46,68 @@ function add_action( string $hook_name, callable $callback ): void {
  * @return object
  */
 function register_block_type( string $block_type ): object {
-	$registered_block = (object) array( 'path' => $block_type );
+	$registered_block = (object) array(
+		'path'                  => $block_type,
+		'editor_script_handles' => array( 'yt-playlist-player-player-editor-script' ),
+	);
 	$GLOBALS['ytpp_test_registered_blocks'][] = $registered_block;
 
 	return $registered_block;
+}
+
+/**
+ * Return a local administration URL for isolated tests.
+ *
+ * @param string $path Relative administration path.
+ * @return string
+ */
+function admin_url( string $path ): string {
+	return 'https://example.test/wp-admin/' . ltrim( $path, '/' );
+}
+
+/**
+ * Build a URL with query arguments for isolated tests.
+ *
+ * @param array  $arguments Query arguments.
+ * @param string $url       Base URL.
+ * @return string
+ */
+function add_query_arg( array $arguments, string $url ): string {
+	return $url . '?' . http_build_query( $arguments, '', '&', PHP_QUERY_RFC3986 );
+}
+
+/**
+ * Return a deterministic nonce for isolated tests.
+ *
+ * @param string $action Nonce action.
+ * @return string
+ */
+function wp_create_nonce( string $action ): string {
+	return 'test-nonce-' . $action;
+}
+
+/**
+ * Encode data as JSON for isolated tests.
+ *
+ * @param mixed $value Value to encode.
+ * @return string|false
+ */
+function wp_json_encode( $value ) {
+	return json_encode( $value );
+}
+
+/**
+ * Record inline scripts without loading WordPress.
+ *
+ * @param string $handle   Script handle.
+ * @param string $data     Script data.
+ * @param string $position Relative position.
+ * @return bool
+ */
+function wp_add_inline_script( string $handle, string $data, string $position = 'after' ): bool {
+	$GLOBALS['ytpp_test_inline_scripts'][] = compact( 'handle', 'data', 'position' );
+
+	return true;
 }
 
 /**
@@ -110,6 +168,26 @@ function esc_html_e( string $text ): void {
  */
 function esc_attr_e( string $text ): void {
 	echo htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+}
+
+/**
+ * Return escaped translated attribute text for isolated tests.
+ *
+ * @param string $text Source text.
+ * @return string
+ */
+function esc_attr__( string $text ): string {
+	return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+}
+
+/**
+ * Escape an absolute URL for isolated tests.
+ *
+ * @param string $url URL to escape.
+ * @return string
+ */
+function esc_url( string $url ): string {
+	return htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
 }
 
 require dirname( __DIR__ ) . '/yt-playlist-player.php';
