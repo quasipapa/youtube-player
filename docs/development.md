@@ -75,8 +75,35 @@ their status before assuming which site is available.
 
 If `docker ps` reports a permission error in a normal WSL terminal, verify that
 the Docker daemon is running and that the current user can access its socket.
-After changing group membership, close all WSL sessions or restart WSL before
-testing again.
+
+For the standard rootful Docker Engine setup, create the `docker` group if needed
+and add the current WSL user:
+
+```bash
+sudo groupadd --force docker
+sudo usermod -aG docker "$USER"
+newgrp docker
+docker run --rm hello-world
+```
+
+`newgrp` activates the group in a child shell. To apply the membership to all WSL
+processes, close the WSL sessions and run `wsl --shutdown` from Windows PowerShell,
+then reopen the distribution. If the Docker service does not start automatically,
+start it once with `sudo systemctl start docker`.
+
+Do not make `/var/run/docker.sock` world-writable with `chmod 666`. Membership in
+the `docker` group already grants root-equivalent access through the Docker daemon
+and should only be given to trusted users. Docker Rootless mode is the more
+isolated alternative but requires a separate daemon setup and is not part of the
+initial project configuration.
+
+If Docker reports that `~/.docker/config.json` is owned by root because earlier
+commands used `sudo`, repair the ownership without deleting the configuration:
+
+```bash
+sudo chown "$USER":"$USER" "$HOME/.docker" -R
+sudo chmod g+rwx "$HOME/.docker" -R
+```
 
 ## IntelliJ
 
@@ -95,10 +122,8 @@ linters.
 
 ## Known bootstrap requirements
 
-The current WSL installation has Node.js 22.22.1 and npm 9.2.0. The selected
-`@wordpress/env` dependency requires npm 10.2.3 or later. Upgrade npm before M0 is
-considered complete, then run `npm ci` again and confirm that no engine warning is
-reported.
+The current WSL installation has Node.js 22.22.1 and npm 10.9.9. This satisfies
+the engine requirements of the selected `@wordpress/env` dependency.
 
 PHP and Composer are not currently available directly in WSL. Their installation
 or a documented Docker-based Composer workflow will be decided when the PHP test

@@ -64,6 +64,8 @@ Bereits umgesetzt:
 - grundlegende Git-, EditorConfig- und Ignore-Regeln sind angelegt;
 - `@wordpress/env` ist als feste Entwicklungsabhängigkeit eingerichtet und eine
   reproduzierbare npm-Lockdatei ist vorhanden;
+- npm wurde in WSL auf Version 10.9.9 aktualisiert und erfüllt damit die
+  Versionsanforderung der Entwicklungsabhängigkeiten;
 - Konfigurationen für aktuelle und minimale WordPress-Testinstanzen sind angelegt;
 - README, Entwicklungsanleitung, Drittanbieterhinweise sowie GitHub-Issue- und
   Pull-Request-Templates sind vorbereitet;
@@ -72,7 +74,6 @@ Bereits umgesetzt:
 
 Noch offen in M0:
 
-- npm in WSL von 9.2.0 auf mindestens 10.2.3 aktualisieren;
 - `wp-env` über die Docker Engine starten und im Windows-Browser abnehmen;
 - PHP-/Composer-Strategie festlegen und die PHP-Qualitätswerkzeuge ergänzen;
 - GitHub-Milestones, Labels und Issues anlegen;
