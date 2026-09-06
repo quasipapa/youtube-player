@@ -37,6 +37,7 @@ $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 					<div class="ytpp-player__consent">
 						<p>
 							<?php esc_html_e( 'Loading this playlist connects to YouTube and may transfer data to Google.', 'yt-playlist-player' ); ?>
+							<?php esc_html_e( 'Your choice is saved for this playlist in this browser.', 'yt-playlist-player' ); ?>
 						</p>
 						<button type="button" class="ytpp-player__consent-button">
 							<?php esc_html_e( 'Load YouTube playlist', 'yt-playlist-player' ); ?>

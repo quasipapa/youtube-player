@@ -26,6 +26,7 @@ describe( 'privacy-aware frontend player', () => {
 		document.body.innerHTML = '';
 		delete window.YT;
 		delete window.onYouTubeIframeAPIReady;
+		localStorage.clear();
 		jest.resetModules();
 	} );
 
@@ -55,6 +56,9 @@ describe( 'privacy-aware frontend player', () => {
 			)
 		).toHaveLength( 1 );
 		expect( consentEvents ).toHaveBeenCalledTimes( 2 );
+		expect(
+			localStorage.getItem( 'ytpp-consent-v1:PL-test-playlist' )
+		).toBe( '1' );
 
 		const players = [];
 		window.YT = {
@@ -87,6 +91,9 @@ describe( 'privacy-aware frontend player', () => {
 		expect( playerUrl.searchParams.get( 'origin' ) ).toBe(
 			window.location.origin
 		);
+		expect( players[ 0 ].target.referrerPolicy ).toBe(
+			'origin-when-cross-origin'
+		);
 
 		players[ 0 ].options.events.onReady( { target: players[ 0 ].player } );
 		expect(
@@ -103,6 +110,31 @@ describe( 'privacy-aware frontend player', () => {
 		expect(
 			document.querySelector( '.ytpp-player__status' ).textContent
 		).toBe( 'The YouTube playlist could not be loaded.' );
+	} );
+
+	it( 'reuses stored consent for the same playlist after a page load', async () => {
+		localStorage.setItem( 'ytpp-consent-v1:PL-test-playlist', '1' );
+		document.body.innerHTML = playerMarkup();
+		window.YT = {
+			Player: jest.fn( () => ( {
+				getPlaylist: () => [],
+				getPlaylistIndex: () => -1,
+				nextVideo: jest.fn(),
+				previousVideo: jest.fn(),
+			} ) ),
+		};
+		const { initializePlayers } = require( './view' );
+
+		initializePlayers();
+		await flushPromises();
+
+		expect( window.YT.Player ).toHaveBeenCalledTimes( 1 );
+		expect(
+			document.querySelector( '.ytpp-player' ).dataset.ytppState
+		).toBe( 'initialized' );
+		expect(
+			document.querySelector( '.ytpp-player__target iframe' )
+		).not.toBeNull();
 	} );
 
 	it( 'loads immediately when the local consent gate is disabled', async () => {

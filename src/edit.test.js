@@ -8,6 +8,9 @@ jest.mock( '@wordpress/block-editor', () => ( {
 } ) );
 
 jest.mock( '@wordpress/components', () => ( {
+	Disabled: ( { children } ) => (
+		<div data-testid="disabled-preview">{ children }</div>
+	),
 	PanelBody: ( { children, title } ) => (
 		<section>
 			<h2>{ title }</h2>
@@ -100,9 +103,21 @@ describe( 'Edit', () => {
 		);
 
 		const preview = screen.getByTitle( 'YouTube playlist preview' );
+		const previewUrl = new URL( preview.getAttribute( 'src' ) );
 
-		expect( preview.getAttribute( 'src' ) ).toBe(
-			`https://www.youtube-nocookie.com/embed?listType=playlist&list=${ playlistId }&autoplay=0`
+		expect(
+			preview.closest( '[data-testid="disabled-preview"]' )
+		).not.toBeNull();
+		expect( previewUrl.origin ).toBe( 'https://www.youtube-nocookie.com' );
+		expect( previewUrl.searchParams.get( 'list' ) ).toBe( playlistId );
+		expect( previewUrl.searchParams.get( 'origin' ) ).toBe(
+			window.location.origin
+		);
+		expect( previewUrl.searchParams.get( 'widget_referrer' ) ).toBe(
+			window.location.origin
+		);
+		expect( preview.getAttribute( 'referrerpolicy' ) ).toBe(
+			'origin-when-cross-origin'
 		);
 		expect(
 			screen.getByText( /editor preview connects directly/ )

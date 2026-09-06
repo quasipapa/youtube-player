@@ -223,6 +223,16 @@ Für den Abschluss von Schritt 8 noch manuell zu prüfen:
 - Eingabe im Inspector, Editorvorschau und Umschaltung für einen externen Content
   Blocker sind verständlich und funktionieren wie dokumentiert.
 
+Nach der ersten manuellen Prüfung von Schritt 8 korrigiert:
+
+- die Editorvorschau ist nicht interaktiv, sodass ein Klick den Block zuverlässig
+  auswählt und dessen Eigenschaften in der Sidebar öffnet;
+- die Vorschau übermittelt mit URL-Parametern und Referrer-Policy die von YouTube
+  für eingebettete Player verlangte Herkunftsidentifikation, um Playerfehler 153
+  zu vermeiden;
+- eine bewusste Freigabe wird playlistbezogen und ohne Besucheridentität im
+  lokalen Browser-Speicher abgelegt, sodass sie einen Seiten-Refresh überdauert.
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen
@@ -275,6 +285,10 @@ einem Drittdienst her. Deshalb gelten zusätzlich folgende Anforderungen:
 - Der Standardmodus ist ein lokaler Platzhalter mit einer Schaltfläche wie
   „YouTube-Playlist laden“.
 - Erst nach dieser Aktion werden die IFrame API und der Player geladen.
+- Die Freigabe wird ohne Besucheridentität playlistbezogen im lokalen
+  Browser-Speicher gehalten, damit dieselbe Playlist nach einem Refresh nicht
+  erneut bestätigt werden muss. Löscht der Besucher die Website-Daten oder ist
+  der Speicher nicht verfügbar, ist eine erneute Freigabe erforderlich.
 - Es werden vor der Freigabe auch keine externen YouTube-Vorschaubilder verwendet.
 - Die eingebauten Datenschutzfunktionen können für einen einzelnen Block
   deaktiviert werden, wenn die erforderliche Einwilligung beziehungsweise

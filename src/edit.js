@@ -1,5 +1,6 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
+	Disabled,
 	PanelBody,
 	Placeholder,
 	TextControl,
@@ -20,12 +21,14 @@ export default function Edit( { attributes, setAttributes } ) {
 		className: 'ytpp-player-editor',
 	} );
 	const validation = parsePlaylistInput( playlistId );
-	const previewUrl =
-		validation.status === VALIDATION_VALID
-			? `https://www.youtube-nocookie.com/embed?listType=playlist&list=${ encodeURIComponent(
-					validation.id
-			  ) }&autoplay=0`
-			: '';
+	const previewParameters = new URLSearchParams( {
+		listType: 'playlist',
+		list: validation.id,
+		autoplay: '0',
+		origin: window.location.origin,
+		widget_referrer: window.location.origin,
+	} );
+	const previewUrl = `https://www.youtube-nocookie.com/embed?${ previewParameters }`;
 
 	function updatePlaylist( value ) {
 		const result = parsePlaylistInput( value );
@@ -110,18 +113,21 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 			<div { ...blockProps }>
 				{ validation.status === VALIDATION_VALID ? (
-					<div className="ytpp-player-editor__preview">
-						<iframe
-							title={ __(
-								'YouTube playlist preview',
-								'yt-playlist-player'
-							) }
-							src={ previewUrl }
-							loading="lazy"
-							allow="encrypted-media; picture-in-picture; fullscreen"
-							allowFullScreen
-						/>
-					</div>
+					<Disabled>
+						<div className="ytpp-player-editor__preview">
+							<iframe
+								title={ __(
+									'YouTube playlist preview',
+									'yt-playlist-player'
+								) }
+								src={ previewUrl }
+								loading="lazy"
+								referrerPolicy="origin-when-cross-origin"
+								allow="encrypted-media; picture-in-picture; fullscreen"
+								allowFullScreen
+							/>
+						</div>
+					</Disabled>
 				) : (
 					<Placeholder
 						icon="video-alt3"

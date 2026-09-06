@@ -184,10 +184,12 @@ loaded from `youtube-nocookie.com`; the inspector explains that this editor
 preview makes an external connection.
 
 Save the post, reload the editor and confirm that the canonical ID is retained.
-View the post and confirm that a local consent message is shown. Before selecting
-**Load YouTube playlist**, use the browser network panel to confirm that no
-YouTube request occurs. After selecting it, confirm that the first video appears
-without autoplay and that the iframe uses `www.youtube-nocookie.com`.
+View the post and confirm that a local consent message is shown. Clear the site's
+browser storage before testing a fresh consent state. Before selecting **Load
+YouTube playlist**, use the browser network panel to confirm that no YouTube
+request occurs. After selecting it, confirm that the first video appears without
+autoplay and that the iframe uses `www.youtube-nocookie.com`. Reload the page and
+confirm that this playlist now loads without asking again.
 
 Also enter `invalid!` and confirm that both editor and frontend show the plugin's
 validation message without rendering player controls or an external preview.
