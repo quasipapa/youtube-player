@@ -119,12 +119,15 @@ Am 6. September 2026 manuell geprüft:
 - Dashboard, Plugin-Seite, Beitragseditor und Website-Frontend laden ohne
   sichtbare PHP- oder JavaScript-Fehler;
 - `npm run env:logs` enthält nach diesen Aufrufen keine neuen pluginbedingten
-  Warnungen oder Fehler.
+  Warnungen oder Fehler;
+- IntelliJ behandelt `build` als ausgeschlossenes, generiertes Verzeichnis;
+- die JavaScript-Codevervollständigung funktioniert und die PHP-Vervollständigung
+  bietet die von PHPUnit geerbten Assertions an. Die direkte Navigation von
+  `TestCase` zur Herstellerdatei funktioniert in der aktuellen IDE-Konfiguration
+  nicht, die Abhängigkeit selbst wird jedoch erkannt.
 
 Noch offen in M0:
 
-- die IntelliJ-Erkennung der PHP-/JavaScript-Abhängigkeiten und die Behandlung
-  von `build` als generiertes Verzeichnis für Schritt 4 manuell bestätigen;
 - den Schutz von `main` nach dem ersten erfolgreichen CI-Lauf um verpflichtende
   Statusprüfungen ergänzen.
 
