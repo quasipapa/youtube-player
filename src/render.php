@@ -7,21 +7,26 @@
  * @package YouTube_Playlist_Player
  */
 
-$ytpp_playlist_id = isset( $attributes['playlistId'] )
-	? sanitize_text_field( (string) $attributes['playlistId'] )
+$ytpp_playlist_input = isset( $attributes['playlistId'] )
+	? (string) $attributes['playlistId']
 	: '';
+$ytpp_playlist_id    = YTPP_Playlist_Parser::parse( $ytpp_playlist_input );
 
 $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 	array(
 		'class'            => 'ytpp-player',
-		'data-playlist-id' => $ytpp_playlist_id,
+		'data-playlist-id' => $ytpp_playlist_id ?? '',
 	)
 );
 ?>
 <div <?php echo $ytpp_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by get_block_wrapper_attributes(). ?>>
-	<?php if ( '' === $ytpp_playlist_id ) : ?>
+	<?php if ( '' === trim( $ytpp_playlist_input ) ) : ?>
 		<p class="ytpp-player__empty">
 			<?php esc_html_e( 'No playlist ID has been entered yet.', 'yt-playlist-player' ); ?>
+		</p>
+	<?php elseif ( null === $ytpp_playlist_id ) : ?>
+		<p class="ytpp-player__error" role="alert">
+			<?php esc_html_e( 'Enter a valid YouTube playlist ID or supported playlist URL.', 'yt-playlist-player' ); ?>
 		</p>
 	<?php else : ?>
 		<div class="ytpp-player__video">

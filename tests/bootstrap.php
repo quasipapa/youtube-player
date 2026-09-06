@@ -63,6 +63,16 @@ function sanitize_text_field( string $value ): string {
 }
 
 /**
+ * Parse a URL for isolated parser tests.
+ *
+ * @param string $url URL to parse.
+ * @return array|false
+ */
+function wp_parse_url( string $url ) {
+	return parse_url( $url );
+}
+
+/**
  * Build escaped wrapper attributes for isolated renderer tests.
  *
  * @param array $attributes Wrapper attributes.

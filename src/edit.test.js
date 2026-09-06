@@ -28,7 +28,7 @@ jest.mock( '@wordpress/components', () => ( {
 } ) );
 
 describe( 'Edit', () => {
-	it( 'renders the playlist field and stores its value', () => {
+	it( 'renders the playlist field and stores a plain ID', () => {
 		const setAttributes = jest.fn();
 
 		render(
@@ -38,11 +38,49 @@ describe( 'Edit', () => {
 			/>
 		);
 
-		const input = screen.getByRole( 'textbox', { name: 'Playlist ID' } );
+		const input = screen.getByRole( 'textbox', {
+			name: 'Playlist ID or URL',
+		} );
 		fireEvent.change( input, { target: { value: 'PL-test-playlist' } } );
 
 		expect( setAttributes ).toHaveBeenCalledWith( {
 			playlistId: 'PL-test-playlist',
 		} );
+	} );
+
+	it( 'normalizes a supported URL before storing it', () => {
+		const setAttributes = jest.fn();
+		const playlistId = 'OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU';
+
+		render(
+			<Edit
+				attributes={ { playlistId: '' } }
+				setAttributes={ setAttributes }
+			/>
+		);
+
+		fireEvent.change(
+			screen.getByRole( 'textbox', { name: 'Playlist ID or URL' } ),
+			{
+				target: {
+					value: `https://youtube.com/playlist?list=${ playlistId }&si=tracking`,
+				},
+			}
+		);
+
+		expect( setAttributes ).toHaveBeenCalledWith( { playlistId } );
+	} );
+
+	it( 'shows an error for invalid syntax', () => {
+		render(
+			<Edit
+				attributes={ { playlistId: 'invalid!' } }
+				setAttributes={ jest.fn() }
+			/>
+		);
+
+		expect( screen.getByRole( 'alert' ).textContent ).toBe(
+			'Enter a valid YouTube playlist ID or supported playlist URL.'
+		);
 	} );
 } );

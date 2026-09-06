@@ -32,6 +32,8 @@ define(
 	plugin_dir_path( __FILE__ )
 );
 
+require_once YTPP_PLUGIN_DIR . 'includes/class-ytpp-playlist-parser.php';
+
 
 /**
  * Register the player block and its metadata-defined assets.
