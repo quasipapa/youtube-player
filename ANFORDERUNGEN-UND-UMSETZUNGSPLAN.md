@@ -93,6 +93,8 @@ Bereits umgesetzt:
   personenbezogene oder vertrauliche Daten geprüft und die Historie bereinigt;
 - das bereinigte Hauptrepository ist öffentlich; die frühere GitHub-Instanz wird
   getrennt davon als privates History-Archiv aufbewahrt;
+- ein aktiver GitHub-Ruleset verlangt Änderungen an `main` über Pull Requests und
+  verhindert das Löschen sowie nicht-lineare Force-Pushes;
 
 Am 6. September 2026 manuell geprüft:
 
@@ -114,8 +116,8 @@ Noch offen in M0:
 
 - JavaScript-/Block-Build-Werkzeuge und die erste PHPUnit-Konfiguration als
   verbleibenden Teil von Schritt 4 ergänzen;
-- den Basisschutz für `main` im öffentlichen Repository aktivieren und nach dem
-  ersten erfolgreichen CI-Lauf um verpflichtende Statusprüfungen ergänzen.
+- den Schutz von `main` nach dem ersten erfolgreichen CI-Lauf um verpflichtende
+  Statusprüfungen ergänzen.
 
 ## 4. Anforderungen
 
@@ -942,8 +944,8 @@ Aktueller Entscheidungsstand:
   initialen Commit mit dem vollständigen Text der GPL Version 2.
 
 Damit sind die für den Projektstart benötigten Produktentscheidungen getroffen.
-Der Basisschutz von `main` wird unmittelbar im öffentlichen Repository aktiviert;
-verpflichtende Statusprüfungen folgen, sobald die erste CI-Action erfolgreich
+Der Basisschutz von `main` ist im öffentlichen Repository aktiviert.
+Verpflichtende Statusprüfungen folgen, sobald die erste CI-Action erfolgreich
 gelaufen ist.
 
 ## 13. Referenzen
