@@ -69,6 +69,9 @@ Bereits umgesetzt:
 - Docker kann nach Installation von `util-linux-extra`, Aufnahme des WSL-Benutzers
   in die `docker`-Gruppe und Aktivierung über `newgrp docker` ohne `sudo`
   angesprochen werden;
+- der erste `wp-env`-Fehler wurde auf einen veralteten, von Docker gecachten
+  APT-Paketindex des WordPress-PHP-8.0-Images eingegrenzt; ein projektspezifischer
+  Neuaufbau ohne Layer-Cache ist dokumentiert;
 - Konfigurationen für aktuelle und minimale WordPress-Testinstanzen sind angelegt;
 - README, Entwicklungsanleitung, Drittanbieterhinweise sowie GitHub-Issue- und
   Pull-Request-Templates sind vorbereitet;

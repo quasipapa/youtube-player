@@ -136,9 +136,23 @@ the engine requirements of the selected `@wordpress/env` dependency.
 Docker access without `sudo` was enabled after installing `util-linux-extra` for
 the missing `newgrp` command and activating the `docker` group. The first
 `npm run env:start` attempt then reached the WordPress image build but failed at
-`apt-get -qy install $PHPIZE_DEPS` with exit code 100. The detailed APT output is
-still required to distinguish an unavailable repository from an unavailable
-package or another package-manager error.
+`apt-get -qy install $PHPIZE_DEPS` with exit code 100.
+
+The detailed log showed that Docker reused the cached `apt-get update` layer while
+Debian had already replaced one of the referenced security packages. The stale
+index requested `libc-dev-bin_2.31-13+deb11u14_amd64.deb`, which returned HTTP
+404. Rebuild only this project's development images once without layer cache:
+
+```bash
+docker compose \
+  -f /home/developer/wp-env/wp-env-youtube-playlist-player-6dc1bfca/docker-compose.yml \
+  build --no-cache wordpress cli
+npm run env:start
+```
+
+This intentionally does not prune the global Docker build cache. The generated
+wp-env directory is specific to this checkout; if wp-env later reports a different
+install path, use the path printed by `npm run env:status`.
 
 PHP and Composer are not currently available directly in WSL. Their installation
 or a documented Docker-based Composer workflow will be decided when the PHP test
