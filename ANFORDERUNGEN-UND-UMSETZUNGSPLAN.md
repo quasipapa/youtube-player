@@ -77,17 +77,34 @@ Bereits umgesetzt:
 - die lokale WordPress-Entwicklungsinstanz startet mit PHP 8.3 erfolgreich;
 - der eindeutige technische Plugin-Slug `yt-playlist-player` ist in Quellcode,
   lokaler WordPress-Einbindung, Paketmetadaten und Dokumentation festgelegt;
+- als Plugin-Autor wird durchgängig `quasipapa` verwendet;
 - Konfigurationen für aktuelle und minimale WordPress-Testinstanzen sind angelegt;
 - README, Entwicklungsanleitung, Drittanbieterhinweise sowie GitHub-Issue- und
   Pull-Request-Templates sind vorbereitet;
 - die npm-Entwicklungsabhängigkeiten weisen nach einer gezielten
   Sicherheitsüberschreibung keine bekannten `npm audit`-Funde auf.
 
+Am 6. September 2026 manuell geprüft:
+
+- WordPress ist im Windows-Browser unter `http://localhost:8888/` erreichbar;
+- die Anmeldung unter `http://localhost:8888/wp-admin/` funktioniert mit den
+  lokalen Standardzugangsdaten `admin` / `password`;
+- das Plugin wird als „YouTube Playlist Player“ in Version 0.1.0 angezeigt und
+  ist aktiviert.
+
+Noch manuell in M0 zu prüfen:
+
+- die Plugin-Ansicht zeigt `quasipapa` als Autor und bietet kein Update des
+  fremden WordPress.org-Plugins mit dem früher kollidierenden Slug an;
+- nach `npm run env:stop` und `npm run env:start` sind WordPress, Anmeldung und
+  Plugin weiterhin verfügbar und das Plugin ist aktiv;
+- Dashboard, Plugin-Seite, Beitragseditor und Website-Frontend laden ohne
+  sichtbare PHP- oder JavaScript-Fehler;
+- `npm run env:logs` enthält nach diesen Aufrufen keine neuen pluginbedingten
+  Warnungen oder Fehler.
+
 Noch offen in M0:
 
-- den Buildfehler von `wp-env` bei
-  `apt-get -qy install $PHPIZE_DEPS` mit Exitcode 100 diagnostizieren, die
-  Umgebung anschließend starten und im Windows-Browser abnehmen;
 - PHP-/Composer-Strategie festlegen und die PHP-Qualitätswerkzeuge ergänzen;
 - GitHub-Milestones, Labels und Issues anlegen;
 - Branch-Schutz nach Vorhandensein der ersten CI-Prüfungen abschließend aktivieren;
@@ -905,6 +922,7 @@ Aktueller Entscheidungsstand:
   eine reine Playlist-ID benötigt.
 - Die lokale Git-Identität ist in WSL als `quasipapa` mit einer
   GitHub-Noreply-Adresse eingerichtet.
+- Die Autorenangabe des Plugins lautet `quasipapa`.
 - Das GitHub-Repository ist
   `https://github.com/quasipapa/youtube-player`. Es enthält bereits einen
   initialen Commit mit dem vollständigen Text der GPL Version 2.
@@ -912,7 +930,7 @@ Aktueller Entscheidungsstand:
 Noch zu entscheiden beziehungsweise bereitzustellen:
 
 - Sichtbarkeit des GitHub-Repositorys;
-- gewünschte Autor-/Copyright-Angabe unter GPL-2.0-or-later;
+- gewünschte Copyright-Angabe unter GPL-2.0-or-later;
 - öffentliche Playlist mit mindestens drei Videos für manuelle Smoke-Tests;
 - Bestätigung, dass WordPress 6.0/PHP 8.0 tatsächlich langfristig als
   Mindestplattform beibehalten werden soll.
