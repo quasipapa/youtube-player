@@ -29,6 +29,31 @@ npm ci
 
 Do not edit files inside `node_modules`.
 
+## PHP quality tools
+
+Composer runs in the pinned `composer:2.9.5` Docker image, so no host PHP or
+Composer installation is required. Install the locked development dependencies:
+
+```bash
+npm run composer:install
+```
+
+Run PHP syntax, WordPress Coding Standards, and PHP 8.0+ compatibility checks:
+
+```bash
+npm run lint:php
+```
+
+Apply automatically fixable PHP coding-style changes:
+
+```bash
+npm run format:php
+```
+
+Only use `npm run composer:update` when dependencies are intentionally being
+updated. Commit the resulting `composer.lock`. The `vendor` directory is local
+build output and is not committed.
+
 ## Development WordPress instance
 
 Start the current stable WordPress version with PHP 8.3:

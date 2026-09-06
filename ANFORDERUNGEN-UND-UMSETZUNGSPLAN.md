@@ -83,6 +83,12 @@ Bereits umgesetzt:
   Pull-Request-Templates sind vorbereitet;
 - die npm-Entwicklungsabhängigkeiten weisen nach einer gezielten
   Sicherheitsüberschreibung keine bekannten `npm audit`-Funde auf.
+- Composer läuft reproduzierbar im Docker-Image `composer:2.9.5`; eine lokale
+  PHP- oder Composer-Installation in WSL ist nicht erforderlich;
+- PHP-Syntaxprüfung, WordPress Coding Standards und die Kompatibilitätsprüfung
+  für PHP 8.0 oder neuer sind eingerichtet und laufen fehlerfrei;
+- die sieben Milestones, die geplanten Type-/Area-/Status-Labels und Issues für
+  alle Schritte 0 bis 17 sind im GitHub-Repository angelegt;
 
 Am 6. September 2026 manuell geprüft:
 
@@ -102,9 +108,13 @@ Am 6. September 2026 manuell geprüft:
 
 Noch offen in M0:
 
-- PHP-/Composer-Strategie festlegen und die PHP-Qualitätswerkzeuge ergänzen;
-- GitHub-Milestones, Labels und Issues anlegen;
-- Branch-Schutz nach Vorhandensein der ersten CI-Prüfungen abschließend aktivieren;
+- JavaScript-/Block-Build-Werkzeuge und die erste PHPUnit-Konfiguration als
+  verbleibenden Teil von Schritt 4 ergänzen;
+- Branch-Schutz nach Vorhandensein der ersten CI-Prüfungen abschließend aktivieren.
+  GitHub stellt Rulesets und Branch-Schutz für das private Repository im
+  aktuellen Tarif nicht bereit; dafür ist GitHub Pro oder ein öffentliches
+  Repository erforderlich. Der Zustand ist in GitHub-Issue #2 als blockiert
+  dokumentiert.
 
 ## 4. Anforderungen
 
@@ -908,6 +918,7 @@ Aktueller Entscheidungsstand:
 
 - Die Veröffentlichung erfolgt vorerst über GitHub. Eine zusätzliche
   Veröffentlichung auf WordPress.org ist mittelfristig denkbar.
+- Das GitHub-Repository bleibt privat.
 - Der technische Plugin-Slug lautet `yt-playlist-player`. Der sichtbare Name
   „YouTube Playlist Player“ und die GitHub-Repository-URL bleiben davon
   unberührt.
@@ -926,13 +937,10 @@ Aktueller Entscheidungsstand:
   `https://github.com/quasipapa/youtube-player`. Es enthält bereits einen
   initialen Commit mit dem vollständigen Text der GPL Version 2.
 
-Noch zu entscheiden beziehungsweise bereitzustellen:
-
-- Sichtbarkeit des GitHub-Repositorys;
-
-Diese Entscheidungen blockieren nicht die technische Planung, müssen aber vor den
-jeweils betroffenen Implementierungs- und Veröffentlichungsschritten getroffen
-werden.
+Damit sind die für den Projektstart benötigten Produktentscheidungen getroffen.
+Die tarifbedingte Einschränkung des Branch-Schutzes blockiert die Entwicklung und
+lokale Qualitätssicherung nicht, muss aber vor der verbindlichen CI-Absicherung
+von `main` aufgelöst werden.
 
 ## 13. Referenzen
 

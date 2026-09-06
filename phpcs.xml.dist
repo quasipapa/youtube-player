@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="YouTube Playlist Player">
+    <description>PHP coding rules for the YouTube Playlist Player plugin.</description>
+
+    <file>.</file>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg value="ps"/>
+
+    <exclude-pattern>/build/*</exclude-pattern>
+    <exclude-pattern>/dist/*</exclude-pattern>
+    <exclude-pattern>/node_modules/*</exclude-pattern>
+    <exclude-pattern>/vendor/*</exclude-pattern>
+
+    <rule ref="WordPress"/>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="yt-playlist-player"/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="ytpp"/>
+                <element value="YTPP"/>
+            </property>
+        </properties>
+    </rule>
+</ruleset>
