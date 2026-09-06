@@ -89,6 +89,10 @@ Bereits umgesetzt:
   für PHP 8.0 oder neuer sind eingerichtet und laufen fehlerfrei;
 - die sieben Milestones, die geplanten Type-/Area-/Status-Labels und Issues für
   alle Schritte 0 bis 17 sind im GitHub-Repository angelegt;
+- vor der Veröffentlichung wurden aktueller Dateistand und Git-Historie auf
+  personenbezogene oder vertrauliche Daten geprüft und die Historie bereinigt;
+- das bereinigte Hauptrepository ist öffentlich; die frühere GitHub-Instanz wird
+  getrennt davon als privates History-Archiv aufbewahrt;
 
 Am 6. September 2026 manuell geprüft:
 
@@ -110,11 +114,8 @@ Noch offen in M0:
 
 - JavaScript-/Block-Build-Werkzeuge und die erste PHPUnit-Konfiguration als
   verbleibenden Teil von Schritt 4 ergänzen;
-- Branch-Schutz nach Vorhandensein der ersten CI-Prüfungen abschließend aktivieren.
-  GitHub stellt Rulesets und Branch-Schutz für das private Repository im
-  aktuellen Tarif nicht bereit; dafür ist GitHub Pro oder ein öffentliches
-  Repository erforderlich. Der Zustand ist in GitHub-Issue #2 als blockiert
-  dokumentiert.
+- den Basisschutz für `main` im öffentlichen Repository aktivieren und nach dem
+  ersten erfolgreichen CI-Lauf um verpflichtende Statusprüfungen ergänzen.
 
 ## 4. Anforderungen
 
@@ -918,7 +919,10 @@ Aktueller Entscheidungsstand:
 
 - Die Veröffentlichung erfolgt vorerst über GitHub. Eine zusätzliche
   Veröffentlichung auf WordPress.org ist mittelfristig denkbar.
-- Das GitHub-Repository bleibt privat.
+- Das Hauptrepository `https://github.com/quasipapa/youtube-player` ist öffentlich.
+  Die frühere Repository-Instanz bleibt unter
+  `https://github.com/quasipapa/youtube-player-private-history-archive` privat und
+  wird nicht als Projektquelle weitergeführt.
 - Der technische Plugin-Slug lautet `yt-playlist-player`. Der sichtbare Name
   „YouTube Playlist Player“ und die GitHub-Repository-URL bleiben davon
   unberührt.
@@ -938,9 +942,9 @@ Aktueller Entscheidungsstand:
   initialen Commit mit dem vollständigen Text der GPL Version 2.
 
 Damit sind die für den Projektstart benötigten Produktentscheidungen getroffen.
-Die tarifbedingte Einschränkung des Branch-Schutzes blockiert die Entwicklung und
-lokale Qualitätssicherung nicht, muss aber vor der verbindlichen CI-Absicherung
-von `main` aufgelöst werden.
+Der Basisschutz von `main` wird unmittelbar im öffentlichen Repository aktiviert;
+verpflichtende Statusprüfungen folgen, sobald die erste CI-Action erfolgreich
+gelaufen ist.
 
 ## 13. Referenzen
 
