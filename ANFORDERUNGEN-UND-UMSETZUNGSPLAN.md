@@ -75,6 +75,8 @@ Bereits umgesetzt:
   verwendet deshalb PHP 8.3, während PHP 8.0 als separat zu prüfende
   Mindestplattform bestehen bleibt;
 - die lokale WordPress-Entwicklungsinstanz startet mit PHP 8.3 erfolgreich;
+- der eindeutige technische Plugin-Slug `yt-playlist-player` ist in Quellcode,
+  lokaler WordPress-Einbindung, Paketmetadaten und Dokumentation festgelegt;
 - Konfigurationen für aktuelle und minimale WordPress-Testinstanzen sind angelegt;
 - README, Entwicklungsanleitung, Drittanbieterhinweise sowie GitHub-Issue- und
   Pull-Request-Templates sind vorbereitet;
@@ -164,7 +166,10 @@ pauschal die rechtliche Konformität einer gesamten Website.
 
 ### 4.3 Internationalisierung
 
-- Text Domain: `youtube-playlist-player`.
+- Technischer Plugin-Slug und Text Domain: `yt-playlist-player`.
+- Der Plugin-Header enthält eine eindeutige `Update URI` zum GitHub-Repository,
+  damit WordPress das Plugin nicht mit ähnlich benannten Plugins aus dem
+  WordPress.org-Verzeichnis verwechselt.
 - Die Quellsprache des Plugins ist Englisch.
 - Sämtliche sichtbaren Texte in PHP, JavaScript und `block.json` verwenden die
   WordPress-i18n-Mechanismen.
@@ -244,8 +249,8 @@ erwogene Anforderung einer bedingungslosen Nutzung ohne Lizenzpflichten.
 ## 5. Vorgesehene Projektstruktur
 
 ```text
-youtube-playlist-player/
-├── youtube-playlist-player.php
+yt-playlist-player/
+├── yt-playlist-player.php
 ├── includes/
 │   ├── class-plugin.php
 │   └── class-playlist-parser.php
@@ -294,7 +299,7 @@ youtube-playlist-player/
 
 `build/` enthält die kompilierten Block-Assets. `dist/` wird nur temporär beim
 Paketbau angelegt und nicht versioniert. Das Release-ZIP enthält einen obersten
-Ordner `youtube-playlist-player/`, damit es direkt über die WordPress-Oberfläche
+Ordner `yt-playlist-player/`, damit es direkt über die WordPress-Oberfläche
 installiert werden kann.
 
 ## 6. Rollen und Zusammenarbeit
@@ -745,7 +750,7 @@ fehlerhafter Test den Merge zuverlässig blockiert.
 2. Baut Produktionsassets und kopiert nur eine Positivliste auslieferbarer Dateien.
 3. Schließt insbesondere `.git`, `.github`, `src`, `tests`, `node_modules`, lokale
    IDE-Dateien und Entwicklungsberichte aus.
-4. Legt alles unter dem obersten ZIP-Ordner `youtube-playlist-player/` ab.
+4. Legt alles unter dem obersten ZIP-Ordner `yt-playlist-player/` ab.
 5. Erzeugt eine SHA-256-Prüfsumme.
 6. Installiert und aktiviert genau das erzeugte ZIP in einer frischen
    WordPress-Testinstanz.
@@ -890,6 +895,9 @@ Aktueller Entscheidungsstand:
 
 - Die Veröffentlichung erfolgt vorerst über GitHub. Eine zusätzliche
   Veröffentlichung auf WordPress.org ist mittelfristig denkbar.
+- Der technische Plugin-Slug lautet `yt-playlist-player`. Der sichtbare Name
+  „YouTube Playlist Player“ und die GitHub-Repository-URL bleiben davon
+  unberührt.
 - Als Smoke-Test-Kandidat wurde
   `https://youtu.be/TsCvNtCgKZ8?si=EVPpNXAjKe4APUbM` angegeben. Dieser Link
   verweist auf ein einzelnes Video und enthält keine Playlist-ID. Für die

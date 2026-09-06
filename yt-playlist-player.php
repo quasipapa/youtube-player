@@ -9,7 +9,8 @@
  * Author:            quasipapa
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * Text Domain:       youtube-playlist-player
+ * Text Domain:       yt-playlist-player
+ * Update URI:        https://github.com/quasipapa/youtube-player
  */
 
 defined('ABSPATH') || exit;
@@ -29,14 +30,14 @@ function ytpp_enqueue_assets(): void
 {
     wp_enqueue_style(
         'ytpp-player',
-        YTPP_PLUGIN_URL . 'assets/css/youtube-playlist-player.css',
+        YTPP_PLUGIN_URL . 'assets/css/yt-playlist-player.css',
         [],
         YTPP_VERSION
     );
 
     wp_enqueue_script(
         'ytpp-player',
-        YTPP_PLUGIN_URL . 'assets/js/youtube-playlist-player.js',
+        YTPP_PLUGIN_URL . 'assets/js/yt-playlist-player.js',
         [],
         YTPP_VERSION,
         [

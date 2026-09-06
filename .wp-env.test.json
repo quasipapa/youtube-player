@@ -2,9 +2,12 @@
   "$schema": "https://schemas.wp.org/trunk/wp-env.json",
   "core": "WordPress/WordPress#6.0-branch",
   "phpVersion": "8.0",
-  "plugins": [
-    "."
-  ],
+  "mappings": {
+    "wp-content/plugins/yt-playlist-player": "."
+  },
+  "lifecycleScripts": {
+    "afterStart": "npx wp-env run --config=.wp-env.test.json cli wp plugin activate yt-playlist-player"
+  },
   "port": 8889,
   "testsEnvironment": false,
   "config": {

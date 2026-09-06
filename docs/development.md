@@ -45,6 +45,11 @@ Username: admin
 Password: password
 ```
 
+The source checkout may retain the GitHub directory name
+`youtube-playlist-player`. Both wp-env configurations explicitly mount it as
+`wp-content/plugins/yt-playlist-player`, which is the plugin's canonical slug,
+and activate it after startup.
+
 Useful commands:
 
 ```bash
