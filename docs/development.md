@@ -178,17 +178,32 @@ Other hosts, credentials, non-default ports, duplicate `list` parameters and
 malformed IDs are rejected. Additional query parameters such as YouTube's `si`
 tracking parameter are discarded when the canonical playlist ID is stored.
 
+Select the block and enter the value in **Playlist settings** in the block
+settings sidebar. For valid input, confirm that the block canvas shows a preview
+loaded from `youtube-nocookie.com`; the inspector explains that this editor
+preview makes an external connection.
+
 Save the post, reload the editor and confirm that the canonical ID is retained.
-View the post and confirm that the player placeholder and the previous/next
-controls are rendered. Also enter `invalid!` and confirm that both editor and
-frontend show the plugin's validation message without rendering player controls.
+View the post and confirm that a local consent message is shown. Before selecting
+**Load YouTube playlist**, use the browser network panel to confirm that no
+YouTube request occurs. After selecting it, confirm that the first video appears
+without autoplay and that the iframe uses `www.youtube-nocookie.com`.
+
+Also enter `invalid!` and confirm that both editor and frontend show the plugin's
+validation message without rendering player controls or an external preview.
+
+Finally, disable **Require consent before loading YouTube** and confirm that the
+frontend loads the player without the local consent message. This mode is only
+for sites where an external consent or content blocker handles YouTube requests.
+The detailed behavior is documented in [privacy.md](privacy.md).
 
 This validation is deliberately local and syntactic. A syntactically valid but
 non-existent, private or unavailable playlist cannot be identified yet. The
 editor states that availability has not been checked; remote availability
 checking is tracked separately for step 8a.
 
-Full navigation and the consent gate belong to later development steps.
+First/last controls and complete playlist navigation belong to later development
+steps.
 
 The editor script, block styles and frontend view script are declared in
 `block.json`. WordPress therefore enqueues them for the relevant editor or only

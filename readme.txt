@@ -12,8 +12,9 @@ A privacy-aware Gutenberg block for embedding and navigating YouTube playlists.
 
 == Description ==
 
-YouTube Playlist Player provides an initial Gutenberg block for a public YouTube
-playlist. Full navigation, validation and privacy controls are being added
+YouTube Playlist Player provides a Gutenberg block for a public YouTube playlist.
+Playlist input and privacy controls are available in the block settings sidebar,
+and the editor displays a preview for valid input. Full navigation is being added
 incrementally.
 
 The plugin is under active development and is not ready for production use.
@@ -27,10 +28,10 @@ the GitHub repository.
 
 = Does the plugin contact YouTube immediately? =
 
-The finished plugin will use a local consent placeholder by default and will only
-load YouTube resources after visitor interaction. Site owners will be able to
-disable this built-in gate when an external content blocker provides the required
-protection.
+The plugin uses a local consent placeholder by default and only loads YouTube
+resources after visitor interaction. Site owners can disable this built-in gate
+for an individual block when an external content blocker provides the required
+protection. A valid playlist loads a youtube-nocookie.com preview in the editor.
 
 == Changelog ==
 

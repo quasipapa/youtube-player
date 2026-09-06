@@ -43,6 +43,9 @@ contact YouTube until the visitor explicitly loads the playlist by default. The
 built-in privacy gate will be configurable for sites where an external consent
 management system already blocks YouTube content.
 
+The exact frontend and editor behavior, contacted domains, and verification
+steps are documented in [docs/privacy.md](docs/privacy.md).
+
 ## License
 
 Copyright (C) 2026 quasipapa.

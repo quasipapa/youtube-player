@@ -24,7 +24,7 @@ final class Test_Block_Render extends TestCase {
 	}
 
 	/**
-	 * A playlist ID is preserved in escaped semantic player markup.
+	 * A playlist ID renders a local consent gate without external resources.
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,30 @@ final class Test_Block_Render extends TestCase {
 			$output
 		);
 		$this->assertStringContainsString( 'ytpp-player__target', $output );
+		$this->assertStringContainsString( 'data-require-consent="true"', $output );
+		$this->assertStringContainsString( 'ytpp-player__consent-button', $output );
+		$this->assertStringContainsString( 'Load YouTube playlist', $output );
 		$this->assertStringContainsString( '<nav', $output );
+		$this->assertStringNotContainsString( '<iframe', $output );
+		$this->assertStringNotContainsString( 'https://www.youtube', $output );
+	}
+
+	/**
+	 * The local consent gate can be disabled for an external content blocker.
+	 *
+	 * @return void
+	 */
+	public function test_consent_gate_can_be_disabled(): void {
+		$output = $this->render_block(
+			array(
+				'playlistId'     => 'PL-test-playlist',
+				'requireConsent' => false,
+			)
+		);
+
+		$this->assertStringContainsString( 'data-require-consent="false"', $output );
+		$this->assertStringContainsString( 'The video playlist is loading.', $output );
+		$this->assertStringNotContainsString( 'ytpp-player__consent-button', $output );
 	}
 
 	/**
