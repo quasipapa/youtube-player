@@ -66,6 +66,9 @@ Bereits umgesetzt:
   reproduzierbare npm-Lockdatei ist vorhanden;
 - npm wurde in WSL auf Version 10.9.9 aktualisiert und erfüllt damit die
   Versionsanforderung der Entwicklungsabhängigkeiten;
+- Docker kann nach Installation von `util-linux-extra`, Aufnahme des WSL-Benutzers
+  in die `docker`-Gruppe und Aktivierung über `newgrp docker` ohne `sudo`
+  angesprochen werden;
 - Konfigurationen für aktuelle und minimale WordPress-Testinstanzen sind angelegt;
 - README, Entwicklungsanleitung, Drittanbieterhinweise sowie GitHub-Issue- und
   Pull-Request-Templates sind vorbereitet;
@@ -74,7 +77,9 @@ Bereits umgesetzt:
 
 Noch offen in M0:
 
-- `wp-env` über die Docker Engine starten und im Windows-Browser abnehmen;
+- den Buildfehler von `wp-env` bei
+  `apt-get -qy install $PHPIZE_DEPS` mit Exitcode 100 diagnostizieren, die
+  Umgebung anschließend starten und im Windows-Browser abnehmen;
 - PHP-/Composer-Strategie festlegen und die PHP-Qualitätswerkzeuge ergänzen;
 - GitHub-Milestones, Labels und Issues anlegen;
 - Branch-Schutz nach Vorhandensein der ersten CI-Prüfungen abschließend aktivieren;

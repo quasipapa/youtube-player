@@ -86,6 +86,14 @@ newgrp docker
 docker run --rm hello-world
 ```
 
+If WSL reports `newgrp: command not found`, install the package that provides the
+command and repeat `newgrp docker`:
+
+```bash
+sudo apt install util-linux-extra
+newgrp docker
+```
+
 `newgrp` activates the group in a child shell. To apply the membership to all WSL
 processes, close the WSL sessions and run `wsl --shutdown` from Windows PowerShell,
 then reopen the distribution. If the Docker service does not start automatically,
@@ -124,6 +132,13 @@ linters.
 
 The current WSL installation has Node.js 22.22.1 and npm 10.9.9. This satisfies
 the engine requirements of the selected `@wordpress/env` dependency.
+
+Docker access without `sudo` was enabled after installing `util-linux-extra` for
+the missing `newgrp` command and activating the `docker` group. The first
+`npm run env:start` attempt then reached the WordPress image build but failed at
+`apt-get -qy install $PHPIZE_DEPS` with exit code 100. The detailed APT output is
+still required to distinguish an unavailable repository from an unavailable
+package or another package-manager error.
 
 PHP and Composer are not currently available directly in WSL. Their installation
 or a documented Docker-based Composer workflow will be decided when the PHP test
