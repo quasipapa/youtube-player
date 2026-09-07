@@ -4,16 +4,6 @@ function flushPromises() {
 	} );
 }
 
-function requestCheck( origin = window.location.origin ) {
-	window.dispatchEvent(
-		new MessageEvent( 'message', {
-			data: { type: 'ytpp:check-availability' },
-			origin,
-			source: window.parent,
-		} )
-	);
-}
-
 function initializeController( playerImplementation ) {
 	document.body.innerHTML =
 		'<iframe id="ytpp-preview-player" src="https://www.youtube-nocookie.com/embed?list=PL-test-playlist"></iframe>';
@@ -32,8 +22,6 @@ function initializeController( playerImplementation ) {
 
 describe( 'editor preview availability controller', () => {
 	afterEach( () => {
-		window.ytppEditorPreviewControllerCleanup?.();
-		delete window.ytppEditorPreviewControllerCleanup;
 		delete window.YT;
 		delete window.onYouTubeIframeAPIReady;
 		document.head.innerHTML = '';
@@ -41,7 +29,7 @@ describe( 'editor preview availability controller', () => {
 		jest.restoreAllMocks();
 	} );
 
-	it( 'waits for an authenticated same-origin check request', async () => {
+	it( 'reports an available playlist to its direct parent', async () => {
 		const { player, postMessage } = initializeController(
 			( iframe, options ) => {
 				options.events.onReady( {
@@ -50,12 +38,6 @@ describe( 'editor preview availability controller', () => {
 			}
 		);
 
-		expect( player ).not.toHaveBeenCalled();
-		requestCheck( 'https://attacker.example' );
-		await flushPromises();
-		expect( player ).not.toHaveBeenCalled();
-
-		requestCheck();
 		await flushPromises();
 		expect( player ).toHaveBeenCalledTimes( 1 );
 		expect( postMessage ).toHaveBeenCalledWith(
@@ -71,7 +53,6 @@ describe( 'editor preview availability controller', () => {
 			} );
 		} );
 
-		requestCheck();
 		await flushPromises();
 
 		expect( postMessage ).toHaveBeenCalledWith(
@@ -80,7 +61,7 @@ describe( 'editor preview availability controller', () => {
 		);
 	} );
 
-	it( 'loads the API only after a request and reports loading failure as unknown', async () => {
+	it( 'reports API loading failure as unknown', async () => {
 		document.body.innerHTML =
 			'<iframe id="ytpp-preview-player" src="https://www.youtube-nocookie.com/embed?list=PL-test-playlist"></iframe>';
 		const postMessage = jest
@@ -89,13 +70,6 @@ describe( 'editor preview availability controller', () => {
 		jest.resetModules();
 		require( './editor-preview-controller' );
 
-		expect(
-			document.querySelector(
-				'script[src="https://www.youtube.com/iframe_api"]'
-			)
-		).toBeNull();
-
-		requestCheck();
 		const apiScript = document.querySelector(
 			'script[src="https://www.youtube.com/iframe_api"]'
 		);
@@ -120,7 +94,6 @@ describe( 'editor preview availability controller', () => {
 			options.events.onError( { data: error } );
 		} );
 
-		requestCheck();
 		await flushPromises();
 
 		expect( postMessage ).toHaveBeenCalledWith(

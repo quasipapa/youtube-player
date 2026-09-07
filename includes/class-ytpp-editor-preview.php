@@ -20,7 +20,7 @@ final class YTPP_Editor_Preview {
 	 *
 	 * @param string $playlist_id    Canonical playlist ID.
 	 * @param string $site_origin    Site origin passed to the YouTube player.
-	 * @param string $controller_url Same-origin availability-controller URL.
+	 * @param string $controller_url Optional same-origin availability-controller URL.
 	 * @return string
 	 */
 	public static function render( string $playlist_id, string $site_origin, string $controller_url ): string {
@@ -39,7 +39,13 @@ final class YTPP_Editor_Preview {
 		);
 		$player_url = 'https://www.youtube-nocookie.com/embed?' . $parameters;
 
-		// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript -- This is a complete isolated iframe document, not a WordPress page.
+		$controller = '';
+		if ( '' !== $controller_url ) {
+			// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript -- This is a complete isolated iframe document, not a WordPress page.
+			$controller = '<script src="' . esc_url( $controller_url ) . '"></script>';
+			// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+		}
+
 		return '<!doctype html><html><head><meta charset="utf-8">' .
 			'<meta name="referrer" content="origin-when-cross-origin">' .
 			'<meta name="viewport" content="width=device-width,initial-scale=1">' .
@@ -50,7 +56,6 @@ final class YTPP_Editor_Preview {
 			'" src="' . esc_url( $player_url ) .
 			'" loading="eager" referrerpolicy="origin-when-cross-origin" ' .
 			'allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>' .
-			'<script src="' . esc_url( $controller_url ) . '"></script></body></html>';
-		// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+			$controller . '</body></html>';
 	}
 }

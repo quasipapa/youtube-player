@@ -33,5 +33,12 @@ final class Test_Editor_Preview extends TestCase {
 		$this->assertStringContainsString( 'referrerpolicy="origin-when-cross-origin"', $document );
 		$this->assertStringContainsString( 'assets/js/editor-preview-controller.js?ver=0.1.0', $document );
 		$this->assertStringNotContainsString( 'https://www.youtube.com/embed', $document );
+
+		$visible_preview = YTPP_Editor_Preview::render(
+			$playlist_id,
+			'https://example.test',
+			''
+		);
+		$this->assertStringNotContainsString( 'editor-preview-controller.js', $visible_preview );
 	}
 }

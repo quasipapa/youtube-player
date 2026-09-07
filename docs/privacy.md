@@ -67,9 +67,11 @@ the block and expose its settings.
 
 For a syntactically valid playlist, the inspector offers **Check playlist
 availability**. The plugin loads `https://www.youtube.com/iframe_api` inside the
-authenticated preview document only after the editor selects this button. The
-player remains on `https://www.youtube-nocookie.com`. No API key, OAuth token or
-editor identity is sent by the plugin.
+dedicated, visually hidden and authenticated same-origin check document only
+after the editor selects this button. The check document is a direct child of the
+inspector and is removed after a result or timeout. Its player remains on
+`https://www.youtube-nocookie.com`. No API key, OAuth token or editor identity is
+sent by the plugin.
 
 The check reports a positive result only when the player returns at least one
 playlist item. Missing/private content and embedding restrictions reported by the

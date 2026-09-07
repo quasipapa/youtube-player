@@ -175,18 +175,27 @@ describe( 'Edit', () => {
 		const checkButton = screen.getByRole( 'button', {
 			name: 'Check playlist availability',
 		} );
-		const postMessage = jest.spyOn( preview.contentWindow, 'postMessage' );
 
 		expect( checkButton.disabled ).toBe( true );
-		expect( postMessage ).not.toHaveBeenCalled();
+		expect(
+			screen.queryByTitle( 'Playlist availability check' )
+		).toBeNull();
 
 		fireEvent.load( preview );
 		expect( checkButton.disabled ).toBe( false );
 		fireEvent.click( checkButton );
 
-		expect( postMessage ).toHaveBeenCalledWith(
-			{ type: 'ytpp:check-availability' },
-			'http://localhost'
+		const availabilityFrame = screen.getByTitle(
+			'Playlist availability check'
+		);
+		const availabilityUrl = new URL(
+			availabilityFrame.getAttribute( 'src' )
+		);
+		expect( availabilityUrl.searchParams.get( 'availability_check' ) ).toBe(
+			'1'
+		);
+		expect( availabilityUrl.searchParams.get( 'playlist_id' ) ).toBe(
+			playlistId
 		);
 		expect(
 			screen.getByText( 'Checking playlist availability…' )
@@ -225,12 +234,15 @@ describe( 'Edit', () => {
 				name: 'Check playlist availability',
 			} )
 		);
+		const availabilityFrame = screen.getByTitle(
+			'Playlist availability check'
+		);
 		fireEvent(
 			window,
 			new MessageEvent( 'message', {
 				data: { type: 'ytpp:availability-result', status },
 				origin: 'http://localhost',
-				source: preview.contentWindow,
+				source: availabilityFrame.contentWindow,
 			} )
 		);
 

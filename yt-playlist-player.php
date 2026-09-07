@@ -95,10 +95,17 @@ function ytpp_render_editor_preview(): void {
 
 	nocache_headers();
 	header( 'Content-Type: text/html; charset=UTF-8' );
-	$controller_url = add_query_arg(
-		array( 'ver' => YTPP_VERSION ),
-		YTPP_PLUGIN_URL . 'assets/js/editor-preview-controller.js'
-	);
+	$is_availability_check = isset( $_GET['availability_check'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['availability_check'] ) );
+	$controller_path       = YTPP_PLUGIN_DIR . 'assets/js/editor-preview-controller.js';
+	$controller_version    = file_exists( $controller_path )
+		? YTPP_VERSION . '-' . (string) filemtime( $controller_path )
+		: YTPP_VERSION;
+	$controller_url        = $is_availability_check
+		? add_query_arg(
+			array( 'ver' => $controller_version ),
+			YTPP_PLUGIN_URL . 'assets/js/editor-preview-controller.js'
+		)
+		: '';
 
 	echo YTPP_Editor_Preview::render( $playlist_id, $site_origin, $controller_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The complete document is escaped while it is built.
 	wp_die();
