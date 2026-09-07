@@ -29,26 +29,25 @@ jest.mock( '@wordpress/components', () => ( {
 		</section>
 	),
 	TextControl: ( { label, onChange, value } ) => (
-		<label htmlFor="playlist-id-test-input">
+		<div>
 			{ label }
 			<input
-				id="playlist-id-test-input"
 				aria-label={ label }
 				value={ value }
 				onChange={ ( event ) => onChange( event.target.value ) }
 			/>
-		</label>
+		</div>
 	),
 	ToggleControl: ( { checked, label, onChange } ) => (
-		<label htmlFor="consent-test-input">
+		<div>
 			{ label }
 			<input
-				id="consent-test-input"
+				aria-label={ label }
 				type="checkbox"
 				checked={ checked }
 				onChange={ ( event ) => onChange( event.target.checked ) }
 			/>
-		</label>
+		</div>
 	),
 } ) );
 
@@ -155,6 +154,40 @@ describe( 'Edit', () => {
 				document.querySelectorAll( '.ytpp-player__icon' )
 			).every( ( icon ) => icon.getAttribute( 'aria-hidden' ) === 'true' )
 		).toBe( true );
+		expect( screen.getByText( '– / –' ) ).not.toBeNull();
+	} );
+
+	it( 'stores and previews an optional editorial playlist title', () => {
+		const setAttributes = jest.fn();
+
+		render(
+			<Edit
+				attributes={ {
+					playlistId: 'PL-test-playlist',
+					playlistTitle: 'Editorial playlist title',
+					showPlaylistTitle: true,
+					requireConsent: true,
+				} }
+				setAttributes={ setAttributes }
+			/>
+		);
+
+		expect( screen.getByText( 'Editorial playlist title' ) ).not.toBeNull();
+		fireEvent.change(
+			screen.getByRole( 'textbox', { name: 'Playlist title' } ),
+			{ target: { value: 'Updated title' } }
+		);
+		expect( setAttributes ).toHaveBeenCalledWith( {
+			playlistTitle: 'Updated title',
+		} );
+		fireEvent.click(
+			screen.getByRole( 'checkbox', {
+				name: 'Show playlist title above the video',
+			} )
+		);
+		expect( setAttributes ).toHaveBeenCalledWith( {
+			showPlaylistTitle: false,
+		} );
 	} );
 
 	it( 'removes saved consent for the selected playlist', () => {

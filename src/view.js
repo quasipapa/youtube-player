@@ -113,7 +113,7 @@ function updatePosition( container, player ) {
 	) {
 		position.textContent = sprintf(
 			/* translators: 1: Current video number. 2: Total number of videos. */
-			__( 'Video %1$d of %2$d', 'yt-playlist-player' ),
+			__( '%1$d / %2$d', 'yt-playlist-player' ),
 			index + 1,
 			playlist.length
 		);

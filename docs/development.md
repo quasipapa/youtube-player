@@ -102,14 +102,14 @@ their visual weight without replacing the SVGs:
 
 ```css
 .ytpp-player {
-	--ytpp-navigation-skip-icon-size: 1.25rem;
-	--ytpp-navigation-step-icon-size: 1.625rem;
+	--ytpp-navigation-skip-icon-size: 1rem;
+	--ytpp-navigation-step-icon-size: 1rem;
 }
 ```
 
-The larger default step size compensates for the lighter single-chevron shape.
-Both icon types retain the same `2.75rem` button area. The translated accessible
-name and tooltip remain on each icon-only button.
+Both icon types default to the same size. Each button is `3rem` wide and `2rem`
+high, while the two buttons in each outer group are separated by `0.75rem`. The
+translated accessible name and tooltip remain on each icon-only button.
 
 ## Complete local verification
 
@@ -205,6 +205,11 @@ that the playlist selection follows both commands. This was manually verified
 during step 8.
 
 Save the post, reload the editor and confirm that the canonical ID is retained.
+Enable **Show playlist title above the video**, enter an editorial title and
+confirm that it appears above the preview and above the frontend player. Disable
+the setting again and confirm that the title is not rendered. This manually
+entered title does not trigger a YouTube request.
+
 View the post and confirm that a local consent message is shown. To test a fresh
 consent state after previously agreeing, select **Forget saved consent for this
 playlist** in the block inspector and reload the public page. Before selecting
@@ -244,14 +249,14 @@ accepted.
 ## Complete playlist-navigation smoke test
 
 Use a playlist containing at least three playable videos. After granting consent,
-confirm that the position initially reads **Video 1 of n**, **First video** and
+confirm that the position initially reads **1 / n**, **First video** and
 **Previous video** are disabled, and **Next video** and **Last video** are
 enabled. Navigate to a middle video and verify that all four actions are enabled
 and that the position changes. At the final video, **Next video** and **Last
 video** must be disabled while both backward actions remain enabled.
 
 Also test a playlist containing exactly one playable video. Its position must be
-**Video 1 of 1** and all four navigation actions must be disabled. Finally,
+**1 / 1** and all four navigation actions must be disabled. Finally,
 render two blocks on the same page and confirm that navigating one player does
 not change the other player's position or controls. The labels and disabled
 states must remain understandable with keyboard navigation and a screen reader.
