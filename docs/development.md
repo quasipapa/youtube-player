@@ -130,6 +130,48 @@ upstream advisories in this toolchain even at its current pinned version. Review
 updates through Dependabot; do not use `npm audit fix --force`, because npm
 currently proposes an incompatible downgrade of `@wordpress/scripts`.
 
+## Translations
+
+English is the source language and `yt-playlist-player` is the text domain. The
+German source catalog and all generated runtime catalogs live in `languages`:
+
+- `yt-playlist-player.pot` is the source template;
+- `yt-playlist-player-de_DE.po` contains the editable German translations;
+- `yt-playlist-player-de_DE.mo` is loaded by PHP and block metadata;
+- the two locale JSON files are loaded by the editor and frontend scripts.
+
+Keep the development WordPress instance running because the translation scripts
+use WP-CLI inside its container. After adding or changing a visible source text,
+regenerate the template and runtime catalogs:
+
+```bash
+npm run env:start
+npm run i18n:generate
+```
+
+Review and, where necessary, edit the German `msgstr` values in
+`languages/yt-playlist-player-de_DE.po`, then run `npm run i18n:generate` again.
+Do not edit the POT, MO or JSON files by hand. Commit the PO and all generated
+catalogs together.
+
+Verify that the committed catalogs match the current PHP, JavaScript and block
+metadata without changing them:
+
+```bash
+npm run i18n:check
+```
+
+The complete `npm run check` includes this reproducibility check. PHP Coding
+Standards verify translation functions and text domains in PHP. JavaScript tests
+also reject direct visible literals in common JSX/DOM properties and verify that
+German catalogs exist for both built scripts.
+
+For manual acceptance, change **Settings > General > Site Language**, save and
+reload both the editor and public page. Test **Deutsch** and **English (United
+States)**. Confirm that settings, notices, consent text, status messages,
+navigation tooltips and errors follow the selected language while the manually
+entered playlist title remains unchanged.
+
 ## Development WordPress instance
 
 Start the current stable WordPress version with PHP 8.3:

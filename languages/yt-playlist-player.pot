@@ -1,0 +1,273 @@
+# Copyright (C) 2026 quasipapa
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: YouTube Playlist Player 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/quasipapa/youtube-player/issues\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: yt-playlist-player\n"
+
+#. Plugin Name of the plugin
+#: yt-playlist-player.php
+#: src/edit.js:522
+msgid "YouTube Playlist Player"
+msgstr ""
+
+#. Description of the plugin
+#: yt-playlist-player.php
+msgid "Adds an enhanced navigation interface to embedded YouTube playlists."
+msgstr ""
+
+#. Author of the plugin
+#: yt-playlist-player.php
+msgid "quasipapa"
+msgstr ""
+
+#: includes/class-ytpp-editor-preview.php:55
+#: src/edit.js:425
+msgid "YouTube playlist preview"
+msgstr ""
+
+#: src/render.php:32
+msgid "No playlist ID has been entered yet."
+msgstr ""
+
+#: src/render.php:36
+#: src/edit.js:171
+msgid "Enter a valid YouTube playlist ID or supported playlist URL."
+msgstr ""
+
+#: src/render.php:47
+msgid "Loading this playlist connects to YouTube and may transfer data to Google."
+msgstr ""
+
+#: src/render.php:48
+msgid "Your choice is saved for this playlist in this browser."
+msgstr ""
+
+#: src/render.php:51
+msgid "Load YouTube playlist"
+msgstr ""
+
+#: src/render.php:56
+#: src/view.js:251
+msgid "The video playlist is loading."
+msgstr ""
+
+#: src/render.php:62
+msgid "Playlist navigation"
+msgstr ""
+
+#: src/render.php:64
+#: src/edit.js:445
+#: src/edit.js:449
+msgid "First video"
+msgstr ""
+
+#: src/render.php:67
+#: src/edit.js:462
+#: src/edit.js:466
+msgid "Previous video"
+msgstr ""
+
+#: src/render.php:73
+#: src/edit.js:484
+#: src/edit.js:488
+msgid "Next video"
+msgstr ""
+
+#: src/render.php:76
+#: src/edit.js:501
+#: src/edit.js:505
+msgid "Last video"
+msgstr ""
+
+#: yt-playlist-player.php:101
+msgid "You are not allowed to preview this playlist."
+msgstr ""
+
+#: yt-playlist-player.php:108
+msgid "The playlist ID is invalid."
+msgstr ""
+
+#: src/edit.js:154
+msgid "Playlist settings"
+msgstr ""
+
+#: src/edit.js:158
+msgid "Playlist ID or URL"
+msgstr ""
+
+#: src/edit.js:162
+msgid "Enter a playlist ID or a supported YouTube playlist URL."
+msgstr ""
+
+#. translators: %s: YouTube playlist ID.
+#: src/edit.js:184
+#, js-format
+msgid "Playlist ID: %s. The syntax is valid."
+msgstr ""
+
+#: src/edit.js:193
+msgid "Show playlist title above the video"
+msgstr ""
+
+#: src/edit.js:204
+msgid "Playlist title"
+msgstr ""
+
+#: src/edit.js:208
+msgid "This title is entered manually and does not create an additional YouTube request."
+msgstr ""
+
+#: src/edit.js:219
+msgid "Require consent before loading YouTube"
+msgstr ""
+
+#: src/edit.js:225
+msgid "Visitors must actively load the playlist before any connection to YouTube is made."
+msgstr ""
+
+#: src/edit.js:229
+msgid "YouTube loads immediately. Disable this only when another consent or content blocker reliably prevents external requests."
+msgstr ""
+
+#: src/edit.js:242
+msgid "The editor preview connects directly to youtube-nocookie.com."
+msgstr ""
+
+#: src/edit.js:256
+msgid "Check playlist availability"
+msgstr ""
+
+#: src/edit.js:262
+msgid "The additional check loads the YouTube IFrame API only after you select the button. The editor preview itself already connects to YouTube."
+msgstr ""
+
+#: src/edit.js:269
+msgid "Checking playlist availability…"
+msgstr ""
+
+#: src/edit.js:280
+msgid "The playlist is available and contains at least one playable item."
+msgstr ""
+
+#: src/edit.js:291
+msgid "The playlist is unavailable, empty, or cannot be embedded."
+msgstr ""
+
+#: src/edit.js:299
+msgid "Playlist availability could not be determined. Check the network or content blocker and try again."
+msgstr ""
+
+#: src/edit.js:309
+msgid "Playlist availability check"
+msgstr ""
+
+#: src/edit.js:321
+msgid "Forget saved consent for this playlist"
+msgstr ""
+
+#: src/edit.js:331
+msgid "Saved consent for this playlist was removed."
+msgstr ""
+
+#: src/edit.js:341
+msgid "Player size"
+msgstr ""
+
+#: src/edit.js:347
+msgid "Maximum width (px)"
+msgstr ""
+
+#: src/edit.js:351
+msgid "Maximum height (px)"
+msgstr ""
+
+#: src/edit.js:361
+msgid "Leave empty for automatic sizing. Limits apply to the video area."
+msgstr ""
+
+#: src/edit.js:368
+msgid "Aspect ratio"
+msgstr ""
+
+#: src/edit.js:375
+msgid "Custom"
+msgstr ""
+
+#: src/edit.js:385
+msgid "Custom aspect ratio"
+msgstr ""
+
+#: src/edit.js:393
+msgid "Use width:height, for example 9:16. Ratios from 1:4 to 4:1 are supported."
+msgstr ""
+
+#. translators: 1: minimum width, 2: minimum height.
+#: src/edit.js:402
+#, js-format
+msgid "Enter a valid ratio and whole pixel limits between %1$d (width) or %2$d (height) and 10000. Invalid settings use automatic sizing or 16:9."
+msgstr ""
+
+#: src/edit.js:436
+msgid "Playlist navigation preview"
+msgstr ""
+
+#: src/edit.js:478
+msgid "– / –"
+msgstr ""
+
+#: src/edit.js:526
+msgid "Select this block and enter the playlist in the block settings sidebar."
+msgstr ""
+
+#. translators: 1: Current video number. 2: Total number of videos.
+#: src/view.js:116
+#, js-format
+msgid "%1$d / %2$d"
+msgstr ""
+
+#: src/view.js:170
+msgid "YouTube playlist player"
+msgstr ""
+
+#: src/view.js:194
+msgid "The YouTube playlist could not be loaded."
+msgstr ""
+
+#: src/view.js:281
+msgid "The YouTube playlist could not be loaded. Please try again."
+msgstr ""
+
+#: src/block.json
+msgctxt "block title"
+msgid "YouTube Playlist Player"
+msgstr ""
+
+#: src/block.json
+msgctxt "block description"
+msgid "Displays a navigable YouTube playlist."
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "video"
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "youtube"
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "playlist"
+msgstr ""

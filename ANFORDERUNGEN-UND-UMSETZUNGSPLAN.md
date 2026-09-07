@@ -370,6 +370,33 @@ Nach der Korrektur der Buttonmaße, zusammengehaltenen Buttonpaare und
 Positionsschriftgröße wurden die manuellen Tests vom Benutzer als erfolgreich
 bestätigt. Damit ist Schritt 10 manuell abgenommen.
 
+Für Schritt 11 technisch umgesetzt (7. September 2026):
+
+- Englisch ist durchgängig Quellsprache; PHP, JavaScript und Blockmetadaten
+  verwenden die Text Domain `yt-playlist-player` und die WordPress-i18n-APIs;
+- WordPress lädt die mitgelieferte deutsche MO-Datei sowie die den gebauten
+  Editor- und Frontendskripten zugeordneten Jed-JSON-Kataloge aus `languages`;
+- `npm run i18n:generate` erzeugt mit WP-CLI reproduzierbar POT, MO und
+  JavaScript-Kataloge aus den Quellen und der gepflegten deutschen PO-Datei;
+- `npm run i18n:check` erzeugt die Kataloge in einem temporären Verzeichnis neu
+  und schlägt bei nicht übernommenen Quellen oder veralteten Artefakten fehl;
+- PHP- und JavaScript-Tests prüfen Text-Domain-Registrierung,
+  Katalogvollständigkeit, die Zuordnung beider Skripte und typische direkte,
+  nicht internationalisierte sichtbare JavaScript-Literale;
+- Erzeugung, Pflege, Prüfung und manueller Sprachwechsel sind in
+  `docs/development.md` dokumentiert;
+- Formatprüfung, JavaScript-/CSS-Lint, PHP-Syntax, Coding Standards und
+  PHP-8.0-Kompatibilitätsprüfung erfolgreich; 34 PHPUnit-Tests mit 110
+  Assertions und 76 Jest-Tests erfolgreich, reproduzierbare Katalogprüfung und
+  Produktionsbuild erfolgreich;
+- in der lokalen WordPress-Instanz mit `de_DE` wurden die deutsche
+  PHP-Übersetzung sowie die deutschen Übersetzungsdaten für Editor- und
+  Frontendskript zur Laufzeit nachgewiesen.
+
+Die technische Umsetzung ist abgeschlossen. Die manuelle Prüfung mit deutscher
+und englischer WordPress-Sprache sowie die fachliche Abnahme der deutschen
+Formulierungen stehen noch aus.
+
 
 ## 4. Anforderungen
 

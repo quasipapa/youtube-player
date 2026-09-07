@@ -29,7 +29,9 @@
 		"lint:php": "sh scripts/composer.sh run lint",
 		"test:php": "sh scripts/composer.sh run test",
 		"test:js": "wp-scripts test-unit-js --runInBand",
-		"check": "npm run format:check && npm run lint:js && npm run lint:css && npm run lint:php && npm run test:php && npm run test:js && npm run build",
+		"i18n:generate": "sh scripts/i18n.sh generate",
+		"i18n:check": "sh scripts/i18n.sh check",
+		"check": "npm run format:check && npm run lint:js && npm run lint:css && npm run lint:php && npm run test:php && npm run test:js && npm run i18n:check && npm run build",
 		"test:responsive": "npm run build && playwright test"
 	},
 	"devDependencies": {

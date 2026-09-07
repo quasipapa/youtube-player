@@ -10,6 +10,7 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Text Domain:       yt-playlist-player
+ * Domain Path:       /languages
  * Update URI:        https://github.com/quasipapa/youtube-player
  *
  * @package YouTube_Playlist_Player
@@ -43,7 +44,25 @@ require_once YTPP_PLUGIN_DIR . 'includes/class-ytpp-editor-preview.php';
  * @return void
  */
 function ytpp_register_block(): void {
-	$block_type = register_block_type( YTPP_PLUGIN_DIR . 'build' );
+	load_plugin_textdomain(
+		'yt-playlist-player',
+		false,
+		dirname( plugin_basename( __FILE__ ) ) . '/languages'
+	);
+
+	$block_type     = register_block_type( YTPP_PLUGIN_DIR . 'build' );
+	$script_handles = array_merge(
+		$block_type && isset( $block_type->editor_script_handles ) ? $block_type->editor_script_handles : array(),
+		$block_type && isset( $block_type->view_script_handles ) ? $block_type->view_script_handles : array()
+	);
+
+	foreach ( $script_handles as $script_handle ) {
+		wp_set_script_translations(
+			$script_handle,
+			'yt-playlist-player',
+			YTPP_PLUGIN_DIR . 'languages'
+		);
+	}
 
 	if ( ! $block_type || empty( $block_type->editor_script_handles[0] ) ) {
 		return;

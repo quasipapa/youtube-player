@@ -1,0 +1,102 @@
+{
+	"translation-revision-date": "2026-09-07 00:00+0200",
+	"generator": "WP-CLI/2.12.0",
+	"source": "build/index.js",
+	"domain": "messages",
+	"locale_data": {
+		"messages": {
+			"": {
+				"domain": "messages",
+				"lang": "de_DE",
+				"plural-forms": "nplurals=2; plural=(n != 1);"
+			},
+			"YouTube Playlist Player": [ "YouTube-Playlist-Player" ],
+			"YouTube playlist preview": [ "YouTube-Playlist-Vorschau" ],
+			"Enter a valid YouTube playlist ID or supported playlist URL.": [
+				"Geben Sie eine g\u00fcltige YouTube-Playlist-ID oder eine unterst\u00fctzte Playlist-URL ein."
+			],
+			"First video": [ "Erstes Video" ],
+			"Previous video": [ "Vorheriges Video" ],
+			"Next video": [ "N\u00e4chstes Video" ],
+			"Last video": [ "Letztes Video" ],
+			"Playlist settings": [ "Playlist-Einstellungen" ],
+			"Playlist ID or URL": [ "Playlist-ID oder URL" ],
+			"Enter a playlist ID or a supported YouTube playlist URL.": [
+				"Geben Sie eine Playlist-ID oder eine unterst\u00fctzte YouTube-Playlist-URL ein."
+			],
+			"Playlist ID: %s. The syntax is valid.": [
+				"Playlist-ID: %s. Die Syntax ist g\u00fcltig."
+			],
+			"Show playlist title above the video": [
+				"Playlist-Titel \u00fcber dem Video anzeigen"
+			],
+			"Playlist title": [ "Playlist-Titel" ],
+			"This title is entered manually and does not create an additional YouTube request.": [
+				"Dieser Titel wird manuell eingegeben und erzeugt keine zus\u00e4tzliche YouTube-Anfrage."
+			],
+			"Require consent before loading YouTube": [
+				"Zustimmung vor dem Laden von YouTube anfordern"
+			],
+			"Visitors must actively load the playlist before any connection to YouTube is made.": [
+				"Besucher m\u00fcssen die Playlist aktiv laden, bevor eine Verbindung zu YouTube hergestellt wird."
+			],
+			"YouTube loads immediately. Disable this only when another consent or content blocker reliably prevents external requests.": [
+				"YouTube wird sofort geladen. Deaktivieren Sie diese Option nur, wenn ein anderes Consent- oder Content-Blocker-System externe Anfragen zuverl\u00e4ssig verhindert."
+			],
+			"The editor preview connects directly to youtube-nocookie.com.": [
+				"Die Editorvorschau stellt eine direkte Verbindung zu youtube-nocookie.com her."
+			],
+			"Check playlist availability": [
+				"Playlist-Verf\u00fcgbarkeit pr\u00fcfen"
+			],
+			"The additional check loads the YouTube IFrame API only after you select the button. The editor preview itself already connects to YouTube.": [
+				"Die zus\u00e4tzliche Pr\u00fcfung l\u00e4dt die YouTube-IFrame-API erst, nachdem Sie die Schaltfl\u00e4che ausgew\u00e4hlt haben. Die Editorvorschau selbst stellt bereits eine Verbindung zu YouTube her."
+			],
+			"Checking playlist availability\u2026": [
+				"Playlist-Verf\u00fcgbarkeit wird gepr\u00fcft\u2026"
+			],
+			"The playlist is available and contains at least one playable item.": [
+				"Die Playlist ist verf\u00fcgbar und enth\u00e4lt mindestens einen abspielbaren Eintrag."
+			],
+			"The playlist is unavailable, empty, or cannot be embedded.": [
+				"Die Playlist ist nicht verf\u00fcgbar, leer oder kann nicht eingebettet werden."
+			],
+			"Playlist availability could not be determined. Check the network or content blocker and try again.": [
+				"Die Playlist-Verf\u00fcgbarkeit konnte nicht ermittelt werden. Pr\u00fcfen Sie das Netzwerk oder den Content Blocker und versuchen Sie es erneut."
+			],
+			"Playlist availability check": [
+				"Pr\u00fcfung der Playlist-Verf\u00fcgbarkeit"
+			],
+			"Forget saved consent for this playlist": [
+				"Gespeicherte Zustimmung f\u00fcr diese Playlist l\u00f6schen"
+			],
+			"Saved consent for this playlist was removed.": [
+				"Die gespeicherte Zustimmung f\u00fcr diese Playlist wurde gel\u00f6scht."
+			],
+			"Player size": [ "Player-Gr\u00f6\u00dfe" ],
+			"Maximum width (px)": [ "Maximale Breite (px)" ],
+			"Maximum height (px)": [ "Maximale H\u00f6he (px)" ],
+			"Leave empty for automatic sizing. Limits apply to the video area.": [
+				"F\u00fcr automatische Gr\u00f6\u00dfenanpassung leer lassen. Die Grenzen gelten f\u00fcr den Videobereich."
+			],
+			"Aspect ratio": [ "Seitenverh\u00e4ltnis" ],
+			"Custom": [ "Benutzerdefiniert" ],
+			"Custom aspect ratio": [
+				"Benutzerdefiniertes Seitenverh\u00e4ltnis"
+			],
+			"Use width:height, for example 9:16. Ratios from 1:4 to 4:1 are supported.": [
+				"Verwenden Sie Breite:H\u00f6he, zum Beispiel 9:16. Verh\u00e4ltnisse von 1:4 bis 4:1 werden unterst\u00fctzt."
+			],
+			"Enter a valid ratio and whole pixel limits between %1$d (width) or %2$d (height) and 10000. Invalid settings use automatic sizing or 16:9.": [
+				"Geben Sie ein g\u00fcltiges Verh\u00e4ltnis und ganzzahlige Pixelgrenzen zwischen %1$d (Breite) beziehungsweise %2$d (H\u00f6he) und 10000 ein. Bei ung\u00fcltigen Einstellungen werden die automatische Gr\u00f6\u00dfenanpassung oder 16:9 verwendet."
+			],
+			"Playlist navigation preview": [
+				"Vorschau der Playlist-Navigation"
+			],
+			"\u2013 / \u2013": [ "\u2013 / \u2013" ],
+			"Select this block and enter the playlist in the block settings sidebar.": [
+				"W\u00e4hlen Sie diesen Block aus und geben Sie die Playlist in den Block-Einstellungen der Seitenleiste ein."
+			]
+		}
+	}
+}
