@@ -115,20 +115,38 @@ for ( const viewport of [ 320, 768, 1440 ] ) {
 				expect( bounds.x + bounds.width ).toBeLessThanOrEqual(
 					box.x + box.width + 1
 				);
-				expect( bounds.height ).toBeGreaterThanOrEqual( 44 );
+				expect( bounds.height ).toBe( 32 );
+				expect( bounds.width ).toBe( 48 );
 			}
 		} );
 	}
 }
 
-test( 'navigation wraps in a narrow content column', async ( { page } ) => {
+test( 'navigation keeps button pairs together in a narrow content column', async ( {
+	page,
+} ) => {
 	await page.setContent(
-		`<style>${ css }</style><main style="width:200px">${ fixtures[ 0 ] }</main>`
+		`<style>${ css }</style><main style="width:200px;font-size:24px">${ fixtures[ 0 ] }</main>`
 	);
+	const position = page.locator( '.ytpp-player__position' );
+	await position.evaluate( ( element ) => {
+		element.textContent = '1000 / 1000';
+	} );
+	await expect( position ).toHaveCSS( 'font-size', '16px' );
 	const buttons = page.locator( 'nav button' );
 	const first = await buttons.nth( 0 ).boundingBox();
 	const previous = await buttons.nth( 1 ).boundingBox();
-	expect( previous.y ).toBeGreaterThan( first.y );
+	expect( previous.y ).toBe( first.y );
+	expect( previous.x - first.x - first.width ).toBe( 12 );
+	const next = await buttons.nth( 2 ).boundingBox();
+	const last = await buttons.nth( 3 ).boundingBox();
+	expect( last.y ).toBe( next.y );
+	expect( last.x - next.x - next.width ).toBe( 12 );
+	for ( const button of await buttons.all() ) {
+		const bounds = await button.boundingBox();
+		expect( bounds.width ).toBe( 48 );
+		expect( bounds.height ).toBe( 32 );
+	}
 	expect(
 		await page
 			.locator( 'main' )

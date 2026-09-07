@@ -474,7 +474,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										/>
 									</button>
 								</div>
-								<span>
+								<span className="ytpp-player__position">
 									{ __( '– / –', 'yt-playlist-player' ) }
 								</span>
 								<div className="ytpp-player-editor__control-group">

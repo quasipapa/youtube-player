@@ -23,8 +23,9 @@ The rendered width is the smallest of the container width, maximum width and
 200px minimum height. On narrow screens the minimum height can therefore take
 precedence over the ratio. A theme must provide at least 200px of content width
 for YouTube's minimum viewport; the block does not force horizontal overflow in
-narrower containers. Navigation groups wrap within the available space while
-preserving reading and keyboard order. Long titles wrap as needed. If large text
+narrower containers. Navigation buttons are 3rem wide and 2rem high, with a default gap of 0.75rem.
+Each pair stays together; only complete pairs can move to another line when
+necessary. The position text uses 1rem. Reading and keyboard order are preserved. Long titles wrap as needed. If large text
 makes the consent notice taller than the video area, that area scrolls locally.
 
 ## Public CSS custom properties

@@ -351,7 +351,10 @@ Für Schritt 10 implementiert (7. September 2026, manuelle Abnahme noch offen):
 - übereinstimmende Validierung in JavaScript und PHP mit Rückmeldung im Editor
   und sicheren Standardwerten bei ungültigen gespeicherten Attributen;
 - gemeinsame Größenvariablen für Editor und Frontend, Containerbegrenzung und
-  umbrechende Navigation sowie Unterstützung für Wide-/Full-Ausrichtung;
+  Navigation mit zusammengehaltenen Buttonpaaren sowie Unterstützung für
+  Wide-/Full-Ausrichtung;
+- nach Rückmeldung korrigiert: Buttons wieder 3rem breit und 2rem hoch,
+  Standardabstand 0.75rem und Positionsanzeige mit 1rem Schriftgröße;
 - mindestens 200px Video-Höhe; bei schmalen Containern kann diese Mindesthöhe vom
   gewählten Verhältnis abweichen. Themes müssen mindestens 200px Inhaltsbreite
   für die technische YouTube-Mindestgröße bereitstellen;
