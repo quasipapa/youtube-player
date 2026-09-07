@@ -52,12 +52,18 @@ $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 		</div>
 		<p class="ytpp-player__status" aria-live="polite"></p>
 		<nav class="ytpp-player__controls" aria-label="<?php esc_attr_e( 'Playlist navigation', 'yt-playlist-player' ); ?>">
+			<button type="button" class="ytpp-player__first" disabled>
+				<?php esc_html_e( 'First video', 'yt-playlist-player' ); ?>
+			</button>
 			<button type="button" class="ytpp-player__previous" disabled>
 				<?php esc_html_e( 'Previous video', 'yt-playlist-player' ); ?>
 			</button>
 			<span class="ytpp-player__position" aria-live="polite"></span>
 			<button type="button" class="ytpp-player__next" disabled>
 				<?php esc_html_e( 'Next video', 'yt-playlist-player' ); ?>
+			</button>
+			<button type="button" class="ytpp-player__last" disabled>
+				<?php esc_html_e( 'Last video', 'yt-playlist-player' ); ?>
 			</button>
 		</nav>
 	<?php endif; ?>

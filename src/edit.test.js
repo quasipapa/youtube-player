@@ -134,6 +134,16 @@ describe( 'Edit', () => {
 		expect(
 			screen.getByLabelText( 'Playlist navigation preview' )
 		).not.toBeNull();
+		for ( const label of [
+			'First video',
+			'Previous video',
+			'Next video',
+			'Last video',
+		] ) {
+			expect(
+				screen.getByRole( 'button', { name: label } ).disabled
+			).toBe( true );
+		}
 	} );
 
 	it( 'removes saved consent for the selected playlist', () => {

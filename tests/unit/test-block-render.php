@@ -42,6 +42,15 @@ final class Test_Block_Render extends TestCase {
 		$this->assertStringContainsString( 'Load YouTube playlist', $output );
 		$this->assertStringContainsString( 'saved for this playlist', $output );
 		$this->assertStringContainsString( '<nav', $output );
+		$this->assertStringContainsString( 'ytpp-player__first', $output );
+		$this->assertStringContainsString( 'First video', $output );
+		$this->assertStringContainsString( 'ytpp-player__previous', $output );
+		$this->assertStringContainsString( 'Previous video', $output );
+		$this->assertStringContainsString( 'ytpp-player__position', $output );
+		$this->assertStringContainsString( 'ytpp-player__next', $output );
+		$this->assertStringContainsString( 'Next video', $output );
+		$this->assertStringContainsString( 'ytpp-player__last', $output );
+		$this->assertStringContainsString( 'Last video', $output );
 		$this->assertStringNotContainsString( '<iframe', $output );
 		$this->assertStringNotContainsString( 'https://www.youtube', $output );
 	}
