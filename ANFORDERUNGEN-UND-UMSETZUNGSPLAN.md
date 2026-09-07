@@ -344,7 +344,7 @@ Layoutoptimierung und der optionale Playlist-Titel vollständig abgenommen.
 
 ### 3.3 Fortschritt in M3
 
-Für Schritt 10 implementiert (7. September 2026, manuelle Abnahme noch offen):
+Für Schritt 10 implementiert (7. September 2026):
 
 - Inspector-Felder für maximale Breite und Video-Höhe sowie 16:9, 4:3, 1:1 und
   benutzerdefinierte Verhältnisse von 1:4 bis 4:1;
@@ -359,12 +359,16 @@ Für Schritt 10 implementiert (7. September 2026, manuelle Abnahme noch offen):
   gewählten Verhältnis abweichen. Themes müssen mindestens 200px Inhaltsbreite
   für die technische YouTube-Mindestgröße bereitstellen;
 - `docs/styling.md` dokumentiert Größenregeln, CSS-Variablen, Theme-Beispiele und
-  die noch ausstehende manuelle Prüfung in klassischem und Block-Theme;
+  die manuelle Prüfcheckliste für ein klassisches und ein Block-Theme;
 - Unit-Tests für Validierung und Editor sowie isolierte responsive Playwright-Tests
   mit echtem Render-Markup und gebauten Styles ergänzt;
 - Formatprüfung, JavaScript-/CSS-Lint, PHP-Syntax, Coding Standards und
   PHP-8.0-Kompatibilitätsprüfung erfolgreich; 32 PHPUnit-Tests, 73 Jest-Tests
   und 16 Chromium-Layouttests erfolgreich, Produktionsbuild erstellt.
+
+Nach der Korrektur der Buttonmaße, zusammengehaltenen Buttonpaare und
+Positionsschriftgröße wurden die manuellen Tests vom Benutzer als erfolgreich
+bestätigt. Damit ist Schritt 10 manuell abgenommen.
 
 
 ## 4. Anforderungen

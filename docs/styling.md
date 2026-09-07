@@ -110,7 +110,7 @@ replacement of the player target by a local iframe. No YouTube requests are made
 These are layout tests; they do not replace WordPress integration or real player
 smoke tests.
 
-Manual acceptance remains required in one classic theme and one block theme:
+Use this checklist for manual acceptance in one classic theme and one block theme:
 
 1. Insert a playlist block, try all presets and a custom ratio, set each size limit,
    save and reopen the editor. Check that the preview and frontend agree.
