@@ -272,15 +272,20 @@ Für Schritt 8a technisch umgesetzt:
   Same-Origin-Grenze, Erfolg, leere Playlist, bekannte Playerfehler,
   Ladefehler und unbestimmte Ergebnisse.
 
-Für den Abschluss von Schritt 8a noch manuell zu prüfen:
+Für Schritt 8a manuell erfolgreich geprüft:
 
-- eine verfügbare Playlist liefert den positiven Status;
+- mehrere verfügbare Playlists liefern den positiven Status und werden weiterhin
+  im Editor sowie auf der Beitragsseite angezeigt;
 - eine syntaktisch gültige, aber nicht verfügbare beziehungsweise nicht
   einbettbare Playlist liefert einen negativen Status, soweit YouTube diesen
   eindeutig meldet;
-- eine blockierte IFrame-API-Anfrage endet mit dem unbestimmten Status und wird
-  nicht als ungültige Playlist bezeichnet;
+- der Aufruf von `youtube.com/iframe_api` wurde in Microsoft Edge über **Network
+  > Block request URL** gezielt blockiert; die Prüfung endet nach dem vorgesehenen
+  Timeout mit dem unbestimmten Status und bezeichnet die Playlist nicht als
+  ungültig;
 - Texte, bewusster Auslösezeitpunkt und Datenschutzhinweis sind verständlich.
+
+Damit ist Schritt 8a technisch, automatisiert und manuell vollständig abgenommen.
 
 ## 4. Anforderungen
 
