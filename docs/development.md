@@ -172,6 +172,12 @@ States)**. Confirm that settings, notices, consent text, status messages,
 navigation tooltips and errors follow the selected language while the manually
 entered playlist title remains unchanged.
 
+### Step 11 manual acceptance record
+
+The complete language-switch test was successfully performed in the local
+WordPress instance. Editor and frontend texts were verified in German and
+English, and the German wording was accepted.
+
 ## Development WordPress instance
 
 Start the current stable WordPress version with PHP 8.3:

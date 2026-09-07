@@ -393,9 +393,10 @@ Für Schritt 11 technisch umgesetzt (7. September 2026):
   PHP-Übersetzung sowie die deutschen Übersetzungsdaten für Editor- und
   Frontendskript zur Laufzeit nachgewiesen.
 
-Die technische Umsetzung ist abgeschlossen. Die manuelle Prüfung mit deutscher
-und englischer WordPress-Sprache sowie die fachliche Abnahme der deutschen
-Formulierungen stehen noch aus.
+Die manuelle Prüfung mit deutscher und englischer WordPress-Sprache wurde vom
+Benutzer erfolgreich durchgeführt. Editor und Frontend reagieren vollständig
+auf den Sprachwechsel; die deutschen Formulierungen wurden fachlich abgenommen.
+Damit ist Schritt 11 vollständig abgenommen.
 
 
 ## 4. Anforderungen
