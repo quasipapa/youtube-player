@@ -87,29 +87,46 @@ function setStatus( container, message, isError = false ) {
  */
 function updatePosition( container, player ) {
 	const position = container.querySelector( '.ytpp-player__position' );
+	const firstButton = container.querySelector( '.ytpp-player__first' );
 	const previousButton = container.querySelector( '.ytpp-player__previous' );
 	const nextButton = container.querySelector( '.ytpp-player__next' );
+	const lastButton = container.querySelector( '.ytpp-player__last' );
 
-	if ( ! position || ! previousButton || ! nextButton ) {
+	if (
+		! position ||
+		! firstButton ||
+		! previousButton ||
+		! nextButton ||
+		! lastButton
+	) {
 		return;
 	}
 
 	const playlist = player.getPlaylist();
 	const index = player.getPlaylistIndex();
 
-	if ( Array.isArray( playlist ) && playlist.length > 0 && index >= 0 ) {
+	if (
+		Array.isArray( playlist ) &&
+		playlist.length > 0 &&
+		index >= 0 &&
+		index < playlist.length
+	) {
 		position.textContent = sprintf(
 			/* translators: 1: Current video number. 2: Total number of videos. */
 			__( 'Video %1$d of %2$d', 'yt-playlist-player' ),
 			index + 1,
 			playlist.length
 		);
+		firstButton.disabled = index <= 0;
 		previousButton.disabled = index <= 0;
 		nextButton.disabled = index >= playlist.length - 1;
+		lastButton.disabled = index >= playlist.length - 1;
 	} else {
 		position.textContent = '';
+		firstButton.disabled = true;
 		previousButton.disabled = true;
 		nextButton.disabled = true;
+		lastButton.disabled = true;
 	}
 }
 
@@ -122,10 +139,19 @@ function updatePosition( container, player ) {
 function createPlayer( container, youtube ) {
 	const playlistId = container.dataset.playlistId;
 	const playerTarget = container.querySelector( '.ytpp-player__target' );
+	const firstButton = container.querySelector( '.ytpp-player__first' );
 	const previousButton = container.querySelector( '.ytpp-player__previous' );
 	const nextButton = container.querySelector( '.ytpp-player__next' );
+	const lastButton = container.querySelector( '.ytpp-player__last' );
 
-	if ( ! playlistId || ! playerTarget || ! previousButton || ! nextButton ) {
+	if (
+		! playlistId ||
+		! playerTarget ||
+		! firstButton ||
+		! previousButton ||
+		! nextButton ||
+		! lastButton
+	) {
 		throw new Error( 'Incomplete player markup' );
 	}
 
@@ -159,8 +185,10 @@ function createPlayer( container, youtube ) {
 			},
 			onError: () => {
 				container.setAttribute( 'aria-busy', 'false' );
+				firstButton.disabled = true;
 				previousButton.disabled = true;
 				nextButton.disabled = true;
+				lastButton.disabled = true;
 				setStatus(
 					container,
 					__(
@@ -172,15 +200,32 @@ function createPlayer( container, youtube ) {
 			},
 		},
 	} );
+	const updateAfterNavigation = () => {
+		window.setTimeout( () => updatePosition( container, player ), 250 );
+	};
+
+	firstButton.addEventListener( 'click', () => {
+		player.playVideoAt( 0 );
+		updateAfterNavigation();
+	} );
 
 	previousButton.addEventListener( 'click', () => {
 		player.previousVideo();
-		window.setTimeout( () => updatePosition( container, player ), 250 );
+		updateAfterNavigation();
 	} );
 
 	nextButton.addEventListener( 'click', () => {
 		player.nextVideo();
-		window.setTimeout( () => updatePosition( container, player ), 250 );
+		updateAfterNavigation();
+	} );
+
+	lastButton.addEventListener( 'click', () => {
+		const playlist = player.getPlaylist();
+
+		if ( Array.isArray( playlist ) && playlist.length > 0 ) {
+			player.playVideoAt( playlist.length - 1 );
+			updateAfterNavigation();
+		}
 	} );
 }
 

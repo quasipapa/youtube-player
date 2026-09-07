@@ -227,8 +227,24 @@ then correctly reported that availability could not be determined instead of
 marking the playlist invalid. Trigger timing, messages and privacy notice were
 accepted.
 
-First/last controls and complete playlist navigation belong to later development
-steps.
+## Complete playlist-navigation smoke test
+
+Use a playlist containing at least three playable videos. After granting consent,
+confirm that the position initially reads **Video 1 of n**, **First video** and
+**Previous video** are disabled, and **Next video** and **Last video** are
+enabled. Navigate to a middle video and verify that all four actions are enabled
+and that the position changes. At the final video, **Next video** and **Last
+video** must be disabled while both backward actions remain enabled.
+
+Also test a playlist containing exactly one playable video. Its position must be
+**Video 1 of 1** and all four navigation actions must be disabled. Finally,
+render two blocks on the same page and confirm that navigating one player does
+not change the other player's position or controls. The labels and disabled
+states must remain understandable with keyboard navigation and a screen reader.
+
+These checks are the manual acceptance test for step 9. The automated tests mock
+the YouTube IFrame API and cover the beginning, middle, end, single-video and
+multiple-player cases without contacting YouTube.
 
 ### Step 8 manual acceptance record
 

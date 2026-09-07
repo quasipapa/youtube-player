@@ -307,6 +307,12 @@ export default function Edit( { attributes, setAttributes } ) {
 							>
 								<button type="button" disabled>
 									{ __(
+										'First video',
+										'yt-playlist-player'
+									) }
+								</button>
+								<button type="button" disabled>
+									{ __(
 										'Previous video',
 										'yt-playlist-player'
 									) }
@@ -319,6 +325,9 @@ export default function Edit( { attributes, setAttributes } ) {
 								</span>
 								<button type="button" disabled>
 									{ __( 'Next video', 'yt-playlist-player' ) }
+								</button>
+								<button type="button" disabled>
+									{ __( 'Last video', 'yt-playlist-player' ) }
 								</button>
 							</div>
 						</div>

@@ -287,6 +287,32 @@ Für Schritt 8a manuell erfolgreich geprüft:
 
 Damit ist Schritt 8a technisch, automatisiert und manuell vollständig abgenommen.
 
+Für Schritt 9 technisch umgesetzt:
+
+- die Frontend-Navigation bietet erstes, vorheriges, nächstes und letztes Video;
+- die Positionsanzeige und alle vier Buttonzustände werden anhand der von der
+  YouTube-IFrame-API gemeldeten Playlist und Position aktualisiert;
+- am Anfang sind die beiden Rückwärtsaktionen, am Ende die beiden
+  Vorwärtsaktionen deaktiviert; bei einer Ein-Video-Playlist sind alle Aktionen
+  deaktiviert;
+- bei ungültigem Playerzustand oder einem Playerfehler bleiben sämtliche
+  Navigationsaktionen deaktiviert;
+- jede Blockinstanz verwaltet ausschließlich ihren eigenen Player und ihre
+  eigenen Steuerelemente;
+- die nicht interaktive Editorvorschau zeigt alle vier übersetzbaren
+  Navigationsbezeichnungen;
+- Jest deckt Anfang, Mitte, Ende, Ein-Video-Playlist, Navigation zu beiden
+  Grenzen, Fehlerzustand und mehrere unabhängige Player mit einer gemockten
+  YouTube-API ab; PHPUnit prüft das vollständige serverseitige Markup.
+
+Für die manuelle Abnahme von Schritt 9 noch zu prüfen:
+
+- Navigation in alle vier Richtungen mit einer Playlist mit mindestens drei
+  Videos sowie korrekte Positions- und Buttonzustände an Anfang, Mitte und Ende;
+- eine Playlist mit genau einem abspielbaren Video;
+- zwei Blöcke auf derselben Seite, die unabhängig voneinander navigiert werden;
+- Verständlichkeit der Bezeichnungen und Bedienung per Tastatur.
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen
