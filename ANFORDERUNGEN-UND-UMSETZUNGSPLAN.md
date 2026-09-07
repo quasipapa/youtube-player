@@ -305,13 +305,15 @@ Für Schritt 9 technisch umgesetzt:
   Grenzen, Fehlerzustand und mehrere unabhängige Player mit einer gemockten
   YouTube-API ab; PHPUnit prüft das vollständige serverseitige Markup.
 
-Für die manuelle Abnahme von Schritt 9 noch zu prüfen:
+Für Schritt 9 manuell erfolgreich geprüft:
 
 - Navigation in alle vier Richtungen mit einer Playlist mit mindestens drei
   Videos sowie korrekte Positions- und Buttonzustände an Anfang, Mitte und Ende;
 - eine Playlist mit genau einem abspielbaren Video;
 - zwei Blöcke auf derselben Seite, die unabhängig voneinander navigiert werden;
 - Verständlichkeit der Bezeichnungen und Bedienung per Tastatur.
+
+Damit ist Schritt 9 technisch, automatisiert und manuell vollständig abgenommen.
 
 ## 4. Anforderungen
 

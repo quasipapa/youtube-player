@@ -246,6 +246,14 @@ These checks are the manual acceptance test for step 9. The automated tests mock
 the YouTube IFrame API and cover the beginning, middle, end, single-video and
 multiple-player cases without contacting YouTube.
 
+### Step 9 manual acceptance record
+
+The complete navigation smoke test was successfully performed in the local
+WordPress instance. First, previous, next and last navigation, position and
+boundary states, the single-video case, keyboard operation and labels behaved as
+documented. Two blocks on the same page were also verified to navigate
+independently.
+
 ### Step 8 manual acceptance record
 
 The complete step 8 smoke test was successfully performed in the local WordPress
