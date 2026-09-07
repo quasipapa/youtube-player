@@ -25,6 +25,27 @@ const AVAILABILITY_UNAVAILABLE = 'unavailable';
 const AVAILABILITY_UNKNOWN = 'unknown';
 const AVAILABILITY_TIMEOUT = 15000;
 
+const NAVIGATION_ICON_PATHS = {
+	first: 'm17.5 18-9-6 9-6zM8 6.5v11H6.5v-11z',
+	previous: 'M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z',
+	next: 'M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z',
+	last: 'm15.5 12-9 6V6zm2 5.5H16v-11h1.5z',
+};
+
+function NavigationIcon( { name, variant } ) {
+	return (
+		<svg
+			className={ `ytpp-player__icon ytpp-player__icon--${ variant }` }
+			viewBox="0 0 24 24"
+			fill="currentColor"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path d={ NAVIGATION_ICON_PATHS[ name ] } />
+		</svg>
+	);
+}
+
 export default function Edit( { attributes, setAttributes } ) {
 	const [ consentRemoved, setConsentRemoved ] = useState( false );
 	const [ availability, setAvailability ] = useState( AVAILABILITY_IDLE );
@@ -305,17 +326,39 @@ export default function Edit( { attributes, setAttributes } ) {
 									'yt-playlist-player'
 								) }
 							>
-								<button type="button" disabled>
-									{ __(
+								<button
+									type="button"
+									disabled
+									aria-label={ __(
 										'First video',
 										'yt-playlist-player'
 									) }
+									title={ __(
+										'First video',
+										'yt-playlist-player'
+									) }
+								>
+									<NavigationIcon
+										name="first"
+										variant="skip"
+									/>
 								</button>
-								<button type="button" disabled>
-									{ __(
+								<button
+									type="button"
+									disabled
+									aria-label={ __(
 										'Previous video',
 										'yt-playlist-player'
 									) }
+									title={ __(
+										'Previous video',
+										'yt-playlist-player'
+									) }
+								>
+									<NavigationIcon
+										name="previous"
+										variant="step"
+									/>
 								</button>
 								<span>
 									{ __(
@@ -323,11 +366,39 @@ export default function Edit( { attributes, setAttributes } ) {
 										'yt-playlist-player'
 									) }
 								</span>
-								<button type="button" disabled>
-									{ __( 'Next video', 'yt-playlist-player' ) }
+								<button
+									type="button"
+									disabled
+									aria-label={ __(
+										'Next video',
+										'yt-playlist-player'
+									) }
+									title={ __(
+										'Next video',
+										'yt-playlist-player'
+									) }
+								>
+									<NavigationIcon
+										name="next"
+										variant="step"
+									/>
 								</button>
-								<button type="button" disabled>
-									{ __( 'Last video', 'yt-playlist-player' ) }
+								<button
+									type="button"
+									disabled
+									aria-label={ __(
+										'Last video',
+										'yt-playlist-player'
+									) }
+									title={ __(
+										'Last video',
+										'yt-playlist-player'
+									) }
+								>
+									<NavigationIcon
+										name="last"
+										variant="skip"
+									/>
 								</button>
 							</div>
 						</div>
