@@ -4,7 +4,7 @@ import Edit from './edit';
 
 jest.mock( '@wordpress/block-editor', () => ( {
 	InspectorControls: ( { children } ) => <aside>{ children }</aside>,
-	useBlockProps: () => ( {} ),
+	useBlockProps: ( props ) => props,
 } ) );
 
 jest.mock( '@wordpress/components', () => ( {
@@ -15,6 +15,19 @@ jest.mock( '@wordpress/components', () => ( {
 	),
 	Disabled: ( { children } ) => (
 		<div data-testid="disabled-preview">{ children }</div>
+	),
+	SelectControl: ( { label, value, options, onChange } ) => (
+		<select
+			aria-label={ label }
+			value={ value }
+			onChange={ ( event ) => onChange( event.target.value ) }
+		>
+			{ options.map( ( option ) => (
+				<option key={ option.value } value={ option.value }>
+					{ option.label }
+				</option>
+			) ) }
+		</select>
 	),
 	PanelBody: ( { children, title } ) => (
 		<section>
@@ -58,6 +71,58 @@ describe( 'Edit', () => {
 				'http://localhost/wp-admin/admin-ajax.php?action=ytpp_editor_preview&nonce=test',
 		};
 		localStorage.clear();
+	} );
+
+	it( 'updates sizing controls and reflects saved values in the preview', () => {
+		const setAttributes = jest.fn();
+		const { container, rerender } = render(
+			<Edit
+				attributes={ {
+					playlistId: 'PL-test-playlist',
+					maxWidth: '640',
+					aspectRatio: '4:3',
+				} }
+				setAttributes={ setAttributes }
+			/>
+		);
+		expect(
+			container
+				.querySelector( '.ytpp-player-editor' )
+				.style.getPropertyValue( '--ytpp-max-width' )
+		).toBe( '640px' );
+		fireEvent.change(
+			screen.getByRole( 'textbox', { name: 'Maximum height (px)' } ),
+			{ target: { value: '480' } }
+		);
+		expect( setAttributes ).toHaveBeenCalledWith( { maxHeight: '480' } );
+		fireEvent.change(
+			screen.getByRole( 'combobox', { name: 'Aspect ratio' } ),
+			{ target: { value: 'custom' } }
+		);
+		expect( setAttributes ).toHaveBeenCalledWith( {
+			aspectRatio: 'custom',
+		} );
+		rerender(
+			<Edit
+				attributes={ {
+					playlistId: 'PL-test-playlist',
+					maxWidth: '20',
+					aspectRatio: 'custom',
+					customAspectRatio: '9:16',
+				} }
+				setAttributes={ setAttributes }
+			/>
+		);
+		expect( screen.getByRole( 'alert' ).textContent ).toContain(
+			'Invalid settings'
+		);
+		fireEvent.change(
+			screen.getByRole( 'textbox', { name: 'Custom aspect ratio' } ),
+			{ target: { value: '1:1' } }
+		);
+		expect( setAttributes ).toHaveBeenCalledWith( {
+			customAspectRatio: '1:1',
+		} );
 	} );
 
 	it( 'places the playlist field in the block settings sidebar', () => {

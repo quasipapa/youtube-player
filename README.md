@@ -36,6 +36,11 @@ credentials are `admin` / `password` and must only be used for local development
 Additional setup and troubleshooting information is available in
 [docs/development.md](docs/development.md).
 
+## Player appearance
+
+See [player sizing and theme styling](docs/styling.md) for inspector controls,
+CSS custom properties and responsive verification.
+
 ## Privacy
 
 The finished block will use `youtube-nocookie.com` for video iframes and will not

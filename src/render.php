@@ -20,6 +20,7 @@ $ytpp_show_title      = isset( $attributes['showPlaylistTitle'] ) && true === $a
 $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 	array(
 		'class'                => 'ytpp-player',
+		'style'                => YTPP_Player_Sizing::style( $attributes ),
 		'data-playlist-id'     => $ytpp_playlist_id ?? '',
 		'data-require-consent' => $ytpp_require_consent ? 'true' : 'false',
 	)

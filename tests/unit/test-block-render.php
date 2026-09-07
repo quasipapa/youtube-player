@@ -12,6 +12,58 @@ use PHPUnit\Framework\TestCase;
  */
 final class Test_Block_Render extends TestCase {
 	/**
+	 * Saved sizing is validated before reaching the style attribute.
+	 *
+	 * @return void
+	 */
+	public function test_sizing_validation_and_rendering(): void {
+		$output = $this->render_block(
+			array(
+				'playlistId'  => 'PL-test-playlist',
+				'maxWidth'    => '640',
+				'maxHeight'   => '480',
+				'aspectRatio' => '4:3',
+			)
+		);
+		$this->assertStringContainsString( '--ytpp-max-width:640px', $output );
+		$this->assertStringContainsString( '--ytpp-max-height:480px', $output );
+		$this->assertStringContainsString( '--ytpp-aspect-ratio:1.333', $output );
+		foreach ( array( '199', '355', '10001', '600px', '600;color:red', array(), 600 ) as $width ) {
+			$this->assertSame( '', YTPP_Player_Sizing::style( array( 'maxWidth' => $width ) ) );
+		}
+		foreach ( array( '0:1', '1:0', '1:100', '100:1', '1:1;color:red', array() ) as $ratio ) {
+			$this->assertSame(
+				'',
+				YTPP_Player_Sizing::style(
+					array(
+						'aspectRatio'       => 'custom',
+						'customAspectRatio' => $ratio,
+					)
+				)
+			);
+		}
+		$this->assertSame(
+			'--ytpp-max-width:356px;--ytpp-max-height:200px',
+			YTPP_Player_Sizing::style(
+				array(
+					'maxWidth'  => '356',
+					'maxHeight' => '200',
+				)
+			)
+		);
+		$this->assertSame(
+			'--ytpp-aspect-ratio:0.5625',
+			YTPP_Player_Sizing::style(
+				array(
+					'aspectRatio'       => 'custom',
+					'customAspectRatio' => '9:16',
+					'maxHeight'         => '355',
+				)
+			)
+		);
+	}
+
+	/**
 	 * An empty block renders an explanatory placeholder without player controls.
 	 *
 	 * @return void

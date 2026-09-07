@@ -342,6 +342,35 @@ Eingabe, Aktivierung, Speicherung, Anzeige in Editor und Frontend sowie das
 erneute Ausblenden wurden manuell erfolgreich geprüft. Damit sind die
 Layoutoptimierung und der optionale Playlist-Titel vollständig abgenommen.
 
+### 3.3 Fortschritt in M3
+
+Für Schritt 10 implementiert (7. September 2026):
+
+- Inspector-Felder für maximale Breite und Video-Höhe sowie 16:9, 4:3, 1:1 und
+  benutzerdefinierte Verhältnisse von 1:4 bis 4:1;
+- übereinstimmende Validierung in JavaScript und PHP mit Rückmeldung im Editor
+  und sicheren Standardwerten bei ungültigen gespeicherten Attributen;
+- gemeinsame Größenvariablen für Editor und Frontend, Containerbegrenzung und
+  Navigation mit zusammengehaltenen Buttonpaaren sowie Unterstützung für
+  Wide-/Full-Ausrichtung;
+- nach Rückmeldung korrigiert: Buttons wieder 3rem breit und 2rem hoch,
+  Standardabstand 0.75rem und Positionsanzeige mit 1rem Schriftgröße;
+- mindestens 200px Video-Höhe; bei schmalen Containern kann diese Mindesthöhe vom
+  gewählten Verhältnis abweichen. Themes müssen mindestens 200px Inhaltsbreite
+  für die technische YouTube-Mindestgröße bereitstellen;
+- `docs/styling.md` dokumentiert Größenregeln, CSS-Variablen, Theme-Beispiele und
+  die manuelle Prüfcheckliste für ein klassisches und ein Block-Theme;
+- Unit-Tests für Validierung und Editor sowie isolierte responsive Playwright-Tests
+  mit echtem Render-Markup und gebauten Styles ergänzt;
+- Formatprüfung, JavaScript-/CSS-Lint, PHP-Syntax, Coding Standards und
+  PHP-8.0-Kompatibilitätsprüfung erfolgreich; 32 PHPUnit-Tests, 73 Jest-Tests
+  und 16 Chromium-Layouttests erfolgreich, Produktionsbuild erstellt.
+
+Nach der Korrektur der Buttonmaße, zusammengehaltenen Buttonpaare und
+Positionsschriftgröße wurden die manuellen Tests vom Benutzer als erfolgreich
+bestätigt. Damit ist Schritt 10 manuell abgenommen.
+
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen

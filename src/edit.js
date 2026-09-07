@@ -3,6 +3,7 @@ import {
 	Disabled,
 	Button,
 	PanelBody,
+	SelectControl,
 	Placeholder,
 	TextControl,
 	ToggleControl,
@@ -11,6 +12,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useEffect, useRef, useState } from '@wordpress/element';
 
 import './editor.scss';
+import { getPlayerSizing } from './player-sizing';
 import { forgetConsent } from './consent-storage';
 import {
 	parsePlaylistInput,
@@ -60,8 +62,10 @@ export default function Edit( { attributes, setAttributes } ) {
 		showPlaylistTitle = false,
 		requireConsent = true,
 	} = attributes;
+	const sizing = getPlayerSizing( attributes );
 	const blockProps = useBlockProps( {
 		className: 'ytpp-player-editor',
+		style: sizing.style,
 	} );
 	const validation = parsePlaylistInput( playlistId );
 	const configuredPreviewUrl = window.ytppEditorSettings?.previewUrl;
@@ -333,6 +337,78 @@ export default function Edit( { attributes, setAttributes } ) {
 						</>
 					) }
 				</PanelBody>
+				<PanelBody
+					title={ __( 'Player size', 'yt-playlist-player' ) }
+					initialOpen={ false }
+				>
+					{ [
+						[
+							'maxWidth',
+							__( 'Maximum width (px)', 'yt-playlist-player' ),
+						],
+						[
+							'maxHeight',
+							__( 'Maximum height (px)', 'yt-playlist-player' ),
+						],
+					].map( ( [ key, label ] ) => (
+						<TextControl
+							key={ key }
+							label={ label }
+							value={ attributes[ key ] ?? '' }
+							onChange={ ( value ) =>
+								setAttributes( { [ key ]: value } )
+							}
+							help={ __(
+								'Leave empty for automatic sizing. Limits apply to the video area.',
+								'yt-playlist-player'
+							) }
+						/>
+					) ) }
+					<SelectControl
+						label={ __( 'Aspect ratio', 'yt-playlist-player' ) }
+						value={ attributes.aspectRatio ?? '16:9' }
+						options={ [
+							{ label: '16:9', value: '16:9' },
+							{ label: '4:3', value: '4:3' },
+							{ label: '1:1', value: '1:1' },
+							{
+								label: __( 'Custom', 'yt-playlist-player' ),
+								value: 'custom',
+							},
+						] }
+						onChange={ ( value ) =>
+							setAttributes( { aspectRatio: value } )
+						}
+					/>
+					{ attributes.aspectRatio === 'custom' && (
+						<TextControl
+							label={ __(
+								'Custom aspect ratio',
+								'yt-playlist-player'
+							) }
+							value={ attributes.customAspectRatio ?? '16:9' }
+							onChange={ ( value ) =>
+								setAttributes( { customAspectRatio: value } )
+							}
+							help={ __(
+								'Use width:height, for example 9:16. Ratios from 1:4 to 4:1 are supported.',
+								'yt-playlist-player'
+							) }
+						/>
+					) }
+					{ sizing.errors.length > 0 && (
+						<p role="alert" className="ytpp-player-editor__error">
+							{ sprintf(
+								/* translators: 1: minimum width, 2: minimum height. */ __(
+									'Enter a valid ratio and whole pixel limits between %1$d (width) or %2$d (height) and 10000. Invalid settings use automatic sizing or 16:9.',
+									'yt-playlist-player'
+								),
+								Math.ceil( 200 * Math.max( 1, sizing.ratio ) ),
+								Math.ceil( 200 / Math.min( 1, sizing.ratio ) )
+							) }
+						</p>
+					) }
+				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
 				{ validation.status === VALIDATION_VALID && previewUrl ? (
@@ -398,7 +474,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										/>
 									</button>
 								</div>
-								<span>
+								<span className="ytpp-player__position">
 									{ __( '– / –', 'yt-playlist-player' ) }
 								</span>
 								<div className="ytpp-player-editor__control-group">
