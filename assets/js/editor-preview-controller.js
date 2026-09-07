@@ -1,21 +1,10 @@
 ( () => {
-	if ( typeof window.ytppEditorPreviewControllerCleanup === 'function' ) {
-		window.ytppEditorPreviewControllerCleanup();
-	}
-
 	const apiUrl = 'https://www.youtube.com/iframe_api';
-	const requestType = 'ytpp:check-availability';
 	const resultType = 'ytpp:availability-result';
 	const unavailableErrors = [ 100, 101, 150 ];
 	let apiPromise;
-	let checking = false;
-	let finalStatus = '';
 
 	function report( status ) {
-		if ( status === 'available' || status === 'unavailable' ) {
-			finalStatus = status;
-		}
-		checking = false;
 		window.parent.postMessage(
 			{ type: resultType, status },
 			window.location.origin
@@ -89,32 +78,7 @@
 		} );
 	}
 
-	function receiveCheckRequest( event ) {
-		if (
-			event.source !== window.parent ||
-			event.origin !== window.location.origin ||
-			! event.data ||
-			event.data.type !== requestType
-		) {
-			return;
-		}
-
-		if ( finalStatus ) {
-			report( finalStatus );
-			return;
-		}
-		if ( checking ) {
-			return;
-		}
-
-		checking = true;
-		loadApi()
-			.then( createCheckedPlayer )
-			.catch( () => report( 'unknown' ) );
-	}
-
-	window.addEventListener( 'message', receiveCheckRequest );
-	window.ytppEditorPreviewControllerCleanup = () => {
-		window.removeEventListener( 'message', receiveCheckRequest );
-	};
+	loadApi()
+		.then( createCheckedPlayer )
+		.catch( () => report( 'unknown' ) );
 } )();

@@ -255,8 +255,9 @@ Für Schritt 8a technisch umgesetzt:
 - die Entscheidung für die schlüssellose IFrame Player API ist in
   `docs/adr/0001-keyless-playlist-availability-check.md` mit Alternativen,
   Datenschutzfolgen und Grenzen dokumentiert;
-- erst nach gültiger lokaler Syntax und einer bewussten Redakteursaktion lädt der
-  Same-Origin-Vorschaucontroller die zusätzliche YouTube-IFrame-API;
+- erst nach gültiger lokaler Syntax und einer bewussten Redakteursaktion erzeugt
+  der Inspector ein separates, visuell verborgenes Same-Origin-Prüf-IFrame und
+  lädt darin die zusätzliche YouTube-IFrame-API;
 - der Editor zeigt die Zustände „wird geprüft“, „verfügbar“, „nicht verfügbar“
   und „derzeit nicht eindeutig prüfbar“ mit übersetzbaren Texten;
 - ein positives Ergebnis setzt mindestens einen vom bereiten Player gemeldeten
@@ -264,8 +265,9 @@ Für Schritt 8a technisch umgesetzt:
 - fehlende/private Inhalte sowie Einbettungsfehler 100, 101 und 150 werden als
   nicht verfügbar behandelt; andere Playerfehler, blockierte Anfragen,
   Ladefehler und ein 15-Sekunden-Timeout bleiben ausdrücklich unbestimmt;
-- die Nachrichten zwischen Editor und Vorschau werden nach Quelle, Origin, Typ
-  und erlaubtem Status validiert;
+- das Prüf-IFrame ist direktes Kind des Inspectors und umgeht dadurch die
+  zusätzliche Gutenberg-Canvas-IFrame-Grenze; seine Rückmeldung wird nach Quelle,
+  Origin, Typ und erlaubtem Status validiert;
 - Jest prüft die bewusste Auslösung, ausbleibendes vorzeitiges API-Laden,
   Same-Origin-Grenze, Erfolg, leere Playlist, bekannte Playerfehler,
   Ladefehler und unbestimmte Ergebnisse.

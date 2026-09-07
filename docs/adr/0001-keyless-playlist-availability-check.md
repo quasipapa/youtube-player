@@ -36,10 +36,16 @@ The plugin uses the keyless IFrame Player API for step 8a. The check starts only
 after a syntactically valid playlist has loaded its editor preview and the editor
 selects **Check playlist availability**.
 
-The existing authenticated same-origin preview document loads the IFrame API on
-demand. This avoids Gutenberg's `blob:` referrer problem and keeps the YouTube
-player on `www.youtube-nocookie.com`. Results are sent to the editor with a
-same-origin `postMessage` exchange.
+After the button is selected, the inspector creates a separate visually hidden,
+authenticated same-origin check iframe as its direct child. That document loads
+the IFrame API and keeps the YouTube player on `www.youtube-nocookie.com`. Results
+are sent to the inspector with a source- and origin-validated `postMessage`.
+
+The check intentionally does not reuse the visible canvas preview. Gutenberg can
+place that preview below an additional editor-canvas iframe, so the block script
+and preview are not guaranteed to have a direct parent-child relationship. The
+dedicated inspector iframe provides that stable relationship and is removed after
+a result or timeout.
 
 Results are classified as follows:
 

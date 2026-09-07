@@ -20,6 +20,18 @@
 	margin-bottom: 1rem;
 }
 
+.ytpp-player-editor__availability-frame {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
 .ytpp-player-editor__availability-success {
 	color: #008a20;
 }

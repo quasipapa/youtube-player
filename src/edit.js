@@ -28,8 +28,10 @@ const AVAILABILITY_TIMEOUT = 15000;
 export default function Edit( { attributes, setAttributes } ) {
 	const [ consentRemoved, setConsentRemoved ] = useState( false );
 	const [ availability, setAvailability ] = useState( AVAILABILITY_IDLE );
+	const [ availabilityCheckUrl, setAvailabilityCheckUrl ] = useState( '' );
 	const [ previewReady, setPreviewReady ] = useState( false );
 	const previewIframe = useRef();
+	const availabilityIframe = useRef();
 	const availabilityTimeout = useRef();
 	const { playlistId, requireConsent = true } = attributes;
 	const blockProps = useBlockProps( {
@@ -48,6 +50,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	useEffect( () => {
 		setAvailability( AVAILABILITY_IDLE );
+		setAvailabilityCheckUrl( '' );
 		setPreviewReady( false );
 		window.clearTimeout( availabilityTimeout.current );
 	}, [ validation.id ] );
@@ -55,7 +58,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	useEffect( () => {
 		function receiveAvailability( event ) {
 			if (
-				event.source !== previewIframe.current?.contentWindow ||
+				event.source !== availabilityIframe.current?.contentWindow ||
 				event.origin !== previewOrigin ||
 				event.data?.type !== 'ytpp:availability-result' ||
 				! [
@@ -69,6 +72,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			window.clearTimeout( availabilityTimeout.current );
 			setAvailability( event.data.status );
+			setAvailabilityCheckUrl( '' );
 		}
 
 		window.addEventListener( 'message', receiveAvailability );
@@ -83,6 +87,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		const result = parsePlaylistInput( value );
 		setConsentRemoved( false );
 		setAvailability( AVAILABILITY_IDLE );
+		setAvailabilityCheckUrl( '' );
 		setPreviewReady( false );
 
 		setAttributes( {
@@ -91,21 +96,19 @@ export default function Edit( { attributes, setAttributes } ) {
 	}
 
 	function checkAvailability() {
-		const targetWindow = previewIframe.current?.contentWindow;
-
-		if ( ! targetWindow ) {
+		if ( ! previewUrl ) {
 			setAvailability( AVAILABILITY_UNKNOWN );
 			return;
 		}
 
 		setAvailability( AVAILABILITY_CHECKING );
-		targetWindow.postMessage(
-			{ type: 'ytpp:check-availability' },
-			previewOrigin
+		setAvailabilityCheckUrl(
+			`${ previewUrl }&availability_check=1&request_id=${ Date.now() }`
 		);
 		window.clearTimeout( availabilityTimeout.current );
 		availabilityTimeout.current = window.setTimeout( () => {
 			setAvailability( AVAILABILITY_UNKNOWN );
+			setAvailabilityCheckUrl( '' );
 		}, AVAILABILITY_TIMEOUT );
 	}
 
@@ -242,6 +245,17 @@ export default function Edit( { attributes, setAttributes } ) {
 											'yt-playlist-player'
 										) }
 									</p>
+								) }
+								{ availabilityCheckUrl && (
+									<iframe
+										ref={ availabilityIframe }
+										className="ytpp-player-editor__availability-frame"
+										title={ __(
+											'Playlist availability check',
+											'yt-playlist-player'
+										) }
+										src={ availabilityCheckUrl }
+									/>
 								) }
 							</div>
 							<Button
