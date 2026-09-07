@@ -25,10 +25,27 @@
 		"requireConsent": {
 			"type": "boolean",
 			"default": true
+		},
+		"maxWidth": {
+			"type": "string",
+			"default": ""
+		},
+		"maxHeight": {
+			"type": "string",
+			"default": ""
+		},
+		"aspectRatio": {
+			"type": "string",
+			"default": "16:9"
+		},
+		"customAspectRatio": {
+			"type": "string",
+			"default": "16:9"
 		}
 	},
 	"supports": {
-		"html": false
+		"html": false,
+		"align": [ "wide", "full" ]
 	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

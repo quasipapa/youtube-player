@@ -392,3 +392,9 @@ The PHP 8.3 development stack was subsequently started successfully with
 PHP and Composer are not currently available directly in WSL. Their installation
 or a documented Docker-based Composer workflow will be decided when the PHP test
 toolchain is added.
+
+## Responsive layout tests
+
+`npm run test:responsive` builds the plugin and runs isolated Chromium tests
+against the production PHP markup and CSS. See [styling and verification](styling.md#verification)
+for prerequisites, covered viewports and the separate manual theme acceptance.

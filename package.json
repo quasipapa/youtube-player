@@ -29,9 +29,11 @@
 		"lint:php": "sh scripts/composer.sh run lint",
 		"test:php": "sh scripts/composer.sh run test",
 		"test:js": "wp-scripts test-unit-js --runInBand",
-		"check": "npm run format:check && npm run lint:js && npm run lint:css && npm run lint:php && npm run test:php && npm run test:js && npm run build"
+		"check": "npm run format:check && npm run lint:js && npm run lint:css && npm run lint:php && npm run test:php && npm run test:js && npm run build",
+		"test:responsive": "npm run build && playwright test"
 	},
 	"devDependencies": {
+		"@playwright/test": "1.63.0",
 		"@testing-library/react": "16.3.3",
 		"@wordpress/block-editor": "17.0.0",
 		"@wordpress/blocks": "15.27.0",

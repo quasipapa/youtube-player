@@ -33,6 +33,7 @@ define(
 );
 
 require_once YTPP_PLUGIN_DIR . 'includes/class-ytpp-playlist-parser.php';
+require_once YTPP_PLUGIN_DIR . 'includes/class-ytpp-player-sizing.php';
 require_once YTPP_PLUGIN_DIR . 'includes/class-ytpp-editor-preview.php';
 
 
