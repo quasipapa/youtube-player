@@ -250,6 +250,36 @@ Nach der ersten manuellen Prüfung von Schritt 8 korrigiert:
 
 Damit ist Schritt 8 technisch, automatisiert und manuell vollständig abgenommen.
 
+Für Schritt 8a technisch umgesetzt:
+
+- die Entscheidung für die schlüssellose IFrame Player API ist in
+  `docs/adr/0001-keyless-playlist-availability-check.md` mit Alternativen,
+  Datenschutzfolgen und Grenzen dokumentiert;
+- erst nach gültiger lokaler Syntax und einer bewussten Redakteursaktion lädt der
+  Same-Origin-Vorschaucontroller die zusätzliche YouTube-IFrame-API;
+- der Editor zeigt die Zustände „wird geprüft“, „verfügbar“, „nicht verfügbar“
+  und „derzeit nicht eindeutig prüfbar“ mit übersetzbaren Texten;
+- ein positives Ergebnis setzt mindestens einen vom bereiten Player gemeldeten
+  Playlist-Eintrag voraus;
+- fehlende/private Inhalte sowie Einbettungsfehler 100, 101 und 150 werden als
+  nicht verfügbar behandelt; andere Playerfehler, blockierte Anfragen,
+  Ladefehler und ein 15-Sekunden-Timeout bleiben ausdrücklich unbestimmt;
+- die Nachrichten zwischen Editor und Vorschau werden nach Quelle, Origin, Typ
+  und erlaubtem Status validiert;
+- Jest prüft die bewusste Auslösung, ausbleibendes vorzeitiges API-Laden,
+  Same-Origin-Grenze, Erfolg, leere Playlist, bekannte Playerfehler,
+  Ladefehler und unbestimmte Ergebnisse.
+
+Für den Abschluss von Schritt 8a noch manuell zu prüfen:
+
+- eine verfügbare Playlist liefert den positiven Status;
+- eine syntaktisch gültige, aber nicht verfügbare beziehungsweise nicht
+  einbettbare Playlist liefert einen negativen Status, soweit YouTube diesen
+  eindeutig meldet;
+- eine blockierte IFrame-API-Anfrage endet mit dem unbestimmten Status und wird
+  nicht als ungültige Playlist bezeichnet;
+- Texte, bewusster Auslösezeitpunkt und Datenschutzhinweis sind verständlich.
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen
@@ -799,6 +829,13 @@ nachweisbar funktionieren.
 **Voraussetzung:** Die lokale syntaktische Validierung aus Schritt 7 und die
 Player-/Fehlerbehandlung aus Schritt 8 sind umgesetzt.
 
+**Architekturentscheidung:** Für diesen Schritt wird die schlüssellose YouTube
+IFrame Player API verwendet. Die genauere Data API wird wegen notwendigem
+Google-Cloud-Projekt, API-Key-/OAuth-Verwaltung und Quota vorerst nicht
+integriert. Technische Unsicherheit wird ausdrücklich als nicht eindeutig
+prüfbar behandelt. Details und Quellen stehen in
+[`docs/adr/0001-keyless-playlist-availability-check.md`](docs/adr/0001-keyless-playlist-availability-check.md).
+
 **Codex:**
 
 1. Vergleicht für die Remote-Prüfung die YouTube-IFrame-API ohne Data-API-Key mit
@@ -820,9 +857,8 @@ Player-/Fehlerbehandlung aus Schritt 8 sind umgesetzt.
 
 **Du:**
 
-1. Entscheidest nach Gegenüberstellung der Varianten, ob eine optionale
-   Data-API-Key-Konfiguration akzeptabel ist oder die eingeschränkte Prüfung ohne
-   Schlüssel genügt.
+1. Hast nach Gegenüberstellung der Varianten die eingeschränkte schlüssellose
+   Prüfung ohne Data-API-Key gewählt.
 2. Prüfst im Editor eine verfügbare, eine ungültige und soweit möglich eine leere
    oder nicht einbettbare Playlist.
 3. Bestätigst Texte, Auslösezeitpunkt und Datenschutzhinweis der externen Prüfung.
@@ -938,6 +974,55 @@ bestanden sind.
 
 **Fertig, wenn:** Eine frische Installation alle Prüfungen ohne manuelle
 Zwischenschritte ausführen kann.
+
+### Schritt 13a – Gesamtdokumentation modularisieren
+
+**Milestone:** `M5 – Tests und CI`
+
+**GitHub:** Issue [#35](https://github.com/quasipapa/youtube-player/issues/35)
+
+**Zeitpunkt und Abgrenzung:** Dieser Schritt wird als eigener
+Dokumentations-Pull-Request nach Stabilisierung der wesentlichen Funktionen und
+vor dem ersten Release durchgeführt. Er enthält keine funktionalen Codeänderungen.
+
+**Vorgeschlagene Zielstruktur:**
+
+- `docs/index.md` als Einstieg und Inhaltsverzeichnis;
+- `docs/requirements/` für funktionale, nichtfunktionale sowie Datenschutz- und
+  Barrierefreiheitsanforderungen;
+- `docs/architecture/overview.md` für den Gesamtüberblick sowie getrennte
+  Dokumente für Entwicklungs- und Laufzeitarchitektur;
+- `docs/architecture/decisions/` für nummerierte Architekturentscheidungen;
+- `docs/testing/` für Teststrategie, automatisierte Tests, manuelle Smoke-Tests
+  und Abnahmeprotokolle;
+- `docs/development/` für lokale Einrichtung, IDE, Build und Arbeitsablauf;
+- `docs/operations/` für GitHub, CI, Release, ZIP und laufende Pflege;
+- `docs/user/` für Blockkonfiguration, Styling und Datenschutzhinweise.
+
+**Codex:**
+
+1. Erstellt eine Bestandsaufnahme mit Zuordnung jedes vorhandenen Abschnitts zum
+   Zieldokument.
+2. Schlägt vor der Verschiebung die endgültige, möglichst flache Struktur vor und
+   kennzeichnet maßgebliche Dokumente, damit Inhalte nicht redundant gepflegt
+   werden.
+3. Verschiebt Anforderungen, Tests, Architekturüberblicke und Entscheidungen in
+   getrennte Dokumente und erstellt `docs/index.md` als zentralen Einstieg.
+4. Ersetzt alte Fundstellen durch stabile Links oder kurze Verweisseiten und
+   aktualisiert README, GitHub-Issue-Vorlagen und Entwicklungsanweisungen.
+5. Prüft interne Links und stellt sicher, dass Anforderungen, Implementierung und
+   Testnachweise weiterhin nachvollziehbar miteinander verbunden sind.
+6. Führt die reine Dokumentationsänderung in einem separaten Pull Request ohne
+   funktionale Codeänderungen durch.
+
+**Du:**
+
+1. Nimmst Zielstruktur, Benennungen und Navigation vor der Verschiebung ab.
+2. Prüfst anschließend, ob typische Informationen ohne Kenntnis der Historie
+   schnell auffindbar sind.
+
+**Fertig, wenn:** Die Dokumentation einen eindeutigen Einstieg, klar getrennte
+Themenbereiche, keine widersprüchlichen Duplikate und geprüfte interne Links hat.
 
 ### Schritt 14 – GitHub-CI-Action einrichten
 

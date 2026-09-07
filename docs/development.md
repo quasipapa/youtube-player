@@ -208,9 +208,14 @@ for sites where an external consent or content blocker handles YouTube requests.
 The detailed behavior is documented in [privacy.md](privacy.md).
 
 This validation is deliberately local and syntactic. A syntactically valid but
-non-existent, private or unavailable playlist cannot be identified yet. The
-editor states that availability has not been checked; remote availability
-checking is tracked separately for step 8a.
+non-existent, private or unavailable playlist is not rejected while typing. For
+a valid value, select **Check playlist availability** and confirm that the editor
+first displays its checking state and then one of the available, unavailable or
+not-clearly-determinable results. The additional IFrame API request must not occur
+before the button is selected. Repeat the check with a syntactically valid but
+unavailable ID and, with the network blocked, confirm that technical failure is
+not mislabeled as an invalid playlist. The architectural limits are documented
+in [ADR 0001](adr/0001-keyless-playlist-availability-check.md).
 
 First/last controls and complete playlist navigation belong to later development
 steps.

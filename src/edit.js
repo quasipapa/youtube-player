@@ -8,7 +8,7 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 
 import './editor.scss';
 import { forgetConsent } from './consent-storage';
@@ -18,27 +18,95 @@ import {
 	VALIDATION_VALID,
 } from './playlist-parser';
 
+const AVAILABILITY_IDLE = 'idle';
+const AVAILABILITY_CHECKING = 'checking';
+const AVAILABILITY_AVAILABLE = 'available';
+const AVAILABILITY_UNAVAILABLE = 'unavailable';
+const AVAILABILITY_UNKNOWN = 'unknown';
+const AVAILABILITY_TIMEOUT = 15000;
+
 export default function Edit( { attributes, setAttributes } ) {
 	const [ consentRemoved, setConsentRemoved ] = useState( false );
+	const [ availability, setAvailability ] = useState( AVAILABILITY_IDLE );
+	const [ previewReady, setPreviewReady ] = useState( false );
+	const previewIframe = useRef();
+	const availabilityTimeout = useRef();
 	const { playlistId, requireConsent = true } = attributes;
 	const blockProps = useBlockProps( {
 		className: 'ytpp-player-editor',
 	} );
 	const validation = parsePlaylistInput( playlistId );
 	const configuredPreviewUrl = window.ytppEditorSettings?.previewUrl;
+	const previewOrigin = configuredPreviewUrl
+		? new URL( configuredPreviewUrl, window.location.href ).origin
+		: window.location.origin;
 	const previewUrl = configuredPreviewUrl
 		? `${ configuredPreviewUrl }&playlist_id=${ encodeURIComponent(
 				validation.id
 		  ) }`
 		: '';
 
+	useEffect( () => {
+		setAvailability( AVAILABILITY_IDLE );
+		setPreviewReady( false );
+		window.clearTimeout( availabilityTimeout.current );
+	}, [ validation.id ] );
+
+	useEffect( () => {
+		function receiveAvailability( event ) {
+			if (
+				event.source !== previewIframe.current?.contentWindow ||
+				event.origin !== previewOrigin ||
+				event.data?.type !== 'ytpp:availability-result' ||
+				! [
+					AVAILABILITY_AVAILABLE,
+					AVAILABILITY_UNAVAILABLE,
+					AVAILABILITY_UNKNOWN,
+				].includes( event.data.status )
+			) {
+				return;
+			}
+
+			window.clearTimeout( availabilityTimeout.current );
+			setAvailability( event.data.status );
+		}
+
+		window.addEventListener( 'message', receiveAvailability );
+
+		return () => {
+			window.removeEventListener( 'message', receiveAvailability );
+			window.clearTimeout( availabilityTimeout.current );
+		};
+	}, [ previewOrigin ] );
+
 	function updatePlaylist( value ) {
 		const result = parsePlaylistInput( value );
 		setConsentRemoved( false );
+		setAvailability( AVAILABILITY_IDLE );
+		setPreviewReady( false );
 
 		setAttributes( {
 			playlistId: result.status === VALIDATION_VALID ? result.id : value,
 		} );
+	}
+
+	function checkAvailability() {
+		const targetWindow = previewIframe.current?.contentWindow;
+
+		if ( ! targetWindow ) {
+			setAvailability( AVAILABILITY_UNKNOWN );
+			return;
+		}
+
+		setAvailability( AVAILABILITY_CHECKING );
+		targetWindow.postMessage(
+			{ type: 'ytpp:check-availability' },
+			previewOrigin
+		);
+		window.clearTimeout( availabilityTimeout.current );
+		availabilityTimeout.current = window.setTimeout( () => {
+			setAvailability( AVAILABILITY_UNKNOWN );
+		}, AVAILABILITY_TIMEOUT );
 	}
 
 	function clearStoredConsent() {
@@ -81,7 +149,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							{ sprintf(
 								/* translators: %s: YouTube playlist ID. */
 								__(
-									'Playlist ID: %s. The syntax is valid; availability on YouTube has not been checked.',
+									'Playlist ID: %s. The syntax is valid.',
 									'yt-playlist-player'
 								),
 								validation.id
@@ -117,6 +185,65 @@ export default function Edit( { attributes, setAttributes } ) {
 									'yt-playlist-player'
 								) }
 							</p>
+							<div className="ytpp-player-editor__availability-check">
+								<Button
+									variant="secondary"
+									disabled={
+										! previewReady ||
+										availability === AVAILABILITY_CHECKING
+									}
+									onClick={ checkAvailability }
+								>
+									{ __(
+										'Check playlist availability',
+										'yt-playlist-player'
+									) }
+								</Button>
+								<p className="ytpp-player-editor__availability-help">
+									{ __(
+										'The additional check loads the YouTube IFrame API only after you select the button. The editor preview itself already connects to YouTube.',
+										'yt-playlist-player'
+									) }
+								</p>
+								{ availability === AVAILABILITY_CHECKING && (
+									<p role="status" aria-live="polite">
+										{ __(
+											'Checking playlist availability…',
+											'yt-playlist-player'
+										) }
+									</p>
+								) }
+								{ availability === AVAILABILITY_AVAILABLE && (
+									<p
+										className="ytpp-player-editor__availability-success"
+										role="status"
+									>
+										{ __(
+											'The playlist is available and contains at least one playable item.',
+											'yt-playlist-player'
+										) }
+									</p>
+								) }
+								{ availability === AVAILABILITY_UNAVAILABLE && (
+									<p
+										className="ytpp-player-editor__error"
+										role="alert"
+									>
+										{ __(
+											'The playlist is unavailable, empty, or cannot be embedded.',
+											'yt-playlist-player'
+										) }
+									</p>
+								) }
+								{ availability === AVAILABILITY_UNKNOWN && (
+									<p role="status" aria-live="polite">
+										{ __(
+											'Playlist availability could not be determined. Check the network or content blocker and try again.',
+											'yt-playlist-player'
+										) }
+									</p>
+								) }
+							</div>
 							<Button
 								variant="secondary"
 								onClick={ clearStoredConsent }
@@ -147,12 +274,14 @@ export default function Edit( { attributes, setAttributes } ) {
 						<div>
 							<div className="ytpp-player-editor__preview">
 								<iframe
+									ref={ previewIframe }
 									title={ __(
 										'YouTube playlist preview',
 										'yt-playlist-player'
 									) }
 									src={ previewUrl }
 									loading="lazy"
+									onLoad={ () => setPreviewReady( true ) }
 								/>
 							</div>
 							<div

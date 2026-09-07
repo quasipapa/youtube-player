@@ -8,8 +8,8 @@ jest.mock( '@wordpress/block-editor', () => ( {
 } ) );
 
 jest.mock( '@wordpress/components', () => ( {
-	Button: ( { children, onClick } ) => (
-		<button type="button" onClick={ onClick }>
+	Button: ( { children, disabled, onClick } ) => (
+		<button type="button" disabled={ disabled } onClick={ onClick }>
 			{ children }
 		</button>
 	),
@@ -159,6 +159,82 @@ describe( 'Edit', () => {
 		expect(
 			screen.getByText( 'Saved consent for this playlist was removed.' )
 		).not.toBeNull();
+	} );
+
+	it( 'checks availability only after an explicit editor action', () => {
+		const playlistId = 'PL-test-playlist';
+
+		render(
+			<Edit
+				attributes={ { playlistId, requireConsent: true } }
+				setAttributes={ jest.fn() }
+			/>
+		);
+
+		const preview = screen.getByTitle( 'YouTube playlist preview' );
+		const checkButton = screen.getByRole( 'button', {
+			name: 'Check playlist availability',
+		} );
+		const postMessage = jest.spyOn( preview.contentWindow, 'postMessage' );
+
+		expect( checkButton.disabled ).toBe( true );
+		expect( postMessage ).not.toHaveBeenCalled();
+
+		fireEvent.load( preview );
+		expect( checkButton.disabled ).toBe( false );
+		fireEvent.click( checkButton );
+
+		expect( postMessage ).toHaveBeenCalledWith(
+			{ type: 'ytpp:check-availability' },
+			'http://localhost'
+		);
+		expect(
+			screen.getByText( 'Checking playlist availability…' )
+		).not.toBeNull();
+		expect( checkButton.disabled ).toBe( true );
+	} );
+
+	it.each( [
+		[
+			'available',
+			'The playlist is available and contains at least one playable item.',
+		],
+		[
+			'unavailable',
+			'The playlist is unavailable, empty, or cannot be embedded.',
+		],
+		[
+			'unknown',
+			'Playlist availability could not be determined. Check the network or content blocker and try again.',
+		],
+	] )( 'shows the %s remote-check result', ( status, message ) => {
+		render(
+			<Edit
+				attributes={ {
+					playlistId: 'PL-test-playlist',
+					requireConsent: true,
+				} }
+				setAttributes={ jest.fn() }
+			/>
+		);
+
+		const preview = screen.getByTitle( 'YouTube playlist preview' );
+		fireEvent.load( preview );
+		fireEvent.click(
+			screen.getByRole( 'button', {
+				name: 'Check playlist availability',
+			} )
+		);
+		fireEvent(
+			window,
+			new MessageEvent( 'message', {
+				data: { type: 'ytpp:availability-result', status },
+				origin: 'http://localhost',
+				source: preview.contentWindow,
+			} )
+		);
+
+		expect( screen.getByText( message ) ).not.toBeNull();
 	} );
 
 	it( 'stores the consent-gate setting', () => {
