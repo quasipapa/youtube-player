@@ -30,6 +30,16 @@ function plugin_dir_path( string $file ): string {
 }
 
 /**
+ * Return the plugin path relative to the plugins directory in isolated tests.
+ *
+ * @param string $file Plugin file path.
+ * @return string
+ */
+function plugin_basename( string $file ): string {
+	return 'yt-playlist-player/' . basename( $file );
+}
+
+/**
  * Minimal replacement used while loading the plugin in isolated unit tests.
  *
  * @param string   $hook_name Hook name.
@@ -49,10 +59,39 @@ function register_block_type( string $block_type ): object {
 	$registered_block = (object) array(
 		'path'                  => $block_type,
 		'editor_script_handles' => array( 'yt-playlist-player-player-editor-script' ),
+		'view_script_handles'   => array( 'yt-playlist-player-player-view-script' ),
 	);
 	$GLOBALS['ytpp_test_registered_blocks'][] = $registered_block;
 
 	return $registered_block;
+}
+
+/**
+ * Record text-domain registration in isolated tests.
+ *
+ * @param string       $domain          Text domain.
+ * @param string|false $deprecated      Deprecated path argument.
+ * @param string|false $plugin_rel_path Relative language directory.
+ * @return bool
+ */
+function load_plugin_textdomain( string $domain, $deprecated = false, $plugin_rel_path = false ): bool {
+	$GLOBALS['ytpp_test_textdomains'][] = compact( 'domain', 'deprecated', 'plugin_rel_path' );
+
+	return true;
+}
+
+/**
+ * Record JavaScript translation registration in isolated tests.
+ *
+ * @param string $handle Script handle.
+ * @param string $domain Text domain.
+ * @param string $path   Translation directory.
+ * @return bool
+ */
+function wp_set_script_translations( string $handle, string $domain = 'default', string $path = '' ): bool {
+	$GLOBALS['ytpp_test_script_translations'][] = compact( 'handle', 'domain', 'path' );
+
+	return true;
 }
 
 /**

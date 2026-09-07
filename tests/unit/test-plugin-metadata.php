@@ -31,8 +31,10 @@ final class Test_Plugin_Metadata extends TestCase {
 	 * @return void
 	 */
 	public function test_plugin_registers_block_from_build_directory(): void {
-		$GLOBALS['ytpp_test_registered_blocks'] = array();
-		$GLOBALS['ytpp_test_inline_scripts']    = array();
+		$GLOBALS['ytpp_test_registered_blocks']   = array();
+		$GLOBALS['ytpp_test_inline_scripts']      = array();
+		$GLOBALS['ytpp_test_textdomains']         = array();
+		$GLOBALS['ytpp_test_script_translations'] = array();
 
 		ytpp_register_block();
 
@@ -50,5 +52,24 @@ final class Test_Plugin_Metadata extends TestCase {
 			'action=ytpp_editor_preview',
 			$GLOBALS['ytpp_test_inline_scripts'][0]['data']
 		);
+		$this->assertSame(
+			array(
+				'domain'          => 'yt-playlist-player',
+				'deprecated'      => false,
+				'plugin_rel_path' => 'yt-playlist-player/languages',
+			),
+			$GLOBALS['ytpp_test_textdomains'][0]
+		);
+		$this->assertSame(
+			array(
+				'yt-playlist-player-player-editor-script',
+				'yt-playlist-player-player-view-script',
+			),
+			array_column( $GLOBALS['ytpp_test_script_translations'], 'handle' )
+		);
+		foreach ( $GLOBALS['ytpp_test_script_translations'] as $translation ) {
+			$this->assertSame( 'yt-playlist-player', $translation['domain'] );
+			$this->assertSame( YTPP_PLUGIN_DIR . 'languages', $translation['path'] );
+		}
 	}
 }

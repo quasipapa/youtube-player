@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YouTube Playlist Player 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/quasipapa/youtube-player/issues\n"
+"Last-Translator: quasipapa\n"
+"Language-Team: Deutsch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-07T20:32:27+00:00\n"
+"PO-Revision-Date: 2026-09-07 00:00+0200\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: yt-playlist-player\n"
+
+#. Plugin Name of the plugin
+#: yt-playlist-player.php
+#: src/edit.js:522
+msgid "YouTube Playlist Player"
+msgstr "YouTube-Playlist-Player"
+
+#. Description of the plugin
+#: yt-playlist-player.php
+msgid "Adds an enhanced navigation interface to embedded YouTube playlists."
+msgstr "Ergänzt eingebettete YouTube-Playlists um eine erweiterte Navigation."
+
+#. Author of the plugin
+#: yt-playlist-player.php
+msgid "quasipapa"
+msgstr "quasipapa"
+
+#: includes/class-ytpp-editor-preview.php:55
+#: src/edit.js:425
+msgid "YouTube playlist preview"
+msgstr "YouTube-Playlist-Vorschau"
+
+#: src/render.php:32
+msgid "No playlist ID has been entered yet."
+msgstr "Es wurde noch keine Playlist-ID eingegeben."
+
+#: src/render.php:36
+#: src/edit.js:171
+msgid "Enter a valid YouTube playlist ID or supported playlist URL."
+msgstr "Geben Sie eine gültige YouTube-Playlist-ID oder eine unterstützte Playlist-URL ein."
+
+#: src/render.php:47
+msgid "Loading this playlist connects to YouTube and may transfer data to Google."
+msgstr "Beim Laden dieser Playlist wird eine Verbindung zu YouTube hergestellt; dabei können Daten an Google übertragen werden."
+
+#: src/render.php:48
+msgid "Your choice is saved for this playlist in this browser."
+msgstr "Ihre Auswahl wird für diese Playlist in diesem Browser gespeichert."
+
+#: src/render.php:51
+msgid "Load YouTube playlist"
+msgstr "YouTube-Playlist laden"
+
+#: src/render.php:56
+#: src/view.js:251
+msgid "The video playlist is loading."
+msgstr "Die Video-Playlist wird geladen."
+
+#: src/render.php:62
+msgid "Playlist navigation"
+msgstr "Playlist-Navigation"
+
+#: src/render.php:64
+#: src/edit.js:445
+#: src/edit.js:449
+msgid "First video"
+msgstr "Erstes Video"
+
+#: src/render.php:67
+#: src/edit.js:462
+#: src/edit.js:466
+msgid "Previous video"
+msgstr "Vorheriges Video"
+
+#: src/render.php:73
+#: src/edit.js:484
+#: src/edit.js:488
+msgid "Next video"
+msgstr "Nächstes Video"
+
+#: src/render.php:76
+#: src/edit.js:501
+#: src/edit.js:505
+msgid "Last video"
+msgstr "Letztes Video"
+
+#: yt-playlist-player.php:101
+msgid "You are not allowed to preview this playlist."
+msgstr "Sie sind nicht berechtigt, eine Vorschau dieser Playlist anzuzeigen."
+
+#: yt-playlist-player.php:108
+msgid "The playlist ID is invalid."
+msgstr "Die Playlist-ID ist ungültig."
+
+#: src/edit.js:154
+msgid "Playlist settings"
+msgstr "Playlist-Einstellungen"
+
+#: src/edit.js:158
+msgid "Playlist ID or URL"
+msgstr "Playlist-ID oder URL"
+
+#: src/edit.js:162
+msgid "Enter a playlist ID or a supported YouTube playlist URL."
+msgstr "Geben Sie eine Playlist-ID oder eine unterstützte YouTube-Playlist-URL ein."
+
+#. translators: %s: YouTube playlist ID.
+#: src/edit.js:184
+#, js-format
+msgid "Playlist ID: %s. The syntax is valid."
+msgstr "Playlist-ID: %s. Die Syntax ist gültig."
+
+#: src/edit.js:193
+msgid "Show playlist title above the video"
+msgstr "Playlist-Titel über dem Video anzeigen"
+
+#: src/edit.js:204
+msgid "Playlist title"
+msgstr "Playlist-Titel"
+
+#: src/edit.js:208
+msgid "This title is entered manually and does not create an additional YouTube request."
+msgstr "Dieser Titel wird manuell eingegeben und erzeugt keine zusätzliche YouTube-Anfrage."
+
+#: src/edit.js:219
+msgid "Require consent before loading YouTube"
+msgstr "Zustimmung vor dem Laden von YouTube anfordern"
+
+#: src/edit.js:225
+msgid "Visitors must actively load the playlist before any connection to YouTube is made."
+msgstr "Besucher müssen die Playlist aktiv laden, bevor eine Verbindung zu YouTube hergestellt wird."
+
+#: src/edit.js:229
+msgid "YouTube loads immediately. Disable this only when another consent or content blocker reliably prevents external requests."
+msgstr "YouTube wird sofort geladen. Deaktivieren Sie diese Option nur, wenn ein anderes Consent- oder Content-Blocker-System externe Anfragen zuverlässig verhindert."
+
+#: src/edit.js:242
+msgid "The editor preview connects directly to youtube-nocookie.com."
+msgstr "Die Editorvorschau stellt eine direkte Verbindung zu youtube-nocookie.com her."
+
+#: src/edit.js:256
+msgid "Check playlist availability"
+msgstr "Playlist-Verfügbarkeit prüfen"
+
+#: src/edit.js:262
+msgid "The additional check loads the YouTube IFrame API only after you select the button. The editor preview itself already connects to YouTube."
+msgstr "Die zusätzliche Prüfung lädt die YouTube-IFrame-API erst, nachdem Sie die Schaltfläche ausgewählt haben. Die Editorvorschau selbst stellt bereits eine Verbindung zu YouTube her."
+
+#: src/edit.js:269
+msgid "Checking playlist availability…"
+msgstr "Playlist-Verfügbarkeit wird geprüft…"
+
+#: src/edit.js:280
+msgid "The playlist is available and contains at least one playable item."
+msgstr "Die Playlist ist verfügbar und enthält mindestens einen abspielbaren Eintrag."
+
+#: src/edit.js:291
+msgid "The playlist is unavailable, empty, or cannot be embedded."
+msgstr "Die Playlist ist nicht verfügbar, leer oder kann nicht eingebettet werden."
+
+#: src/edit.js:299
+msgid "Playlist availability could not be determined. Check the network or content blocker and try again."
+msgstr "Die Playlist-Verfügbarkeit konnte nicht ermittelt werden. Prüfen Sie das Netzwerk oder den Content Blocker und versuchen Sie es erneut."
+
+#: src/edit.js:309
+msgid "Playlist availability check"
+msgstr "Prüfung der Playlist-Verfügbarkeit"
+
+#: src/edit.js:321
+msgid "Forget saved consent for this playlist"
+msgstr "Gespeicherte Zustimmung für diese Playlist löschen"
+
+#: src/edit.js:331
+msgid "Saved consent for this playlist was removed."
+msgstr "Die gespeicherte Zustimmung für diese Playlist wurde gelöscht."
+
+#: src/edit.js:341
+msgid "Player size"
+msgstr "Player-Größe"
+
+#: src/edit.js:347
+msgid "Maximum width (px)"
+msgstr "Maximale Breite (px)"
+
+#: src/edit.js:351
+msgid "Maximum height (px)"
+msgstr "Maximale Höhe (px)"
+
+#: src/edit.js:361
+msgid "Leave empty for automatic sizing. Limits apply to the video area."
+msgstr "Für automatische Größenanpassung leer lassen. Die Grenzen gelten für den Videobereich."
+
+#: src/edit.js:368
+msgid "Aspect ratio"
+msgstr "Seitenverhältnis"
+
+#: src/edit.js:375
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+#: src/edit.js:385
+msgid "Custom aspect ratio"
+msgstr "Benutzerdefiniertes Seitenverhältnis"
+
+#: src/edit.js:393
+msgid "Use width:height, for example 9:16. Ratios from 1:4 to 4:1 are supported."
+msgstr "Verwenden Sie Breite:Höhe, zum Beispiel 9:16. Verhältnisse von 1:4 bis 4:1 werden unterstützt."
+
+#. translators: 1: minimum width, 2: minimum height.
+#: src/edit.js:402
+#, js-format
+msgid "Enter a valid ratio and whole pixel limits between %1$d (width) or %2$d (height) and 10000. Invalid settings use automatic sizing or 16:9."
+msgstr "Geben Sie ein gültiges Verhältnis und ganzzahlige Pixelgrenzen zwischen %1$d (Breite) beziehungsweise %2$d (Höhe) und 10000 ein. Bei ungültigen Einstellungen werden die automatische Größenanpassung oder 16:9 verwendet."
+
+#: src/edit.js:436
+msgid "Playlist navigation preview"
+msgstr "Vorschau der Playlist-Navigation"
+
+#: src/edit.js:478
+msgid "– / –"
+msgstr "– / –"
+
+#: src/edit.js:526
+msgid "Select this block and enter the playlist in the block settings sidebar."
+msgstr "Wählen Sie diesen Block aus und geben Sie die Playlist in den Block-Einstellungen der Seitenleiste ein."
+
+#. translators: 1: Current video number. 2: Total number of videos.
+#: src/view.js:116
+#, js-format
+msgid "%1$d / %2$d"
+msgstr "%1$d / %2$d"
+
+#: src/view.js:170
+msgid "YouTube playlist player"
+msgstr "YouTube-Playlist-Player"
+
+#: src/view.js:194
+msgid "The YouTube playlist could not be loaded."
+msgstr "Die YouTube-Playlist konnte nicht geladen werden."
+
+#: src/view.js:281
+msgid "The YouTube playlist could not be loaded. Please try again."
+msgstr "Die YouTube-Playlist konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+
+#: src/block.json
+msgctxt "block title"
+msgid "YouTube Playlist Player"
+msgstr "YouTube-Playlist-Player"
+
+#: src/block.json
+msgctxt "block description"
+msgid "Displays a navigable YouTube playlist."
+msgstr "Zeigt eine navigierbare YouTube-Playlist an."
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "video"
+msgstr "Video"
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "youtube"
+msgstr "YouTube"
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "playlist"
+msgstr "Playlist"
