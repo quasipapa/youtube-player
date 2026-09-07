@@ -217,6 +217,16 @@ unavailable ID and, with the network blocked, confirm that technical failure is
 not mislabeled as an invalid playlist. The architectural limits are documented
 in [ADR 0001](adr/0001-keyless-playlist-availability-check.md).
 
+### Step 8a manual acceptance record
+
+The keyless availability check was successfully tested with multiple existing
+playlists and a syntactically valid unavailable ID. In Microsoft Edge, the
+`youtube.com/iframe_api` request was blocked through **Network > Block request
+URL**. The editor remained in the checking state until the defined timeout and
+then correctly reported that availability could not be determined instead of
+marking the playlist invalid. Trigger timing, messages and privacy notice were
+accepted.
+
 First/last controls and complete playlist navigation belong to later development
 steps.
 
