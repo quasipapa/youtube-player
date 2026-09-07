@@ -315,6 +315,23 @@ Für Schritt 9 manuell erfolgreich geprüft:
 
 Damit ist Schritt 9 technisch, automatisiert und manuell vollständig abgenommen.
 
+Nach Schritt 9 als kleine Layoutoptimierung technisch umgesetzt:
+
+- die sichtbaren Navigationstexte wurden durch WordPress-nahe Skip- und
+  Chevron-Symbole ersetzt;
+- die leichter wirkenden Chevron-Symbole werden mit `1.625rem` bewusst größer
+  als die Skip-Symbole mit `1.25rem` dargestellt, während alle Buttons dieselbe
+  Bedienfläche behalten;
+- beide Größen sind über die CSS Custom Properties
+  `--ytpp-navigation-skip-icon-size` und
+  `--ytpp-navigation-step-icon-size` themefähig;
+- übersetzte zugängliche Namen und Tooltips bleiben erhalten, die SVGs selbst
+  werden vor Screenreadern verborgen;
+- Editorvorschau, Frontend-Markup und automatisierte Tests wurden entsprechend
+  angepasst.
+
+Die optische Ausgewogenheit ist noch manuell in Editor und Frontend abzunehmen.
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen

@@ -1,4 +1,7 @@
 .ytpp-player {
+	--ytpp-navigation-skip-icon-size: 1.25rem;
+	--ytpp-navigation-step-icon-size: 1.625rem;
+
 	width: 100%;
 }
 
@@ -50,7 +53,29 @@
 }
 
 .ytpp-player__controls button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0.5rem;
 	cursor: pointer;
+}
+
+.ytpp-player__icon {
+	display: block;
+	flex: 0 0 auto;
+}
+
+.ytpp-player__icon--skip {
+	width: var(--ytpp-navigation-skip-icon-size);
+	height: var(--ytpp-navigation-skip-icon-size);
+}
+
+.ytpp-player__icon--step {
+	width: var(--ytpp-navigation-step-icon-size);
+	height: var(--ytpp-navigation-step-icon-size);
 }
 
 .ytpp-player__position {

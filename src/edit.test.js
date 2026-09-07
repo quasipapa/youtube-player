@@ -144,6 +144,17 @@ describe( 'Edit', () => {
 				screen.getByRole( 'button', { name: label } ).disabled
 			).toBe( true );
 		}
+		expect(
+			document.querySelectorAll( '.ytpp-player__icon--skip' )
+		).toHaveLength( 2 );
+		expect(
+			document.querySelectorAll( '.ytpp-player__icon--step' )
+		).toHaveLength( 2 );
+		expect(
+			Array.from(
+				document.querySelectorAll( '.ytpp-player__icon' )
+			).every( ( icon ) => icon.getAttribute( 'aria-hidden' ) === 'true' )
+		).toBe( true );
 	} );
 
 	it( 'removes saved consent for the selected playlist', () => {

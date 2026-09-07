@@ -51,6 +51,10 @@ final class Test_Block_Render extends TestCase {
 		$this->assertStringContainsString( 'Next video', $output );
 		$this->assertStringContainsString( 'ytpp-player__last', $output );
 		$this->assertStringContainsString( 'Last video', $output );
+		$this->assertSame( 4, substr_count( $output, 'ytpp-player__icon ' ) );
+		$this->assertSame( 2, substr_count( $output, 'ytpp-player__icon--skip' ) );
+		$this->assertSame( 2, substr_count( $output, 'ytpp-player__icon--step' ) );
+		$this->assertSame( 4, substr_count( $output, 'aria-hidden="true"' ) );
 		$this->assertStringNotContainsString( '<iframe', $output );
 		$this->assertStringNotContainsString( 'https://www.youtube', $output );
 	}

@@ -97,6 +97,20 @@ Do not edit files in `build` manually. The directory is ignored by Git and is
 recreated from `src`; release packaging will run the production build before the
 plugin ZIP is assembled.
 
+The navigation icons use two public CSS custom properties so themes can adjust
+their visual weight without replacing the SVGs:
+
+```css
+.ytpp-player {
+	--ytpp-navigation-skip-icon-size: 1.25rem;
+	--ytpp-navigation-step-icon-size: 1.625rem;
+}
+```
+
+The larger default step size compensates for the lighter single-chevron shape.
+Both icon types retain the same `2.75rem` button area. The translated accessible
+name and tooltip remain on each icon-only button.
+
 ## Complete local verification
 
 After installing both npm and Composer dependencies, run all currently available

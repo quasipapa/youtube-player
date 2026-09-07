@@ -56,6 +56,9 @@
 }
 
 .ytpp-player-editor__controls {
+	--ytpp-navigation-skip-icon-size: 1.25rem;
+	--ytpp-navigation-step-icon-size: 1.625rem;
+
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -65,5 +68,11 @@
 }
 
 .ytpp-player-editor__controls button {
-	padding: 0.5rem 0.75rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0.5rem;
 }
