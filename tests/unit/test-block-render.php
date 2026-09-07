@@ -78,6 +78,36 @@ final class Test_Block_Render extends TestCase {
 	}
 
 	/**
+	 * The optional editorial title is escaped and rendered only when enabled.
+	 *
+	 * @return void
+	 */
+	public function test_optional_playlist_title(): void {
+		$hidden_output  = $this->render_block(
+			array(
+				'playlistId'        => 'PL-test-playlist',
+				'playlistTitle'     => 'Hidden title',
+				'showPlaylistTitle' => false,
+			)
+		);
+		$visible_output = $this->render_block(
+			array(
+				'playlistId'        => 'PL-test-playlist',
+				'playlistTitle'     => '<strong>Visible title</strong>',
+				'showPlaylistTitle' => true,
+			)
+		);
+
+		$this->assertStringNotContainsString( 'Hidden title', $hidden_output );
+		$this->assertStringContainsString( 'ytpp-player__title', $visible_output );
+		$this->assertStringContainsString(
+			'&lt;strong&gt;Visible title&lt;/strong&gt;',
+			$visible_output
+		);
+		$this->assertStringNotContainsString( '<strong>', $visible_output );
+	}
+
+	/**
 	 * A supported URL renders only its canonical playlist ID.
 	 *
 	 * @return void

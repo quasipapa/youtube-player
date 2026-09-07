@@ -101,7 +101,7 @@ describe( 'privacy-aware frontend player', () => {
 		players[ 0 ].options.events.onReady( { target: players[ 0 ].player } );
 		expect(
 			document.querySelector( '.ytpp-player__position' ).textContent
-		).toBe( 'Video 1 of 2' );
+		).toBe( '1 / 2' );
 		expect( document.querySelector( '.ytpp-player__first' ).disabled ).toBe(
 			true
 		);
@@ -163,7 +163,7 @@ describe( 'privacy-aware frontend player', () => {
 		const lastButton = document.querySelector( '.ytpp-player__last' );
 		const position = document.querySelector( '.ytpp-player__position' );
 
-		expect( position.textContent ).toBe( 'Video 1 of 3' );
+		expect( position.textContent ).toBe( '1 / 3' );
 		expect( firstButton.disabled ).toBe( true );
 		expect( previousButton.disabled ).toBe( true );
 		expect( nextButton.disabled ).toBe( false );
@@ -171,7 +171,7 @@ describe( 'privacy-aware frontend player', () => {
 
 		index = 1;
 		events.onStateChange( { target: player } );
-		expect( position.textContent ).toBe( 'Video 2 of 3' );
+		expect( position.textContent ).toBe( '2 / 3' );
 		expect( firstButton.disabled ).toBe( false );
 		expect( previousButton.disabled ).toBe( false );
 		expect( nextButton.disabled ).toBe( false );
@@ -188,7 +188,7 @@ describe( 'privacy-aware frontend player', () => {
 
 		index = 2;
 		events.onStateChange( { target: player } );
-		expect( position.textContent ).toBe( 'Video 3 of 3' );
+		expect( position.textContent ).toBe( '3 / 3' );
 		expect( firstButton.disabled ).toBe( false );
 		expect( previousButton.disabled ).toBe( false );
 		expect( nextButton.disabled ).toBe( true );
@@ -226,7 +226,7 @@ describe( 'privacy-aware frontend player', () => {
 		).toBe( true );
 		expect(
 			document.querySelector( '.ytpp-player__position' ).textContent
-		).toBe( 'Video 1 of 1' );
+		).toBe( '1 / 1' );
 	} );
 
 	it( 'reuses stored consent for the same playlist after a page load', async () => {

@@ -54,7 +54,12 @@ export default function Edit( { attributes, setAttributes } ) {
 	const previewIframe = useRef();
 	const availabilityIframe = useRef();
 	const availabilityTimeout = useRef();
-	const { playlistId, requireConsent = true } = attributes;
+	const {
+		playlistId,
+		playlistTitle = '',
+		showPlaylistTitle = false,
+		requireConsent = true,
+	} = attributes;
 	const blockProps = useBlockProps( {
 		className: 'ytpp-player-editor',
 	} );
@@ -179,6 +184,32 @@ export default function Edit( { attributes, setAttributes } ) {
 								validation.id
 							) }
 						</p>
+					) }
+					<ToggleControl
+						label={ __(
+							'Show playlist title above the video',
+							'yt-playlist-player'
+						) }
+						checked={ showPlaylistTitle }
+						onChange={ ( value ) =>
+							setAttributes( { showPlaylistTitle: value } )
+						}
+					/>
+					{ showPlaylistTitle && (
+						<TextControl
+							label={ __(
+								'Playlist title',
+								'yt-playlist-player'
+							) }
+							help={ __(
+								'This title is entered manually and does not create an additional YouTube request.',
+								'yt-playlist-player'
+							) }
+							value={ playlistTitle }
+							onChange={ ( value ) =>
+								setAttributes( { playlistTitle: value } )
+							}
+						/>
 					) }
 					<ToggleControl
 						label={ __(
@@ -307,6 +338,11 @@ export default function Edit( { attributes, setAttributes } ) {
 				{ validation.status === VALIDATION_VALID && previewUrl ? (
 					<Disabled>
 						<div>
+							{ showPlaylistTitle && playlistTitle.trim() && (
+								<p className="ytpp-player__title">
+									{ playlistTitle }
+								</p>
+							) }
 							<div className="ytpp-player-editor__preview">
 								<iframe
 									ref={ previewIframe }
@@ -326,80 +362,81 @@ export default function Edit( { attributes, setAttributes } ) {
 									'yt-playlist-player'
 								) }
 							>
-								<button
-									type="button"
-									disabled
-									aria-label={ __(
-										'First video',
-										'yt-playlist-player'
-									) }
-									title={ __(
-										'First video',
-										'yt-playlist-player'
-									) }
-								>
-									<NavigationIcon
-										name="first"
-										variant="skip"
-									/>
-								</button>
-								<button
-									type="button"
-									disabled
-									aria-label={ __(
-										'Previous video',
-										'yt-playlist-player'
-									) }
-									title={ __(
-										'Previous video',
-										'yt-playlist-player'
-									) }
-								>
-									<NavigationIcon
-										name="previous"
-										variant="step"
-									/>
-								</button>
+								<div className="ytpp-player-editor__control-group">
+									<button
+										type="button"
+										disabled
+										aria-label={ __(
+											'First video',
+											'yt-playlist-player'
+										) }
+										title={ __(
+											'First video',
+											'yt-playlist-player'
+										) }
+									>
+										<NavigationIcon
+											name="first"
+											variant="skip"
+										/>
+									</button>
+									<button
+										type="button"
+										disabled
+										aria-label={ __(
+											'Previous video',
+											'yt-playlist-player'
+										) }
+										title={ __(
+											'Previous video',
+											'yt-playlist-player'
+										) }
+									>
+										<NavigationIcon
+											name="previous"
+											variant="step"
+										/>
+									</button>
+								</div>
 								<span>
-									{ __(
-										'Playlist preview',
-										'yt-playlist-player'
-									) }
+									{ __( '– / –', 'yt-playlist-player' ) }
 								</span>
-								<button
-									type="button"
-									disabled
-									aria-label={ __(
-										'Next video',
-										'yt-playlist-player'
-									) }
-									title={ __(
-										'Next video',
-										'yt-playlist-player'
-									) }
-								>
-									<NavigationIcon
-										name="next"
-										variant="step"
-									/>
-								</button>
-								<button
-									type="button"
-									disabled
-									aria-label={ __(
-										'Last video',
-										'yt-playlist-player'
-									) }
-									title={ __(
-										'Last video',
-										'yt-playlist-player'
-									) }
-								>
-									<NavigationIcon
-										name="last"
-										variant="skip"
-									/>
-								</button>
+								<div className="ytpp-player-editor__control-group">
+									<button
+										type="button"
+										disabled
+										aria-label={ __(
+											'Next video',
+											'yt-playlist-player'
+										) }
+										title={ __(
+											'Next video',
+											'yt-playlist-player'
+										) }
+									>
+										<NavigationIcon
+											name="next"
+											variant="step"
+										/>
+									</button>
+									<button
+										type="button"
+										disabled
+										aria-label={ __(
+											'Last video',
+											'yt-playlist-player'
+										) }
+										title={ __(
+											'Last video',
+											'yt-playlist-player'
+										) }
+									>
+										<NavigationIcon
+											name="last"
+											variant="skip"
+										/>
+									</button>
+								</div>
 							</div>
 						</div>
 					</Disabled>

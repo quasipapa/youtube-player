@@ -161,6 +161,16 @@ function esc_html_e( string $text ): void {
 }
 
 /**
+ * Return escaped text for isolated renderer tests.
+ *
+ * @param string $text Untrusted text.
+ * @return string
+ */
+function esc_html( string $text ): string {
+	return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+}
+
+/**
  * Echo an escaped translated attribute for isolated renderer tests.
  *
  * @param string $text Source text.

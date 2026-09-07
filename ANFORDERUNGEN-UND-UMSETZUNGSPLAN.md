@@ -319,9 +319,10 @@ Nach Schritt 9 als kleine Layoutoptimierung technisch umgesetzt:
 
 - die sichtbaren Navigationstexte wurden durch WordPress-nahe Skip- und
   Chevron-Symbole ersetzt;
-- die leichter wirkenden Chevron-Symbole werden mit `1.625rem` bewusst größer
-  als die Skip-Symbole mit `1.25rem` dargestellt, während alle Buttons dieselbe
-  Bedienfläche behalten;
+- Skip- und Chevron-Symbole werden nach dem ersten Sichttest einheitlich mit
+  `1rem` dargestellt; die Buttons sind `3rem` breit und `2rem` hoch;
+- erstes/zurück und vor/letztes bilden mit jeweils `0.75rem` Abstand eine linke
+  beziehungsweise rechte Gruppe; die Kurzposition „x / n“ steht mittig;
 - beide Größen sind über die CSS Custom Properties
   `--ytpp-navigation-skip-icon-size` und
   `--ytpp-navigation-step-icon-size` themefähig;
@@ -331,6 +332,11 @@ Nach Schritt 9 als kleine Layoutoptimierung technisch umgesetzt:
   angepasst.
 
 Die optische Ausgewogenheit ist noch manuell in Editor und Frontend abzunehmen.
+
+Als zusätzliche Anforderung ist ein manuell gepflegter Playlist-Titel technisch
+umgesetzt. Der Redakteur kann ihn im Block-Inspector eingeben und die Anzeige
+oberhalb des Videos separat aktivieren. Der Titel erzeugt keine weitere externe
+Anfrage, wird im Frontend sicher maskiert und ist standardmäßig ausgeblendet.
 
 ## 4. Anforderungen
 
@@ -348,26 +354,28 @@ Die optische Ausgewogenheit ist noch manuell in Editor und Frontend abzunehmen.
 6. Außerhalb des YouTube-Players stehen mindestens diese Bedienelemente bereit:
    - erstes Video;
    - vorheriges Video;
-   - Positionsanzeige, zum Beispiel „Video 2 von 12“;
+   - Positionsanzeige, zum Beispiel „2 / 12“;
    - nächstes Video;
    - letztes Video.
 7. Nicht mögliche Aktionen sind deaktiviert, zum Beispiel „vorheriges Video“ am
    Anfang der Playlist.
 8. Mehrere Player-Blöcke auf derselben Seite funktionieren unabhängig voneinander.
-9. Für den Player können eine maximale Breite und/oder maximale Höhe eingestellt
+9. Redakteure können optional einen selbst gepflegten Playlist-Titel oberhalb des
+   Videos anzeigen.
+10. Für den Player können eine maximale Breite und/oder maximale Höhe eingestellt
    werden.
-10. Das Seitenverhältnis ist konfigurierbar. Mindestens `16:9`, `4:3`, `1:1` und
+11. Das Seitenverhältnis ist konfigurierbar. Mindestens `16:9`, `4:3`, `1:1` und
     ein gültiges benutzerdefiniertes Verhältnis werden unterstützt.
-11. Der Player überschreitet weder seinen Inhaltscontainer noch die konfigurierte
+12. Der Player überschreitet weder seinen Inhaltscontainer noch die konfigurierte
     Maximalgröße.
-12. Block und Bedienelemente werden auf Mobiltelefon, Tablet und Desktop vollständig
+13. Block und Bedienelemente werden auf Mobiltelefon, Tablet und Desktop vollständig
     und bedienbar dargestellt.
-13. Ungültige, private, leere, gelöschte oder nicht einbettbare Playlists führen zu
+14. Ungültige, private, leere, gelöschte oder nicht einbettbare Playlists führen zu
     einer verständlichen, übersetzbaren Fehlermeldung.
-14. Es gibt standardmäßig kein Autoplay.
-15. Der Editor prüft IDs und unterstützte Links zunächst lokal und ohne externe
+15. Es gibt standardmäßig kein Autoplay.
+16. Der Editor prüft IDs und unterstützte Links zunächst lokal und ohne externe
     Anfrage auf syntaktische Gültigkeit.
-16. Nach erfolgreicher lokaler Prüfung kann der Redakteur die tatsächliche
+17. Nach erfolgreicher lokaler Prüfung kann der Redakteur die tatsächliche
     Verfügbarkeit der Playlist und mindestens eines abspielbaren Eintrags bereits
     im Editor prüfen. Das Ergebnis unterscheidet zwischen verfügbar, nicht
     verfügbar und wegen Netzwerk-, Datenschutz- oder API-Einschränkungen nicht
