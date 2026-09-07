@@ -95,7 +95,12 @@ function ytpp_render_editor_preview(): void {
 
 	nocache_headers();
 	header( 'Content-Type: text/html; charset=UTF-8' );
-	echo YTPP_Editor_Preview::render( $playlist_id, $site_origin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The complete document is escaped while it is built.
+	$controller_url = add_query_arg(
+		array( 'ver' => YTPP_VERSION ),
+		YTPP_PLUGIN_URL . 'assets/js/editor-preview-controller.js'
+	);
+
+	echo YTPP_Editor_Preview::render( $playlist_id, $site_origin, $controller_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The complete document is escaped while it is built.
 	wp_die();
 }
 

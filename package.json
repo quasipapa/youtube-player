@@ -11,7 +11,7 @@
 	"scripts": {
 		"build": "wp-scripts build",
 		"start": "wp-scripts start",
-		"lint:js": "wp-scripts lint-js src",
+		"lint:js": "wp-scripts lint-js src assets/js",
 		"lint:css": "wp-scripts lint-style \"src/**/*.scss\"",
 		"format": "wp-scripts format && wp-scripts lint-style \"src/**/*.scss\" --fix",
 		"format:check": "wp-scripts format --check",

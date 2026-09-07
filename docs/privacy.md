@@ -63,6 +63,21 @@ created for empty or syntactically invalid input. The preview and its visible
 navigation representation are deliberately non-interactive so that clicks select
 the block and expose its settings.
 
+## Editor availability check
+
+For a syntactically valid playlist, the inspector offers **Check playlist
+availability**. The plugin loads `https://www.youtube.com/iframe_api` inside the
+authenticated preview document only after the editor selects this button. The
+player remains on `https://www.youtube-nocookie.com`. No API key, OAuth token or
+editor identity is sent by the plugin.
+
+The check reports a positive result only when the player returns at least one
+playlist item. Missing/private content and embedding restrictions reported by the
+player are shown as unavailable. Network failures, blocked requests, timeouts and
+ambiguous player errors are shown as not clearly determinable rather than as an
+invalid playlist. The complete decision and its limits are documented in
+[ADR 0001](adr/0001-keyless-playlist-availability-check.md).
+
 ## Verification
 
 Use the browser network panel on a public post and filter for `youtube` before
