@@ -273,6 +273,14 @@ boundary states, the single-video case, keyboard operation and labels behaved as
 documented. Two blocks on the same page were also verified to navigate
 independently.
 
+### Post-step 9 layout and title acceptance record
+
+The refined navigation layout was successfully checked in both the editor and
+frontend. The `3rem` by `2rem` buttons, uniform `1rem` icons, `0.75rem` grouping,
+outer alignment and centered short position were accepted. The optional manually
+entered playlist title was also verified when enabled, after saving and when
+disabled again.
+
 ### Step 8 manual acceptance record
 
 The complete step 8 smoke test was successfully performed in the local WordPress

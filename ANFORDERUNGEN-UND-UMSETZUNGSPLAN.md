@@ -331,12 +331,16 @@ Nach Schritt 9 als kleine Layoutoptimierung technisch umgesetzt:
 - Editorvorschau, Frontend-Markup und automatisierte Tests wurden entsprechend
   angepasst.
 
-Die optische Ausgewogenheit ist noch manuell in Editor und Frontend abzunehmen.
+Das überarbeitete Layout wurde in Editor und Frontend manuell erfolgreich
+abgenommen.
 
 Als zusätzliche Anforderung ist ein manuell gepflegter Playlist-Titel technisch
 umgesetzt. Der Redakteur kann ihn im Block-Inspector eingeben und die Anzeige
 oberhalb des Videos separat aktivieren. Der Titel erzeugt keine weitere externe
 Anfrage, wird im Frontend sicher maskiert und ist standardmäßig ausgeblendet.
+Eingabe, Aktivierung, Speicherung, Anzeige in Editor und Frontend sowie das
+erneute Ausblenden wurden manuell erfolgreich geprüft. Damit sind die
+Layoutoptimierung und der optionale Playlist-Titel vollständig abgenommen.
 
 ## 4. Anforderungen
 
