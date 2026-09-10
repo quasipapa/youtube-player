@@ -32,9 +32,11 @@
 		"i18n:generate": "sh scripts/i18n.sh generate",
 		"i18n:check": "sh scripts/i18n.sh check",
 		"check": "npm run format:check && npm run lint:js && npm run lint:css && npm run lint:php && npm run test:php && npm run test:js && npm run i18n:check && npm run build",
-		"test:responsive": "npm run build && playwright test"
+		"test:responsive": "npm run build && playwright test tests/responsive",
+		"test:accessibility": "npm run build && playwright test tests/accessibility"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "4.13.0",
 		"@playwright/test": "1.63.0",
 		"@testing-library/react": "16.3.3",
 		"@wordpress/block-editor": "17.0.0",

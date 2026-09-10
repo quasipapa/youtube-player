@@ -446,3 +446,40 @@ toolchain is added.
 `npm run test:responsive` builds the plugin and runs isolated Chromium tests
 against the production PHP markup and CSS. See [styling and verification](styling.md#verification)
 for prerequisites, covered viewports and the separate manual theme acceptance.
+
+## Browser test runtime
+
+`npm run test:accessibility` runs the production markup, script and styles with
+local API doubles, keyboard input and axe-core. See the
+[test scope and manual checklist](accessibility.md). The layout-only suite remains
+`npm run test:responsive`; `npx playwright test` runs both suites after a build.
+
+The native WSL browser needs both the browser download and Linux libraries:
+
+```bash
+npx playwright install chromium
+npx playwright install-deps chromium
+```
+
+The second command may prompt for `sudo`. Alternatively, use a browser server
+in the official Playwright Docker image, keeping Node and the PHP fixture
+renderer on WSL. From the repository root, start it in another terminal:
+
+```bash
+docker run --rm --init --shm-size=1g --user pwuser \
+    --workdir /home/pwuser --publish 127.0.0.1:9323:9323 \
+    mcr.microsoft.com/playwright:v1.63.0-noble \
+    npx --yes playwright@1.63.0 run-server --port 9323 --host 0.0.0.0
+```
+
+Once the server is listening:
+
+```bash
+PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:9323/ npm run test:accessibility
+PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:9323/ npm run test:responsive
+```
+
+Stop the server with Ctrl+C afterwards. Only the local control port is exposed;
+the browser container has neither a project mount nor a Docker socket.
+Keep the Docker image version aligned with `@playwright/test` in `package.json`.
+This follows Playwright's [documented remote-browser workflow](https://playwright.dev/docs/docker#remote-connection).

@@ -305,6 +305,8 @@ export default function Edit( { attributes, setAttributes } ) {
 								{ availabilityCheckUrl && (
 									<iframe
 										ref={ availabilityIframe }
+										tabIndex={ -1 }
+										aria-hidden="true"
 										className="ytpp-player-editor__availability-frame"
 										title={ __(
 											'Playlist availability check',
@@ -422,6 +424,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							<div className="ytpp-player-editor__preview">
 								<iframe
 									ref={ previewIframe }
+									tabIndex={ -1 }
 									title={ __(
 										'YouTube playlist preview',
 										'yt-playlist-player'
@@ -433,6 +436,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							</div>
 							<div
 								className="ytpp-player-editor__controls"
+								role="group"
 								aria-label={ __(
 									'Playlist navigation preview',
 									'yt-playlist-player'

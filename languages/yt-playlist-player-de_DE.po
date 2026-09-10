@@ -16,7 +16,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: yt-playlist-player.php
-#: src/edit.js:522
+#: src/edit.js:526
 msgid "YouTube Playlist Player"
 msgstr "YouTube-Playlist-Player"
 
@@ -31,61 +31,61 @@ msgid "quasipapa"
 msgstr "quasipapa"
 
 #: includes/class-ytpp-editor-preview.php:55
-#: src/edit.js:425
+#: src/edit.js:428
 msgid "YouTube playlist preview"
 msgstr "YouTube-Playlist-Vorschau"
 
-#: src/render.php:32
+#: src/render.php:41
 msgid "No playlist ID has been entered yet."
 msgstr "Es wurde noch keine Playlist-ID eingegeben."
 
-#: src/render.php:36
+#: src/render.php:45
 #: src/edit.js:171
 msgid "Enter a valid YouTube playlist ID or supported playlist URL."
 msgstr "Geben Sie eine gültige YouTube-Playlist-ID oder eine unterstützte Playlist-URL ein."
 
-#: src/render.php:47
+#: src/render.php:56
 msgid "Loading this playlist connects to YouTube and may transfer data to Google."
 msgstr "Beim Laden dieser Playlist wird eine Verbindung zu YouTube hergestellt; dabei können Daten an Google übertragen werden."
 
-#: src/render.php:48
+#: src/render.php:57
 msgid "Your choice is saved for this playlist in this browser."
 msgstr "Ihre Auswahl wird für diese Playlist in diesem Browser gespeichert."
 
-#: src/render.php:51
+#: src/render.php:60
 msgid "Load YouTube playlist"
 msgstr "YouTube-Playlist laden"
 
-#: src/render.php:56
-#: src/view.js:251
+#: src/render.php:65
+#: src/view.js:409
 msgid "The video playlist is loading."
 msgstr "Die Video-Playlist wird geladen."
 
-#: src/render.php:62
+#: src/render.php:73
 msgid "Playlist navigation"
 msgstr "Playlist-Navigation"
 
-#: src/render.php:64
-#: src/edit.js:445
+#: src/render.php:75
 #: src/edit.js:449
+#: src/edit.js:453
 msgid "First video"
 msgstr "Erstes Video"
 
-#: src/render.php:67
-#: src/edit.js:462
+#: src/render.php:78
 #: src/edit.js:466
+#: src/edit.js:470
 msgid "Previous video"
 msgstr "Vorheriges Video"
 
-#: src/render.php:73
-#: src/edit.js:484
+#: src/render.php:85
 #: src/edit.js:488
+#: src/edit.js:492
 msgid "Next video"
 msgstr "Nächstes Video"
 
-#: src/render.php:76
-#: src/edit.js:501
+#: src/render.php:88
 #: src/edit.js:505
+#: src/edit.js:509
 msgid "Last video"
 msgstr "Letztes Video"
 
@@ -167,83 +167,80 @@ msgstr "Die Playlist ist nicht verfügbar, leer oder kann nicht eingebettet werd
 msgid "Playlist availability could not be determined. Check the network or content blocker and try again."
 msgstr "Die Playlist-Verfügbarkeit konnte nicht ermittelt werden. Prüfen Sie das Netzwerk oder den Content Blocker und versuchen Sie es erneut."
 
-#: src/edit.js:309
+#: src/edit.js:311
 msgid "Playlist availability check"
 msgstr "Prüfung der Playlist-Verfügbarkeit"
 
-#: src/edit.js:321
+#: src/edit.js:323
 msgid "Forget saved consent for this playlist"
 msgstr "Gespeicherte Zustimmung für diese Playlist löschen"
 
-#: src/edit.js:331
+#: src/edit.js:333
 msgid "Saved consent for this playlist was removed."
 msgstr "Die gespeicherte Zustimmung für diese Playlist wurde gelöscht."
 
-#: src/edit.js:341
+#: src/edit.js:343
 msgid "Player size"
 msgstr "Player-Größe"
 
-#: src/edit.js:347
+#: src/edit.js:349
 msgid "Maximum width (px)"
 msgstr "Maximale Breite (px)"
 
-#: src/edit.js:351
+#: src/edit.js:353
 msgid "Maximum height (px)"
 msgstr "Maximale Höhe (px)"
 
-#: src/edit.js:361
+#: src/edit.js:363
 msgid "Leave empty for automatic sizing. Limits apply to the video area."
 msgstr "Für automatische Größenanpassung leer lassen. Die Grenzen gelten für den Videobereich."
 
-#: src/edit.js:368
+#: src/edit.js:370
 msgid "Aspect ratio"
 msgstr "Seitenverhältnis"
 
-#: src/edit.js:375
+#: src/edit.js:377
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#: src/edit.js:385
+#: src/edit.js:387
 msgid "Custom aspect ratio"
 msgstr "Benutzerdefiniertes Seitenverhältnis"
 
-#: src/edit.js:393
+#: src/edit.js:395
 msgid "Use width:height, for example 9:16. Ratios from 1:4 to 4:1 are supported."
 msgstr "Verwenden Sie Breite:Höhe, zum Beispiel 9:16. Verhältnisse von 1:4 bis 4:1 werden unterstützt."
 
 #. translators: 1: minimum width, 2: minimum height.
-#: src/edit.js:402
+#: src/edit.js:404
 #, js-format
 msgid "Enter a valid ratio and whole pixel limits between %1$d (width) or %2$d (height) and 10000. Invalid settings use automatic sizing or 16:9."
 msgstr "Geben Sie ein gültiges Verhältnis und ganzzahlige Pixelgrenzen zwischen %1$d (Breite) beziehungsweise %2$d (Höhe) und 10000 ein. Bei ungültigen Einstellungen werden die automatische Größenanpassung oder 16:9 verwendet."
 
-#: src/edit.js:436
+#: src/edit.js:440
 msgid "Playlist navigation preview"
 msgstr "Vorschau der Playlist-Navigation"
 
-#: src/edit.js:478
+#: src/edit.js:482
 msgid "– / –"
 msgstr "– / –"
 
-#: src/edit.js:526
+#: src/edit.js:530
 msgid "Select this block and enter the playlist in the block settings sidebar."
 msgstr "Wählen Sie diesen Block aus und geben Sie die Playlist in den Block-Einstellungen der Seitenleiste ein."
 
 #. translators: 1: Current video number. 2: Total number of videos.
-#: src/view.js:116
+#: src/view.js:254
 #, js-format
 msgid "%1$d / %2$d"
 msgstr "%1$d / %2$d"
 
-#: src/view.js:170
+#: src/render.php:52
+#: src/view.js:324
 msgid "YouTube playlist player"
 msgstr "YouTube-Playlist-Player"
 
-#: src/view.js:194
-msgid "The YouTube playlist could not be loaded."
-msgstr "Die YouTube-Playlist konnte nicht geladen werden."
-
-#: src/view.js:281
+#: src/view.js:114
 msgid "The YouTube playlist could not be loaded. Please try again."
 msgstr "Die YouTube-Playlist konnte nicht geladen werden. Bitte versuchen Sie es erneut."
 
@@ -271,3 +268,21 @@ msgstr "YouTube"
 msgctxt "block keyword"
 msgid "playlist"
 msgstr "Playlist"
+
+#: src/render.php:72
+msgid "Retry loading playlist"
+msgstr "Playlist erneut laden"
+
+#. translators: 1: Current video number. 2: Total number of videos.
+#: src/view.js:260
+#, js-format
+msgid "Video %1$d of %2$d"
+msgstr "Video %1$d von %2$d"
+
+#: src/view.js:383
+msgid "Loading is blocked by the consent manager."
+msgstr "Das Laden wird durch die Einwilligungsverwaltung blockiert."
+
+#: src/view.js:456
+msgid "Consent was withdrawn. The playlist is stopped."
+msgstr "Die Zustimmung wurde widerrufen. Die Playlist wurde gestoppt."

@@ -398,6 +398,49 @@ Benutzer erfolgreich durchgeführt. Editor und Frontend reagieren vollständig
 auf den Sprachwechsel; die deutschen Formulierungen wurden fachlich abgenommen.
 Damit ist Schritt 11 vollständig abgenommen.
 
+### 3.4 Fortschritt in M4
+
+Für Schritt 12 technisch umgesetzt (10. September 2026):
+
+- getrennte, von Anfang an vorhandene Status- und Fehlerregionen sowie eine
+  vollständige Screenreader-Ansage „Video x von n“ bei unveränderter sichtbarer
+  Kurzposition „x / n“;
+- Fokusübergang von Consent/Wiederholen zum Player, Fokuskorrektur an deaktivierten
+  Navigationsgrenzen und kein Zurückholen des Fokus von außerhalb des Blocks;
+- lokale Wiederholen-Schaltfläche bei API-/Playerfehlern und jeweils 15 Sekunden
+  Timeout für API-Laden und Player-Bereitschaft;
+- explizite Kontraste für Consent- und Wiederholen-Buttons, zweifarbiger
+  Button-Fokus und Unterstützung für erzwungene Systemfarben;
+- Editorvorschau und versteckter Verfügbarkeitsprüfer aus der Tab-Reihenfolge
+  genommen; der versteckte Prüfer ist auch vor Screenreadern verborgen;
+- WordPress-Filter `ytpp_require_consent`, abbrechbares Ereignis
+  `ytpp:before-load` sowie Freigabe und Widerruf über
+  `ytpp:grant-consent` / `ytpp:revoke-consent`;
+- Widerruf entfernt den Player, löscht den gespeicherten Consent und verhindert
+  nachträgliches Erzeugen durch bereits ausstehende Callbacks. Andere
+  Blockinstanzen bleiben unabhängig; externe Freigaben werden nicht zusätzlich
+  lokal gespeichert;
+- `docs/accessibility.md` enthält Verhalten, Testumfang und manuelle Checkliste;
+  `docs/privacy.md` dokumentiert Schnittstellen, Integrationsbeispiel, Grenzen
+  des Widerrufs und die beim echten Smoke-Test beobachteten externen Dienste;
+- vollständiger Projektcheck erfolgreich: 35 PHPUnit-Tests / 130 Assertions,
+  86 Jest-Tests, Linter, Übersetzungs-Reproduzierbarkeit und Produktionsbuild;
+- 20 Chromium-Tests erfolgreich: vier neue Tests mit Tastatur, axe-core,
+  Kontrast und Consent-Integration sowie 16 vorhandene responsive Layouttests;
+- Browserprüfung über das offizielle Playwright-Docker-Image ohne zusätzliche
+  sudo-Installation auf WSL durchgeführt; Alternative in `docs/development.md`
+  dokumentiert;
+- lokaler WordPress-Smoke-Test erfolgreich: keine YouTube-Anfrage vor Consent,
+  echtes Laden und Navigation von „1 / 4“ zu „2 / 4“, danach Widerruf mit
+  entferntem iframe und gelöschtem Consent; keine JavaScript-Fehler.
+  Neue deutsche PHP-/JavaScript-Übersetzungen in WordPress ebenfalls geprüft.
+
+Offen bleiben die manuelle Tastatur-/Screenreader-Abnahme durch den Benutzer und
+die Prüfung einer konkreten Consent-Manager-Anbindung. Vor produktivem Einsatz
+müssen die Datenschutztexte und die Konfiguration der gesamten Website fachlich
+beziehungsweise rechtlich bewertet werden. Ein Borlabs-spezifischer Adapter und
+eine pauschale WCAG-Konformitätsbescheinigung sind nicht Bestandteil dieses Schritts.
+
 
 ## 4. Anforderungen
 

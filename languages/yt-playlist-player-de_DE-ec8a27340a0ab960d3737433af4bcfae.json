@@ -15,11 +15,15 @@
 			],
 			"%1$d / %2$d": [ "%1$d / %2$d" ],
 			"YouTube playlist player": [ "YouTube-Playlist-Player" ],
-			"The YouTube playlist could not be loaded.": [
-				"Die YouTube-Playlist konnte nicht geladen werden."
-			],
 			"The YouTube playlist could not be loaded. Please try again.": [
 				"Die YouTube-Playlist konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+			],
+			"Video %1$d of %2$d": [ "Video %1$d von %2$d" ],
+			"Loading is blocked by the consent manager.": [
+				"Das Laden wird durch die Einwilligungsverwaltung blockiert."
+			],
+			"Consent was withdrawn. The playlist is stopped.": [
+				"Die Zustimmung wurde widerrufen. Die Playlist wurde gestoppt."
 			]
 		}
 	}
