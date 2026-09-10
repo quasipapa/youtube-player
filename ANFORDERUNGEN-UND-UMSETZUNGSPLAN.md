@@ -1118,6 +1118,38 @@ Abschneiden bedienbar bleibt und die konfigurierten Grenzen einhält.
 **Fertig, wenn:** Die definierten Accessibility- und Datenschutz-Akzeptanztests
 bestanden sind.
 
+### Schritt 12a – Sprachausgabe optimieren (vorgemerkt)
+
+**Milestone:** `M4 – Datenschutz und Barrierefreiheit`
+
+**Status:** Bewusst zurückgestellt. Die vorhandene Semantik und automatisierten
+Accessibility-Tests bleiben Grundlage; dieser Schritt optimiert die tatsächlich
+gehörte Ausgabe, ohne die aktuelle Entwicklung zu blockieren.
+
+**Codex:**
+
+1. Prüft die reale Ausgabe mit Windows-Sprachausgabe (Narrator) und NVDA in Edge.
+2. Vergleicht Fokusmodus, Scanmodus und dynamische Ansagen für Player, aktuelle
+   Playlist-Position sowie die vier Navigationsbuttons.
+3. Verhindert doppelte oder unverständliche Ansagen und verbessert bei Bedarf
+   Namen, Reihenfolge und Live-Regionen.
+4. Prüft, ob ein vom Redakteur gepflegter Playlist-Titel sinnvoll in die
+   Sprachausgabe des Players einbezogen werden kann.
+5. Trennt die Prüfanleitung ausdrücklich von Edges Funktion **Vorlesen**: Diese
+   liest sichtbaren Seiteninhalt, ist aber kein Test für Bedien- und
+   Screenreader-Semantik.
+6. Ergänzt reproduzierbare manuelle Akzeptanztests und, soweit technisch möglich,
+   automatisierte Prüfungen des Accessibility-Trees.
+
+**Du:**
+
+1. Testest die Ausgabe mit mindestens Narrator oder NVDA in Edge.
+2. Dokumentierst erwünschte und störende Ansagen anhand konkreter Schritte.
+
+**Fertig, wenn:** Player, Position und alle Navigationselemente in den gewählten
+Screenreadern verständlich, ohne unnötige Wiederholungen und vollständig
+bedienbar angesagt werden.
+
 ### Schritt 13 – Vollständige Testpyramide und lokale Qualitätsprüfung
 
 **Milestone:** `M5 – Tests und CI`
