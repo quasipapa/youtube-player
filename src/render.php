@@ -49,6 +49,9 @@ $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 			<p class="ytpp-player__title"><?php echo esc_html( $ytpp_playlist_title ); ?></p>
 		<?php endif; ?>
 		<div class="ytpp-player__video" role="region" aria-label="<?php esc_attr_e( 'YouTube playlist player', 'yt-playlist-player' ); ?>" aria-busy="false">
+			<p class="ytpp-player__screen-reader-text">
+				<?php esc_html_e( 'YouTube playlist player', 'yt-playlist-player' ); ?>
+			</p>
 			<div class="ytpp-player__target" tabindex="-1" role="group" aria-label="<?php esc_attr_e( 'YouTube playlist player', 'yt-playlist-player' ); ?>">
 				<?php if ( $ytpp_require_consent ) : ?>
 					<div class="ytpp-player__consent">
@@ -72,20 +75,24 @@ $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 		<button type="button" class="ytpp-player__retry" hidden><?php esc_html_e( 'Retry loading playlist', 'yt-playlist-player' ); ?></button>
 		<nav class="ytpp-player__controls" aria-label="<?php esc_attr_e( 'Playlist navigation', 'yt-playlist-player' ); ?>">
 			<div class="ytpp-player__control-group">
-				<button type="button" class="ytpp-player__first" aria-label="<?php esc_attr_e( 'First video', 'yt-playlist-player' ); ?>" title="<?php esc_attr_e( 'First video', 'yt-playlist-player' ); ?>" disabled>
+				<button type="button" class="ytpp-player__first" title="<?php esc_attr_e( 'First video', 'yt-playlist-player' ); ?>" disabled>
 					<svg class="ytpp-player__icon ytpp-player__icon--skip" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="m17.5 18-9-6 9-6zM8 6.5v11H6.5v-11z" /></svg>
+					<span class="ytpp-player__screen-reader-text"><?php esc_html_e( 'First video', 'yt-playlist-player' ); ?></span>
 				</button>
-				<button type="button" class="ytpp-player__previous" aria-label="<?php esc_attr_e( 'Previous video', 'yt-playlist-player' ); ?>" title="<?php esc_attr_e( 'Previous video', 'yt-playlist-player' ); ?>" disabled>
+				<button type="button" class="ytpp-player__previous" title="<?php esc_attr_e( 'Previous video', 'yt-playlist-player' ); ?>" disabled>
 					<svg class="ytpp-player__icon ytpp-player__icon--step" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z" /></svg>
+					<span class="ytpp-player__screen-reader-text"><?php esc_html_e( 'Previous video', 'yt-playlist-player' ); ?></span>
 				</button>
 			</div>
-			<output class="ytpp-player__position" role="status" aria-live="polite" aria-atomic="true"></output>
+			<output class="ytpp-player__position" role="status" aria-live="polite" aria-atomic="true"><span class="ytpp-player__position-visual" aria-hidden="true"></span><span class="ytpp-player__screen-reader-text"></span></output>
 			<div class="ytpp-player__control-group">
-				<button type="button" class="ytpp-player__next" aria-label="<?php esc_attr_e( 'Next video', 'yt-playlist-player' ); ?>" title="<?php esc_attr_e( 'Next video', 'yt-playlist-player' ); ?>" disabled>
+				<button type="button" class="ytpp-player__next" title="<?php esc_attr_e( 'Next video', 'yt-playlist-player' ); ?>" disabled>
 					<svg class="ytpp-player__icon ytpp-player__icon--step" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z" /></svg>
+					<span class="ytpp-player__screen-reader-text"><?php esc_html_e( 'Next video', 'yt-playlist-player' ); ?></span>
 				</button>
-				<button type="button" class="ytpp-player__last" aria-label="<?php esc_attr_e( 'Last video', 'yt-playlist-player' ); ?>" title="<?php esc_attr_e( 'Last video', 'yt-playlist-player' ); ?>" disabled>
+				<button type="button" class="ytpp-player__last" title="<?php esc_attr_e( 'Last video', 'yt-playlist-player' ); ?>" disabled>
 					<svg class="ytpp-player__icon ytpp-player__icon--skip" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="m15.5 12-9 6V6zm2 5.5H16v-11h1.5z" /></svg>
+					<span class="ytpp-player__screen-reader-text"><?php esc_html_e( 'Last video', 'yt-playlist-player' ); ?></span>
 				</button>
 			</div>
 		</nav>

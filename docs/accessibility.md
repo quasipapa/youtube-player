@@ -1,11 +1,13 @@
 # Accessibility and acceptance
 
-The plugin's own controls use native buttons, translated accessible names and
-visible keyboard focus. The video area is a named **YouTube playlist player**
-region. After it is ready, its iframe and the visible position expose the
-translated name **Video 1 of n** to assistive technology; visually the compact
-position remains `1 / n`. The position is an atomic live region, so a change is
-announced without moving focus. SVG icons are hidden from assistive technology.
+The plugin's own controls use native buttons with real, visually hidden text
+labels and visible keyboard focus. The video area contains the real text
+**YouTube playlist player** and is also a named region. After it is ready, its
+iframe is named **YouTube playlist player: Video 1 of n**. The visible position
+remains `1 / n`, but that text is hidden from assistive technology and is paired
+with the real screen-reader text **Video 1 of n**. The position is an atomic live
+region, so a change is announced without moving focus. SVG icons are hidden from
+assistive technology.
 
 Status and error messages have separate, initially present `status` and `alert`
 regions. Empty regions are visually clipped, not removed from the accessibility
@@ -71,7 +73,10 @@ See [browser prerequisites and the Docker alternative](development.md#browser-te
 ## Manual acceptance for step 12
 
 Use an existing post with two blocks and a playlist of at least three videos.
-Test both German and English where messages changed.
+Test both German and English where messages changed. Use a real screen reader,
+such as Windows Narrator or NVDA in Edge, rather than Edge's **Read aloud**
+feature: Read aloud is intended for continuous page text and does not verify
+interactive control semantics.
 
 1. Forget saved consent in the inspector and reload the public page. Use only
    Tab, Shift+Tab, Enter and Space. Check focus visibility on the consent button.
