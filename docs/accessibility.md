@@ -78,6 +78,32 @@ such as Windows Narrator or NVDA in Edge, rather than Edge's **Read aloud**
 feature: Read aloud is intended for continuous page text and does not verify
 interactive control semantics.
 
+### Screen-reader setup in Edge
+
+Do **not** use Edge's **Read aloud** command (including `Ctrl+Shift+U`) for this
+test. It reads visible page text continuously; it does not test whether controls,
+regions or live messages are exposed to assistive technology.
+
+For Windows Narrator:
+
+1. Start it with `Windows+Ctrl+Enter`; the same shortcut stops it again.
+2. Open the public test page in Edge, then use `Tab` to reach interactive
+   controls. In Scan mode, use `B` for the next button and `D` for the next
+   landmark/region.
+3. Keep the browser language aligned with the WordPress language being tested.
+
+For NVDA:
+
+1. Install NVDA from the [official NV Access download page](https://www.nvaccess.org/download/),
+   then start **NVDA** from the Windows Start menu.
+2. Keep Edge in the foreground and use `Tab` to reach controls. NVDA's default
+   modifier key is `Insert` or `Caps Lock`; use the configured NVDA navigation
+   commands to inspect regions and buttons.
+
+Narrator and NVDA are independent Windows applications; neither is enabled in
+Edge's settings. Microsoft documents `Windows+Ctrl+Enter` as Narrator's start
+and stop shortcut in its [Narrator guide](https://support.microsoft.com/en-US/accessibility/windows/narrator/chapter-1-introducing-narrator).
+
 1. Forget saved consent in the inspector and reload the public page. Use only
    Tab, Shift+Tab, Enter and Space. Check focus visibility on the consent button.
 2. Load the playlist, navigate in all four directions and reach both boundaries.
