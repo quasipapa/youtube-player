@@ -99,6 +99,9 @@ final class Test_Block_Render extends TestCase {
 		$this->assertStringContainsString( 'ytpp-player__previous', $output );
 		$this->assertStringContainsString( 'Previous video', $output );
 		$this->assertStringContainsString( 'ytpp-player__position', $output );
+		$this->assertStringContainsString( 'role="status"', $output );
+		$this->assertStringContainsString( 'role="region"', $output );
+		$this->assertStringContainsString( 'aria-label="YouTube playlist player"', $output );
 		$this->assertStringContainsString( 'ytpp-player__next', $output );
 		$this->assertStringContainsString( 'Next video', $output );
 		$this->assertStringContainsString( 'ytpp-player__last', $output );
@@ -106,7 +109,7 @@ final class Test_Block_Render extends TestCase {
 		$this->assertSame( 4, substr_count( $output, 'ytpp-player__icon ' ) );
 		$this->assertSame( 2, substr_count( $output, 'ytpp-player__icon--skip' ) );
 		$this->assertSame( 2, substr_count( $output, 'ytpp-player__icon--step' ) );
-		$this->assertSame( 5, substr_count( $output, 'aria-hidden="true"' ) );
+		$this->assertSame( 4, substr_count( $output, 'aria-hidden="true"' ) );
 		$this->assertStringNotContainsString( '<iframe', $output );
 		$this->assertStringNotContainsString( 'https://www.youtube', $output );
 	}

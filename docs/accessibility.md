@@ -1,10 +1,11 @@
 # Accessibility and acceptance
 
 The plugin's own controls use native buttons, translated accessible names and
-visible keyboard focus. The compact visual position remains `1 / n`; a separate
-atomic live region announces **Video 1 of n**. Unchanged positions are not announced
-again on every player state event. SVG icons and the duplicate visual position
-are hidden from assistive technology.
+visible keyboard focus. The video area is a named **YouTube playlist player**
+region. After it is ready, its iframe and the visible position expose the
+translated name **Video 1 of n** to assistive technology; visually the compact
+position remains `1 / n`. The position is an atomic live region, so a change is
+announced without moving focus. SVG icons are hidden from assistive technology.
 
 Status and error messages have separate, initially present `status` and `alert`
 regions. Empty regions are visually clipped, not removed from the accessibility
@@ -77,9 +78,10 @@ Test both German and English where messages changed.
 2. Load the playlist, navigate in all four directions and reach both boundaries.
    Check that focus remains usable when buttons become disabled. Tab out of the
    real YouTube iframe and out of the block; there must be no keyboard trap.
-3. With a screen reader, verify loading, **Video x of n**, translated button
-   names and errors. Position should be announced once per change, not repeatedly
-   when playback is paused or resumed.
+3. With a screen reader, verify the named **YouTube playlist player** region,
+   iframe title and position **Video x of n**, translated button names and errors.
+   Position should be announced once per change, not repeatedly when playback is
+   paused or resumed.
 4. Block `youtube.com/iframe_api`, start from fresh consent, and reload. Confirm
    a local error and reachable retry button. If the request remains pending,
    the error appears after 15 seconds. Unblock it and retry successfully.

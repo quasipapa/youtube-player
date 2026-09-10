@@ -13,8 +13,7 @@ function playerMarkup( requireConsent = true ) {
 			<button class="ytpp-player__retry" hidden>Retry</button>
 			<button class="ytpp-player__first" disabled>First</button>
 			<button class="ytpp-player__previous" disabled>Previous</button>
-			<span class="ytpp-player__position"></span>
-			<span class="ytpp-player__position-announcement" role="status"></span>
+			<output class="ytpp-player__position" role="status"></output>
 			<button class="ytpp-player__next" disabled>Next</button>
 			<button class="ytpp-player__last" disabled>Last</button>
 		</div>`;
@@ -142,6 +141,11 @@ describe( 'privacy-aware frontend player', () => {
 		expect(
 			document.querySelector( '.ytpp-player__position' ).textContent
 		).toBe( '1 / 2' );
+		expect(
+			document
+				.querySelector( '.ytpp-player__position' )
+				.getAttribute( 'aria-label' )
+		).toBe( 'Video 1 of 2' );
 		expect( document.querySelector( '.ytpp-player__first' ).disabled ).toBe(
 			true
 		);
@@ -476,9 +480,13 @@ describe( 'privacy-aware frontend player', () => {
 			document.querySelector( '.ytpp-player__first' )
 		);
 		expect(
-			document.querySelector( '.ytpp-player__position-announcement' )
-				.textContent
+			document
+				.querySelector( '.ytpp-player__position' )
+				.getAttribute( 'aria-label' )
 		).toBe( 'Video 3 of 3' );
+		expect( document.querySelector( 'iframe' ).title ).toBe(
+			'Video 3 of 3'
+		);
 	} );
 
 	it( 'does not steal focus if the visitor leaves the block while loading', async () => {

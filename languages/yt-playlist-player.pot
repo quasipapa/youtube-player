@@ -44,8 +44,9 @@ msgstr ""
 msgid "Enter a valid YouTube playlist ID or supported playlist URL."
 msgstr ""
 
+#: src/render.php:51
 #: src/render.php:52
-#: src/view.js:324
+#: src/view.js:318
 msgid "YouTube playlist player"
 msgstr ""
 
@@ -62,7 +63,7 @@ msgid "Load YouTube playlist"
 msgstr ""
 
 #: src/render.php:65
-#: src/view.js:409
+#: src/view.js:403
 msgid "The video playlist is loading."
 msgstr ""
 
@@ -86,13 +87,13 @@ msgstr ""
 msgid "Previous video"
 msgstr ""
 
-#: src/render.php:85
+#: src/render.php:84
 #: src/edit.js:488
 #: src/edit.js:492
 msgid "Next video"
 msgstr ""
 
-#: src/render.php:88
+#: src/render.php:87
 #: src/edit.js:505
 #: src/edit.js:509
 msgid "Last video"
@@ -238,27 +239,27 @@ msgstr ""
 msgid "Select this block and enter the playlist in the block settings sidebar."
 msgstr ""
 
-#: src/view.js:114
+#: src/view.js:112
 msgid "The YouTube playlist could not be loaded. Please try again."
 msgstr ""
 
 #. translators: 1: Current video number. 2: Total number of videos.
-#: src/view.js:254
+#: src/view.js:249
 #, js-format
 msgid "%1$d / %2$d"
 msgstr ""
 
 #. translators: 1: Current video number. 2: Total number of videos.
-#: src/view.js:260
+#: src/view.js:255
 #, js-format
 msgid "Video %1$d of %2$d"
 msgstr ""
 
-#: src/view.js:383
+#: src/view.js:377
 msgid "Loading is blocked by the consent manager."
 msgstr ""
 
-#: src/view.js:456
+#: src/view.js:450
 msgid "Consent was withdrawn. The playlist is stopped."
 msgstr ""
 
