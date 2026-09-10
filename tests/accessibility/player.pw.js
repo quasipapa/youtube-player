@@ -144,9 +144,14 @@ test( 'keyboard consent, all four actions, boundary focus and exit', async ( {
 	await page.keyboard.press( 'Enter' );
 	await expect( page.locator( 'iframe' ) ).toBeFocused();
 	await expect(
+		page.getByRole( 'region', { name: 'YouTube playlist player' } )
+	).toBeVisible();
+	await expect(
 		page.getByRole( 'status', { name: 'Video 1 of 3' } )
 	).toBeVisible();
-	await expect( page.getByTitle( 'Video 1 of 3' ) ).toBeVisible();
+	await expect(
+		page.getByTitle( 'YouTube playlist player: Video 1 of 3' )
+	).toBeVisible();
 	const playback = page
 		.frameLocator( 'iframe' )
 		.getByRole( 'button', { name: 'Mock playback' } );
@@ -160,7 +165,7 @@ test( 'keyboard consent, all four actions, boundary focus and exit', async ( {
 	} );
 	await expect( next ).toBeFocused();
 	await page.keyboard.press( 'Space' );
-	await expect( page.locator( '.ytpp-player__position' ) ).toHaveText(
+	await expect( page.locator( '.ytpp-player__position-visual' ) ).toHaveText(
 		'2 / 3'
 	);
 	await expect( next ).toBeFocused();
@@ -174,7 +179,7 @@ test( 'keyboard consent, all four actions, boundary focus and exit', async ( {
 	await page.keyboard.press( 'Enter' );
 	const first = page.getByRole( 'button', { name: 'First video' } );
 	await expect( first ).toBeFocused();
-	await expect( page.locator( '.ytpp-player__position' ) ).toHaveText(
+	await expect( page.locator( '.ytpp-player__position-visual' ) ).toHaveText(
 		'3 / 3'
 	);
 	await page.keyboard.press( 'Enter' );
@@ -230,9 +235,9 @@ test( 'external veto, grant, revoke and renewed grant stay isolated per block', 
 	const second = page.locator( '.ytpp-player' ).nth( 1 );
 	for ( const block of [ first, second ] ) {
 		await block.dispatchEvent( 'ytpp:grant-consent' );
-		await expect( block.locator( '.ytpp-player__position' ) ).toHaveText(
-			'1 / 3'
-		);
+		await expect(
+			block.locator( '.ytpp-player__position-visual' )
+		).toHaveText( '1 / 3' );
 	}
 	await first.dispatchEvent( 'ytpp:revoke-consent' );
 	await expect( first.locator( 'iframe' ) ).toHaveCount( 0 );
@@ -241,16 +246,16 @@ test( 'external veto, grant, revoke and renewed grant stay isolated per block', 
 		first.getByRole( 'button', { name: 'Next video' } )
 	).toBeDisabled();
 	await first.dispatchEvent( 'ytpp:grant-consent' );
-	await expect( first.locator( '.ytpp-player__position' ) ).toHaveText(
+	await expect( first.locator( '.ytpp-player__position-visual' ) ).toHaveText(
 		'1 / 3'
 	);
 	await first.getByRole( 'button', { name: 'Next video' } ).click();
-	await expect( first.locator( '.ytpp-player__position' ) ).toHaveText(
+	await expect( first.locator( '.ytpp-player__position-visual' ) ).toHaveText(
 		'2 / 3'
 	);
-	await expect( second.locator( '.ytpp-player__position' ) ).toHaveText(
-		'1 / 3'
-	);
+	await expect(
+		second.locator( '.ytpp-player__position-visual' )
+	).toHaveText( '1 / 3' );
 	expect( await page.evaluate( () => localStorage.length ) ).toBe( 0 );
 } );
 

@@ -13,7 +13,7 @@ function playerMarkup( requireConsent = true ) {
 			<button class="ytpp-player__retry" hidden>Retry</button>
 			<button class="ytpp-player__first" disabled>First</button>
 			<button class="ytpp-player__previous" disabled>Previous</button>
-			<output class="ytpp-player__position" role="status"></output>
+			<output class="ytpp-player__position" role="status"><span class="ytpp-player__position-visual"></span><span class="ytpp-player__screen-reader-text"></span></output>
 			<button class="ytpp-player__next" disabled>Next</button>
 			<button class="ytpp-player__last" disabled>Last</button>
 		</div>`;
@@ -139,7 +139,8 @@ describe( 'privacy-aware frontend player', () => {
 
 		players[ 0 ].options.events.onReady( { target: players[ 0 ].player } );
 		expect(
-			document.querySelector( '.ytpp-player__position' ).textContent
+			document.querySelector( '.ytpp-player__position-visual' )
+				.textContent
 		).toBe( '1 / 2' );
 		expect(
 			document
@@ -212,7 +213,9 @@ describe( 'privacy-aware frontend player', () => {
 		);
 		const nextButton = document.querySelector( '.ytpp-player__next' );
 		const lastButton = document.querySelector( '.ytpp-player__last' );
-		const position = document.querySelector( '.ytpp-player__position' );
+		const position = document.querySelector(
+			'.ytpp-player__position-visual'
+		);
 
 		expect( position.textContent ).toBe( '1 / 3' );
 		expect( firstButton.disabled ).toBe( true );
@@ -296,7 +299,8 @@ describe( 'privacy-aware frontend player', () => {
 			).every( ( button ) => button.disabled )
 		).toBe( true );
 		expect(
-			document.querySelector( '.ytpp-player__position' ).textContent
+			document.querySelector( '.ytpp-player__position-visual' )
+				.textContent
 		).toBe( '1 / 1' );
 	} );
 
@@ -485,7 +489,7 @@ describe( 'privacy-aware frontend player', () => {
 				.getAttribute( 'aria-label' )
 		).toBe( 'Video 3 of 3' );
 		expect( document.querySelector( 'iframe' ).title ).toBe(
-			'Video 3 of 3'
+			'YouTube playlist player: Video 3 of 3'
 		);
 	} );
 

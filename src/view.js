@@ -94,12 +94,14 @@ function clearPlayer( container ) {
 	navigationButtons( container ).forEach( ( button ) => {
 		button.disabled = true;
 	} );
-	for ( const selector of [ '.ytpp-player__position' ] ) {
-		const position = container.querySelector( selector );
-		if ( position ) {
-			position.textContent = '';
-			position.removeAttribute( 'aria-label' );
-		}
+	const position = container.querySelector( '.ytpp-player__position' );
+	if ( position ) {
+		position.querySelector( '.ytpp-player__position-visual' ).textContent =
+			'';
+		position.querySelector(
+			'.ytpp-player__screen-reader-text'
+		).textContent = '';
+		position.removeAttribute( 'aria-label' );
 	}
 }
 
@@ -244,7 +246,7 @@ function updatePosition( container, player ) {
 		index >= 0 &&
 		index < playlist.length
 	) {
-		position.textContent = sprintf(
+		const shortPosition = sprintf(
 			/* translators: 1: Current video number. 2: Total number of videos. */
 			__( '%1$d / %2$d', 'yt-playlist-player' ),
 			index + 1,
@@ -256,16 +258,31 @@ function updatePosition( container, player ) {
 			index + 1,
 			playlist.length
 		);
+		position.querySelector( '.ytpp-player__position-visual' ).textContent =
+			shortPosition;
+		position.querySelector(
+			'.ytpp-player__screen-reader-text'
+		).textContent = description;
 		position.setAttribute( 'aria-label', description );
 		container
 			.querySelector( 'iframe' )
-			?.setAttribute( 'title', description );
+			?.setAttribute(
+				'title',
+				`${ __(
+					'YouTube playlist player',
+					'yt-playlist-player'
+				) }: ${ description }`
+			);
 		firstButton.disabled = index <= 0;
 		previousButton.disabled = index <= 0;
 		nextButton.disabled = index >= playlist.length - 1;
 		lastButton.disabled = index >= playlist.length - 1;
 	} else {
-		position.textContent = '';
+		position.querySelector( '.ytpp-player__position-visual' ).textContent =
+			'';
+		position.querySelector(
+			'.ytpp-player__screen-reader-text'
+		).textContent = '';
 		position.removeAttribute( 'aria-label' );
 		firstButton.disabled = true;
 		previousButton.disabled = true;
