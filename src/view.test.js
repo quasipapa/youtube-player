@@ -1,17 +1,20 @@
 function playerMarkup( requireConsent = true ) {
 	return `
 		<div class="ytpp-player" data-playlist-id="PL-test-playlist" data-require-consent="${ requireConsent }">
-			<div class="ytpp-player__target">
+			<div class="ytpp-player__target" tabindex="-1">
 				${
 					requireConsent
 						? '<button class="ytpp-player__consent-button">Load</button>'
 						: '<p class="ytpp-player__placeholder">Loading</p>'
 				}
 			</div>
-			<p class="ytpp-player__status"></p>
+			<p class="ytpp-player__status" role="status" aria-live="polite"></p>
+			<p class="ytpp-player__error" role="alert"></p>
+			<button class="ytpp-player__retry" hidden>Retry</button>
 			<button class="ytpp-player__first" disabled>First</button>
 			<button class="ytpp-player__previous" disabled>Previous</button>
 			<span class="ytpp-player__position"></span>
+			<span class="ytpp-player__position-announcement" role="status"></span>
 			<button class="ytpp-player__next" disabled>Next</button>
 			<button class="ytpp-player__last" disabled>Last</button>
 		</div>`;
@@ -22,14 +25,46 @@ async function flushPromises() {
 	await Promise.resolve();
 }
 
+function mockYoutube() {
+	const players = [];
+	window.YT = {
+		Player: jest.fn( ( target, { events } ) => {
+			const player = {
+				index: 0,
+				getPlaylist: () => [ 'one', 'two', 'three' ],
+				getPlaylistIndex: () => player.index,
+				playVideoAt: jest.fn( ( index ) => {
+					player.index = index;
+					events.onStateChange( { target: player } );
+				} ),
+				nextVideo: jest.fn( () =>
+					player.playVideoAt( player.index + 1 )
+				),
+				previousVideo: jest.fn( () =>
+					player.playVideoAt( player.index - 1 )
+				),
+				destroy: jest.fn(),
+			};
+			players.push( { player, events } );
+			return player;
+		} ),
+	};
+	return players;
+}
+
 describe( 'privacy-aware frontend player', () => {
 	beforeEach( () => {
+		jest.useFakeTimers();
 		document.head.innerHTML = '';
 		document.body.innerHTML = '';
 		delete window.YT;
 		delete window.onYouTubeIframeAPIReady;
 		localStorage.clear();
 		jest.resetModules();
+	} );
+	afterEach( () => {
+		jest.clearAllTimers();
+		jest.useRealTimers();
 	} );
 
 	it( 'waits for consent and loads one API script for multiple players', async () => {
@@ -127,8 +162,9 @@ describe( 'privacy-aware frontend player', () => {
 			true
 		);
 		expect(
-			document.querySelector( '.ytpp-player__status' ).textContent
-		).toBe( 'The YouTube playlist could not be loaded.' );
+			document.querySelector( '.ytpp-player__error' ).textContent
+		).toBe( 'The YouTube playlist could not be loaded. Please try again.' );
+		document.removeEventListener( 'ytpp:consent', consentEvents );
 	} );
 
 	it( 'navigates to every boundary and updates controls by position', async () => {
@@ -287,22 +323,162 @@ describe( 'privacy-aware frontend player', () => {
 			.dispatchEvent( new Event( 'error' ) );
 		await flushPromises();
 
-		expect( button.disabled ).toBe( false );
+		expect(
+			document.querySelector( '.ytpp-player__consent-button' ).disabled
+		).toBe( false );
 		expect( document.querySelector( 'script' ) ).toBeNull();
 		expect(
-			document.querySelector( '.ytpp-player__status' ).textContent
+			document.querySelector( '.ytpp-player__error' ).textContent
 		).toBe( 'The YouTube playlist could not be loaded. Please try again.' );
 		expect(
 			document
-				.querySelector( '.ytpp-player__status' )
+				.querySelector( '.ytpp-player__error' )
 				.getAttribute( 'role' )
 		).toBe( 'alert' );
 
-		button.click();
+		document.querySelector( '.ytpp-player__retry' ).click();
 		expect(
 			document.querySelector(
 				'script[src="https://www.youtube.com/iframe_api"]'
 			)
 		).not.toBeNull();
 	} );
+
+	it.each( [ 'button', 'storage', 'configuration', 'integration' ] )(
+		'allows a manager to veto %s before any network request or stored choice',
+		async ( source ) => {
+			document.body.innerHTML = playerMarkup(
+				source !== 'configuration'
+			);
+			const container = document.querySelector( '.ytpp-player' );
+			const veto = jest.fn( ( event ) => event.preventDefault() );
+			container.addEventListener( 'ytpp:before-load', veto );
+			if ( source === 'storage' ) {
+				localStorage.setItem( 'ytpp-consent-v1:PL-test-playlist', '1' );
+			}
+			const { initializePlayers } = require( './view' );
+			initializePlayers();
+			if ( source === 'button' ) {
+				container.querySelector( 'button' ).click();
+			} else if ( source === 'integration' ) {
+				container.dispatchEvent(
+					new CustomEvent( 'ytpp:grant-consent' )
+				);
+			}
+			await flushPromises();
+			expect( veto ).toHaveBeenCalledTimes( 1 );
+			expect( veto.mock.calls[ 0 ][ 0 ].detail.source ).toBe( source );
+			expect( document.querySelector( 'script, iframe' ) ).toBeNull();
+			expect( localStorage.length ).toBe( source === 'storage' ? 1 : 0 );
+		}
+	);
+
+	it( 'cancels a pending activation on revocation and allows a fresh grant', async () => {
+		document.body.innerHTML = playerMarkup();
+		const { initializePlayers } = require( './view' );
+		initializePlayers();
+		const container = document.querySelector( '.ytpp-player' );
+		container.querySelector( 'button' ).click();
+		container.dispatchEvent( new CustomEvent( 'ytpp:revoke-consent' ) );
+		const players = mockYoutube();
+		window.onYouTubeIframeAPIReady();
+		await flushPromises();
+		expect( players ).toHaveLength( 0 );
+		expect( localStorage.length ).toBe( 0 );
+		container.dispatchEvent( new CustomEvent( 'ytpp:grant-consent' ) );
+		await flushPromises();
+		expect( players ).toHaveLength( 1 );
+		expect( localStorage.length ).toBe( 0 );
+	} );
+
+	it( 'destroys only the revoked block and ignores its stale player events', async () => {
+		document.body.innerHTML = playerMarkup( false ) + playerMarkup( false );
+		const players = mockYoutube();
+		const { initializePlayers } = require( './view' );
+		initializePlayers();
+		await flushPromises();
+		const containers = document.querySelectorAll( '.ytpp-player' );
+		const { player, events } = players[ 0 ];
+		events.onReady( { target: player } );
+		containers[ 0 ].dispatchEvent(
+			new CustomEvent( 'ytpp:revoke-consent' )
+		);
+		events.onReady( { target: player } );
+		events.onStateChange( { target: player } );
+		expect( player.destroy ).toHaveBeenCalledTimes( 1 );
+		expect( containers[ 0 ].querySelector( 'iframe' ) ).toBeNull();
+		expect(
+			containers[ 0 ].querySelector( '.ytpp-player__next' ).disabled
+		).toBe( true );
+		expect( containers[ 1 ].querySelector( 'iframe' ) ).not.toBeNull();
+		expect( players[ 1 ].player.destroy ).not.toHaveBeenCalled();
+		containers[ 0 ].dispatchEvent(
+			new CustomEvent( 'ytpp:grant-consent' )
+		);
+		await flushPromises();
+		players[ 2 ].events.onReady( { target: players[ 2 ].player } );
+		containers[ 0 ].querySelector( '.ytpp-player__next' ).click();
+		expect( players[ 2 ].player.nextVideo ).toHaveBeenCalledTimes( 1 );
+		expect( player.nextVideo ).not.toHaveBeenCalled();
+	} );
+
+	it( 'keeps keyboard focus through loading and navigation boundaries', async () => {
+		document.body.innerHTML = playerMarkup();
+		const players = mockYoutube();
+		const { initializePlayers } = require( './view' );
+		initializePlayers();
+		const button = document.querySelector( '.ytpp-player__consent-button' );
+		button.focus();
+		button.click();
+		await flushPromises();
+		const { player, events } = players[ 0 ];
+		events.onReady( { target: player } );
+		expect( document.activeElement.tagName ).toBe( 'IFRAME' );
+		const last = document.querySelector( '.ytpp-player__last' );
+		last.focus();
+		last.click();
+		expect( document.activeElement ).toBe(
+			document.querySelector( '.ytpp-player__first' )
+		);
+		expect(
+			document.querySelector( '.ytpp-player__position-announcement' )
+				.textContent
+		).toBe( 'Video 3 of 3' );
+	} );
+
+	it( 'does not steal focus if the visitor leaves the block while loading', async () => {
+		document.body.innerHTML =
+			playerMarkup() + '<button id="outside">Outside</button>';
+		const players = mockYoutube();
+		const { initializePlayers } = require( './view' );
+		initializePlayers();
+		document.querySelector( '.ytpp-player__consent-button' ).click();
+		const outside = document.querySelector( '#outside' );
+		outside.focus();
+		await flushPromises();
+		players[ 0 ].events.onReady( { target: players[ 0 ].player } );
+		expect( document.activeElement ).toBe( outside );
+	} );
+
+	it.each( [ 'api', 'player' ] )(
+		'offers retry after an unresponsive %s times out',
+		async ( stage ) => {
+			document.body.innerHTML = playerMarkup( false );
+			if ( stage === 'player' ) {
+				mockYoutube();
+			}
+			const { initializePlayers } = require( './view' );
+			initializePlayers();
+			await flushPromises();
+			jest.advanceTimersByTime( 15000 );
+			await flushPromises();
+			expect(
+				document.querySelector( '.ytpp-player__retry' ).hidden
+			).toBe( false );
+			expect(
+				document.querySelector( '.ytpp-player__error' ).textContent
+			).toContain( 'Please try again.' );
+			expect( document.querySelector( 'iframe' ) ).toBeNull();
+		}
+	);
 } );

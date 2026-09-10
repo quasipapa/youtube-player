@@ -50,6 +50,19 @@ function add_action( string $hook_name, callable $callback ): void {
 }
 
 /**
+ * Apply a test callback to a filter without loading WordPress.
+ *
+ * @param string $hook_name Filter name.
+ * @param mixed  $value     Filtered value.
+ * @param mixed  ...$args   Additional filter arguments.
+ * @return mixed
+ */
+function apply_filters( string $hook_name, $value, ...$args ) {
+	$callback = $GLOBALS['ytpp_test_filters'][ $hook_name ] ?? null;
+	return $callback ? $callback( $value, ...$args ) : $value;
+}
+
+/**
  * Record block registrations without loading WordPress.
  *
  * @param string $block_type Block metadata directory.

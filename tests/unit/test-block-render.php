@@ -106,7 +106,7 @@ final class Test_Block_Render extends TestCase {
 		$this->assertSame( 4, substr_count( $output, 'ytpp-player__icon ' ) );
 		$this->assertSame( 2, substr_count( $output, 'ytpp-player__icon--skip' ) );
 		$this->assertSame( 2, substr_count( $output, 'ytpp-player__icon--step' ) );
-		$this->assertSame( 4, substr_count( $output, 'aria-hidden="true"' ) );
+		$this->assertSame( 5, substr_count( $output, 'aria-hidden="true"' ) );
 		$this->assertStringNotContainsString( '<iframe', $output );
 		$this->assertStringNotContainsString( 'https://www.youtube', $output );
 	}
@@ -127,6 +127,28 @@ final class Test_Block_Render extends TestCase {
 		$this->assertStringContainsString( 'data-require-consent="false"', $output );
 		$this->assertStringContainsString( 'The video playlist is loading.', $output );
 		$this->assertStringNotContainsString( 'ytpp-player__consent-button', $output );
+	}
+
+	/**
+	 * A site integration can override the gate, with only explicit false opting out.
+	 *
+	 * @return void
+	 */
+	public function test_consent_filter_fails_closed_and_receives_canonical_id(): void {
+		try {
+			foreach ( array( false, true, null, 0, 'false' ) as $result ) {
+				$GLOBALS['ytpp_test_filters']['ytpp_require_consent'] = function ( $required, $playlist_id, $attributes ) use ( $result ) {
+					$this->assertTrue( $required );
+					$this->assertSame( 'PL-test-playlist', $playlist_id );
+					$this->assertArrayHasKey( 'playlistId', $attributes );
+					return $result;
+				};
+				$output = $this->render_block( array( 'playlistId' => 'https://youtube.com/playlist?list=PL-test-playlist' ) );
+				$this->assertStringContainsString( 'data-require-consent="' . ( false === $result ? 'false' : 'true' ) . '"', $output );
+			}
+		} finally {
+			unset( $GLOBALS['ytpp_test_filters']['ytpp_require_consent'] );
+		}
 	}
 
 	/**

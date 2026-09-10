@@ -1,11 +1,131 @@
 import { __, sprintf } from '@wordpress/i18n';
 
-import { hasStoredConsent, rememberConsent } from './consent-storage';
+import {
+	forgetConsent,
+	hasStoredConsent,
+	rememberConsent,
+} from './consent-storage';
 
 const API_URL = 'https://www.youtube.com/iframe_api';
 const PLAYER_SELECTOR =
 	'.ytpp-player[data-playlist-id]:not([data-playlist-id=""])';
 let apiPromise;
+const LOAD_TIMEOUT = 15000;
+const states = new WeakMap();
+
+function stateFor( container ) {
+	if ( ! states.has( container ) ) {
+		const target = container.querySelector( '.ytpp-player__target' );
+		states.set( container, {
+			attempt: 0,
+			player: null,
+			timers: new Set(),
+			placeholder: Array.from( target.childNodes, ( node ) =>
+				node.cloneNode( true )
+			),
+		} );
+	}
+	return states.get( container );
+}
+
+function emit( container, name, source, cancelable = false ) {
+	return container.dispatchEvent(
+		new CustomEvent( name, {
+			bubbles: true,
+			cancelable,
+			detail: { playlistId: container.dataset.playlistId, source },
+		} )
+	);
+}
+
+function setBusy( container, busy ) {
+	container
+		.querySelector( '.ytpp-player__video' )
+		?.setAttribute( 'aria-busy', String( busy ) );
+}
+
+function setRetry( container, visible ) {
+	const retry = container.querySelector( '.ytpp-player__retry' );
+	if ( retry ) {
+		retry.hidden = ! visible;
+	}
+}
+
+function navigationButtons( container ) {
+	return Array.from(
+		container.querySelectorAll(
+			'.ytpp-player__first, .ytpp-player__previous, .ytpp-player__next, .ytpp-player__last'
+		)
+	);
+}
+
+function retainNavigationFocus( container, focused ) {
+	if (
+		focused?.disabled &&
+		navigationButtons( container ).includes( focused )
+	) {
+		const nextFocus = navigationButtons( container ).find(
+			( button ) => ! button.disabled
+		);
+		(
+			nextFocus || container.querySelector( '.ytpp-player__target' )
+		).focus();
+	}
+}
+
+function clearPlayer( container ) {
+	const state = stateFor( container );
+	state.attempt++;
+	state.timers.forEach( ( timer ) => window.clearTimeout( timer ) );
+	state.timers.clear();
+	try {
+		state.player?.destroy?.();
+	} catch {
+		// Removing the iframe also works when the external API cannot clean up.
+	}
+	state.player = null;
+	container
+		.querySelector( '.ytpp-player__target' )
+		.replaceChildren(
+			...state.placeholder.map( ( node ) => node.cloneNode( true ) )
+		);
+	delete container.dataset.ytppState;
+	setBusy( container, false );
+	navigationButtons( container ).forEach( ( button ) => {
+		button.disabled = true;
+	} );
+	for ( const selector of [
+		'.ytpp-player__position',
+		'.ytpp-player__position-announcement',
+	] ) {
+		const position = container.querySelector( selector );
+		if ( position ) {
+			position.textContent = '';
+		}
+	}
+}
+
+function failPlayer( container ) {
+	const focused = container.ownerDocument.activeElement;
+	const ownsFocus = container.contains( focused );
+	clearPlayer( container );
+	setStatus(
+		container,
+		__(
+			'The YouTube playlist could not be loaded. Please try again.',
+			'yt-playlist-player'
+		),
+		true
+	);
+	setRetry( container, true );
+	if ( ownsFocus ) {
+		(
+			container.querySelector( '.ytpp-player__retry' ) ||
+			container.querySelector( '.ytpp-player__consent-button' ) ||
+			container.querySelector( '.ytpp-player__target' )
+		).focus();
+	}
+}
 
 /**
  * Load the YouTube IFrame API once while preserving an existing ready callback.
@@ -23,22 +143,41 @@ export function loadYouTubeApi() {
 
 	apiPromise = new Promise( ( resolve, reject ) => {
 		const previousReadyCallback = window.onYouTubeIframeAPIReady;
+		let script = document.querySelector( `script[src="${ API_URL }"]` );
+		const ownsScript = ! script;
+		const fail = () => {
+			cleanup();
+			apiPromise = undefined;
+			if ( ownsScript ) {
+				script.remove();
+			}
+			reject( new Error( 'YouTube IFrame API failed to load' ) );
+		};
+		const timeout = window.setTimeout( fail, LOAD_TIMEOUT );
+		const cleanup = () => {
+			window.clearTimeout( timeout );
+			script.removeEventListener( 'error', fail );
+			if ( window.onYouTubeIframeAPIReady === ready ) {
+				window.onYouTubeIframeAPIReady = previousReadyCallback;
+			}
+		};
 
-		window.onYouTubeIframeAPIReady = () => {
+		const ready = () => {
 			try {
 				if ( typeof previousReadyCallback === 'function' ) {
 					previousReadyCallback();
 				}
 			} finally {
 				if ( window.YT && window.YT.Player ) {
+					cleanup();
 					resolve( window.YT );
 				} else {
-					reject( new Error( 'YouTube IFrame API unavailable' ) );
+					fail();
 				}
 			}
 		};
 
-		let script = document.querySelector( `script[src="${ API_URL }"]` );
+		window.onYouTubeIframeAPIReady = ready;
 
 		if ( ! script ) {
 			script = document.createElement( 'script' );
@@ -47,15 +186,7 @@ export function loadYouTubeApi() {
 			document.head.appendChild( script );
 		}
 
-		script.addEventListener(
-			'error',
-			() => {
-				apiPromise = undefined;
-				script.remove();
-				reject( new Error( 'YouTube IFrame API failed to load' ) );
-			},
-			{ once: true }
-		);
+		script.addEventListener( 'error', fail, { once: true } );
 	} );
 
 	return apiPromise;
@@ -74,9 +205,12 @@ function setStatus( container, message, isError = false ) {
 	if ( ! status ) {
 		return;
 	}
+	const error = container.querySelector( '.ytpp-player__error' );
 
-	status.textContent = message;
-	status.setAttribute( 'role', isError ? 'alert' : 'status' );
+	status.textContent = isError ? '' : message;
+	if ( error ) {
+		error.textContent = isError ? message : '';
+	}
 }
 
 /**
@@ -102,6 +236,10 @@ function updatePosition( container, player ) {
 		return;
 	}
 
+	const announcement = container.querySelector(
+		'.ytpp-player__position-announcement'
+	);
+	const focused = container.ownerDocument.activeElement;
 	const playlist = player.getPlaylist();
 	const index = player.getPlaylistIndex();
 
@@ -117,17 +255,30 @@ function updatePosition( container, player ) {
 			index + 1,
 			playlist.length
 		);
+		const description = sprintf(
+			/* translators: 1: Current video number. 2: Total number of videos. */
+			__( 'Video %1$d of %2$d', 'yt-playlist-player' ),
+			index + 1,
+			playlist.length
+		);
+		if ( announcement && announcement.textContent !== description ) {
+			announcement.textContent = description;
+		}
 		firstButton.disabled = index <= 0;
 		previousButton.disabled = index <= 0;
 		nextButton.disabled = index >= playlist.length - 1;
 		lastButton.disabled = index >= playlist.length - 1;
 	} else {
 		position.textContent = '';
+		if ( announcement ) {
+			announcement.textContent = '';
+		}
 		firstButton.disabled = true;
 		previousButton.disabled = true;
 		nextButton.disabled = true;
 		lastButton.disabled = true;
 	}
+	retainNavigationFocus( container, focused );
 }
 
 /**
@@ -135,8 +286,11 @@ function updatePosition( container, player ) {
  *
  * @param {HTMLElement} container Player wrapper.
  * @param {Object}      youtube   YouTube API namespace.
+ * @param {number}      attempt   Generation of this loading attempt.
  */
-function createPlayer( container, youtube ) {
+function createPlayer( container, youtube, attempt ) {
+	const state = stateFor( container );
+	const current = () => state.attempt === attempt && container.isConnected;
 	const playlistId = container.dataset.playlistId;
 	const playerTarget = container.querySelector( '.ytpp-player__target' );
 	const firstButton = container.querySelector( '.ytpp-player__first' );
@@ -173,59 +327,38 @@ function createPlayer( container, youtube ) {
 	iframe.referrerPolicy = 'origin-when-cross-origin';
 	playerTarget.replaceChildren( iframe );
 
-	const player = new youtube.Player( iframe, {
+	const readyTimeout = window.setTimeout( () => {
+		if ( current() ) {
+			failPlayer( container );
+		}
+	}, LOAD_TIMEOUT );
+	state.timers.add( readyTimeout );
+	state.player = new youtube.Player( iframe, {
 		events: {
 			onReady: ( event ) => {
-				container.setAttribute( 'aria-busy', 'false' );
+				if ( ! current() ) {
+					return;
+				}
+				window.clearTimeout( readyTimeout );
+				state.timers.delete( readyTimeout );
+				setBusy( container, false );
 				setStatus( container, '' );
 				updatePosition( container, event.target );
+				if ( container.ownerDocument.activeElement === playerTarget ) {
+					iframe.focus();
+				}
 			},
 			onStateChange: ( event ) => {
-				updatePosition( container, event.target );
+				if ( current() ) {
+					updatePosition( container, event.target );
+				}
 			},
 			onError: () => {
-				container.setAttribute( 'aria-busy', 'false' );
-				firstButton.disabled = true;
-				previousButton.disabled = true;
-				nextButton.disabled = true;
-				lastButton.disabled = true;
-				setStatus(
-					container,
-					__(
-						'The YouTube playlist could not be loaded.',
-						'yt-playlist-player'
-					),
-					true
-				);
+				if ( current() ) {
+					failPlayer( container );
+				}
 			},
 		},
-	} );
-	const updateAfterNavigation = () => {
-		window.setTimeout( () => updatePosition( container, player ), 250 );
-	};
-
-	firstButton.addEventListener( 'click', () => {
-		player.playVideoAt( 0 );
-		updateAfterNavigation();
-	} );
-
-	previousButton.addEventListener( 'click', () => {
-		player.previousVideo();
-		updateAfterNavigation();
-	} );
-
-	nextButton.addEventListener( 'click', () => {
-		player.nextVideo();
-		updateAfterNavigation();
-	} );
-
-	lastButton.addEventListener( 'click', () => {
-		const playlist = player.getPlaylist();
-
-		if ( Array.isArray( playlist ) && playlist.length > 0 ) {
-			player.playVideoAt( playlist.length - 1 );
-			updateAfterNavigation();
-		}
 	} );
 }
 
@@ -234,18 +367,43 @@ function createPlayer( container, youtube ) {
  *
  * @param {HTMLElement} container         Player wrapper.
  * @param {boolean}     consentGrantedNow Whether this call follows a new choice.
+ * @param {string}      source            Activation origin for integrations.
  */
-export function activatePlayer( container, consentGrantedNow = false ) {
+export function activatePlayer(
+	container,
+	consentGrantedNow = false,
+	source = 'automatic'
+) {
 	if ( container.dataset.ytppState ) {
 		return;
 	}
+	if ( ! emit( container, 'ytpp:before-load', source, true ) ) {
+		setStatus(
+			container,
+			__(
+				'Loading is blocked by the consent manager.',
+				'yt-playlist-player'
+			)
+		);
+		return;
+	}
+	const state = stateFor( container );
+	const attempt = ++state.attempt;
 
 	const consentButton = container.querySelector(
 		'.ytpp-player__consent-button'
 	);
 
 	container.dataset.ytppState = 'loading';
-	container.setAttribute( 'aria-busy', 'true' );
+	setBusy( container, true );
+	const focused = container.ownerDocument.activeElement;
+	if (
+		focused === consentButton ||
+		focused === container.querySelector( '.ytpp-player__retry' )
+	) {
+		container.querySelector( '.ytpp-player__target' ).focus();
+	}
+	setRetry( container, false );
 	setStatus(
 		container,
 		__( 'The video playlist is loading.', 'yt-playlist-player' )
@@ -257,34 +415,84 @@ export function activatePlayer( container, consentGrantedNow = false ) {
 
 	if ( consentGrantedNow ) {
 		rememberConsent( container.dataset.playlistId );
-		container.dispatchEvent(
-			new CustomEvent( 'ytpp:consent', {
-				bubbles: true,
-				detail: { playlistId: container.dataset.playlistId },
-			} )
-		);
+		emit( container, 'ytpp:consent', source );
 	}
 
+	// An integration may revoke permission synchronously in the consent event.
+	if ( state.attempt !== attempt ) {
+		return;
+	}
 	loadYouTubeApi()
 		.then( ( youtube ) => {
-			createPlayer( container, youtube );
-			container.dataset.ytppState = 'initialized';
+			if ( state.attempt !== attempt || ! container.isConnected ) {
+				return;
+			}
+			createPlayer( container, youtube, attempt );
+			if ( state.attempt === attempt ) {
+				container.dataset.ytppState = 'initialized';
+			}
 		} )
 		.catch( () => {
-			delete container.dataset.ytppState;
-			container.setAttribute( 'aria-busy', 'false' );
-			if ( consentButton ) {
-				consentButton.disabled = false;
+			if ( state.attempt === attempt && container.isConnected ) {
+				failPlayer( container );
 			}
-			setStatus(
-				container,
-				__(
-					'The YouTube playlist could not be loaded. Please try again.',
-					'yt-playlist-player'
-				),
-				true
-			);
 		} );
+}
+
+/**
+ * Withdraw permission for one block and cancel its pending player creation.
+ *
+ * @param {HTMLElement} container Player wrapper.
+ */
+export function revokePlayer( container ) {
+	const ownsFocus = container.contains(
+		container.ownerDocument.activeElement
+	);
+	forgetConsent( container.dataset.playlistId );
+	clearPlayer( container );
+	setRetry( container, false );
+	setStatus(
+		container,
+		__(
+			'Consent was withdrawn. The playlist is stopped.',
+			'yt-playlist-player'
+		)
+	);
+	if ( ownsFocus ) {
+		(
+			container.querySelector( '.ytpp-player__consent-button' ) ||
+			container.querySelector( '.ytpp-player__target' )
+		).focus();
+	}
+	emit( container, 'ytpp:consent-revoked', 'integration' );
+}
+
+function navigate( container, button ) {
+	const state = stateFor( container );
+	const player = state.player;
+	if ( ! player || button.disabled ) {
+		return;
+	}
+	if ( button.classList.contains( 'ytpp-player__first' ) ) {
+		player.playVideoAt( 0 );
+	} else if ( button.classList.contains( 'ytpp-player__previous' ) ) {
+		player.previousVideo();
+	} else if ( button.classList.contains( 'ytpp-player__next' ) ) {
+		player.nextVideo();
+	} else {
+		const playlist = player.getPlaylist();
+		if ( Array.isArray( playlist ) && playlist.length > 0 ) {
+			player.playVideoAt( playlist.length - 1 );
+		}
+	}
+	const attempt = state.attempt;
+	const timer = window.setTimeout( () => {
+		state.timers.delete( timer );
+		if ( state.attempt === attempt && container.isConnected ) {
+			updatePosition( container, player );
+		}
+	}, 250 );
+	state.timers.add( timer );
 }
 
 /**
@@ -299,19 +507,42 @@ export function initializePlayers( root = document ) {
 		}
 
 		container.dataset.ytppBound = 'true';
-		const consentButton = container.querySelector(
-			'.ytpp-player__consent-button'
-		);
+		stateFor( container );
+		container.addEventListener( 'click', ( event ) => {
+			const button = event.target.closest( 'button' );
+			if ( ! button || ! container.contains( button ) ) {
+				return;
+			}
+			if ( button.classList.contains( 'ytpp-player__consent-button' ) ) {
+				activatePlayer( container, true, 'button' );
+			} else if ( button.classList.contains( 'ytpp-player__retry' ) ) {
+				activatePlayer( container, false, 'retry' );
+			} else if ( navigationButtons( container ).includes( button ) ) {
+				navigate( container, button );
+			}
+		} );
+		container.addEventListener( 'ytpp:grant-consent', ( event ) => {
+			if ( event.target === container ) {
+				activatePlayer( container, false, 'integration' );
+			}
+		} );
+		container.addEventListener( 'ytpp:revoke-consent', ( event ) => {
+			if ( event.target === container ) {
+				revokePlayer( container );
+			}
+		} );
 
 		if (
 			container.dataset.requireConsent === 'false' ||
 			hasStoredConsent( container.dataset.playlistId )
 		) {
-			activatePlayer( container );
-		} else if ( consentButton ) {
-			consentButton.addEventListener( 'click', () => {
-				activatePlayer( container, true );
-			} );
+			activatePlayer(
+				container,
+				false,
+				container.dataset.requireConsent === 'false'
+					? 'configuration'
+					: 'storage'
+			);
 		}
 	} );
 }

@@ -41,15 +41,18 @@ editor preview. Explicit valid inspector dimensions override theme CSS defaults.
 | `--ytpp-controls-gap` | `0.75rem` | Navigation spacing |
 | `--ytpp-navigation-skip-icon-size` | `1rem` | First/last icons |
 | `--ytpp-navigation-step-icon-size` | `1rem` | Previous/next icons |
-| `--ytpp-button-background` | `#f0f0f0` | Navigation button background |
-| `--ytpp-button-color` | `#1e1e1e` | Navigation button text/icon color |
-| `--ytpp-button-border` | `1px solid #757575` | Navigation button border |
-| `--ytpp-button-radius` | `2px` | Navigation button corner radius |
-| `--ytpp-focus-outline` | `2px solid currentColor` | Frontend keyboard focus outline |
+| `--ytpp-button-background` | `#f0f0f0` | Navigation, consent and retry button background |
+| `--ytpp-button-color` | `#1e1e1e` | Button text/icon color |
+| `--ytpp-button-border` | `1px solid #757575` | Button border |
+| `--ytpp-button-radius` | `2px` | Button corner radius |
+| `--ytpp-focus-outline` | `2px solid #1e1e1e` | Frontend button focus outline, with a white surrounding ring |
 
 Custom CSS is trusted theme configuration and does not pass through the inspector's
 validation. Use valid positive dimensions and preserve accessible contrast and
 visible focus indicators. The editor preview is deliberately non-interactive.
+The consent and retry buttons use content-based dimensions. The accepted `3rem`
+by `2rem` navigation layout is unchanged. See [accessibility](accessibility.md)
+for focus transitions, contrast and forced-colors behavior.
 
 ## Classic themes
 
