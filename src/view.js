@@ -94,13 +94,11 @@ function clearPlayer( container ) {
 	navigationButtons( container ).forEach( ( button ) => {
 		button.disabled = true;
 	} );
-	for ( const selector of [
-		'.ytpp-player__position',
-		'.ytpp-player__position-announcement',
-	] ) {
+	for ( const selector of [ '.ytpp-player__position' ] ) {
 		const position = container.querySelector( selector );
 		if ( position ) {
 			position.textContent = '';
+			position.removeAttribute( 'aria-label' );
 		}
 	}
 }
@@ -236,9 +234,6 @@ function updatePosition( container, player ) {
 		return;
 	}
 
-	const announcement = container.querySelector(
-		'.ytpp-player__position-announcement'
-	);
 	const focused = container.ownerDocument.activeElement;
 	const playlist = player.getPlaylist();
 	const index = player.getPlaylistIndex();
@@ -261,18 +256,17 @@ function updatePosition( container, player ) {
 			index + 1,
 			playlist.length
 		);
-		if ( announcement && announcement.textContent !== description ) {
-			announcement.textContent = description;
-		}
+		position.setAttribute( 'aria-label', description );
+		container
+			.querySelector( 'iframe' )
+			?.setAttribute( 'title', description );
 		firstButton.disabled = index <= 0;
 		previousButton.disabled = index <= 0;
 		nextButton.disabled = index >= playlist.length - 1;
 		lastButton.disabled = index >= playlist.length - 1;
 	} else {
 		position.textContent = '';
-		if ( announcement ) {
-			announcement.textContent = '';
-		}
+		position.removeAttribute( 'aria-label' );
 		firstButton.disabled = true;
 		previousButton.disabled = true;
 		nextButton.disabled = true;

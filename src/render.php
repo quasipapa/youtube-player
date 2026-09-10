@@ -48,7 +48,7 @@ $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 		<?php if ( $ytpp_show_title && '' !== $ytpp_playlist_title ) : ?>
 			<p class="ytpp-player__title"><?php echo esc_html( $ytpp_playlist_title ); ?></p>
 		<?php endif; ?>
-		<div class="ytpp-player__video" aria-busy="false">
+		<div class="ytpp-player__video" role="region" aria-label="<?php esc_attr_e( 'YouTube playlist player', 'yt-playlist-player' ); ?>" aria-busy="false">
 			<div class="ytpp-player__target" tabindex="-1" role="group" aria-label="<?php esc_attr_e( 'YouTube playlist player', 'yt-playlist-player' ); ?>">
 				<?php if ( $ytpp_require_consent ) : ?>
 					<div class="ytpp-player__consent">
@@ -79,8 +79,7 @@ $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 					<svg class="ytpp-player__icon ytpp-player__icon--step" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z" /></svg>
 				</button>
 			</div>
-			<span class="ytpp-player__position" aria-hidden="true"></span>
-			<span class="ytpp-player__position-announcement ytpp-player__screen-reader-text" role="status" aria-live="polite" aria-atomic="true"></span>
+			<output class="ytpp-player__position" role="status" aria-live="polite" aria-atomic="true"></output>
 			<div class="ytpp-player__control-group">
 				<button type="button" class="ytpp-player__next" aria-label="<?php esc_attr_e( 'Next video', 'yt-playlist-player' ); ?>" title="<?php esc_attr_e( 'Next video', 'yt-playlist-player' ); ?>" disabled>
 					<svg class="ytpp-player__icon ytpp-player__icon--step" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z" /></svg>

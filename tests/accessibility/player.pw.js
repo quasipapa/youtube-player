@@ -144,8 +144,9 @@ test( 'keyboard consent, all four actions, boundary focus and exit', async ( {
 	await page.keyboard.press( 'Enter' );
 	await expect( page.locator( 'iframe' ) ).toBeFocused();
 	await expect(
-		page.locator( '.ytpp-player__position-announcement' )
-	).toHaveText( 'Video 1 of 3' );
+		page.getByRole( 'status', { name: 'Video 1 of 3' } )
+	).toBeVisible();
+	await expect( page.getByTitle( 'Video 1 of 3' ) ).toBeVisible();
 	const playback = page
 		.frameLocator( 'iframe' )
 		.getByRole( 'button', { name: 'Mock playback' } );
