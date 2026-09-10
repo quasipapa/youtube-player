@@ -473,18 +473,30 @@ function navigate( container, button ) {
 	if ( ! player || button.disabled ) {
 		return;
 	}
-	if ( button.classList.contains( 'ytpp-player__first' ) ) {
-		player.playVideoAt( 0 );
-	} else if ( button.classList.contains( 'ytpp-player__previous' ) ) {
-		player.previousVideo();
-	} else if ( button.classList.contains( 'ytpp-player__next' ) ) {
-		player.nextVideo();
-	} else {
-		const playlist = player.getPlaylist();
-		if ( Array.isArray( playlist ) && playlist.length > 0 ) {
-			player.playVideoAt( playlist.length - 1 );
-		}
+	const playlist = player.getPlaylist();
+	if ( ! Array.isArray( playlist ) || playlist.length === 0 ) {
+		return;
 	}
+
+	let targetIndex;
+	if ( button.classList.contains( 'ytpp-player__first' ) ) {
+		targetIndex = 0;
+	} else if ( button.classList.contains( 'ytpp-player__last' ) ) {
+		targetIndex = playlist.length - 1;
+	} else {
+		const currentIndex = player.getPlaylistIndex();
+		targetIndex = button.classList.contains( 'ytpp-player__previous' )
+			? currentIndex - 1
+			: currentIndex + 1;
+	}
+
+	// cuePlaylist changes the selected video but deliberately leaves playback to
+	// the visitor. The next/previous/playVideoAt API methods would start it.
+	player.cuePlaylist( {
+		listType: 'playlist',
+		list: container.dataset.playlistId,
+		index: targetIndex,
+	} );
 	const attempt = state.attempt;
 	const timer = window.setTimeout( () => {
 		state.timers.delete( timer );

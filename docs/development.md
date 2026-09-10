@@ -300,7 +300,7 @@ Use a playlist containing at least three playable videos. After granting consent
 confirm that the position initially reads **1 / n**, **First video** and
 **Previous video** are disabled, and **Next video** and **Last video** are
 enabled. Navigate to a middle video and verify that all four actions are enabled
-and that the position changes. At the final video, **Next video** and **Last
+and that the position changes without starting playback. At the final video, **Next video** and **Last
 video** must be disabled while both backward actions remain enabled.
 
 Also test a playlist containing exactly one playable video. Its position must be

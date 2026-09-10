@@ -46,6 +46,10 @@ function installMockPlayer() {
 					index = value;
 					events.onStateChange( { target: player } );
 				},
+				cuePlaylist: ( { index: value } ) => {
+					index = value;
+					events.onStateChange( { target: player } );
+				},
 				nextVideo: () => player.playVideoAt( index + 1 ),
 				previousVideo: () => player.playVideoAt( index - 1 ),
 				destroy: () => iframe.remove(),

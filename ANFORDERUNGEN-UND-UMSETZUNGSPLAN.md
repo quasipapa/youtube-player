@@ -476,7 +476,8 @@ eine pauschale WCAG-Konformitätsbescheinigung sind nicht Bestandteil dieses Sch
     und bedienbar dargestellt.
 14. Ungültige, private, leere, gelöschte oder nicht einbettbare Playlists führen zu
     einer verständlichen, übersetzbaren Fehlermeldung.
-15. Es gibt standardmäßig kein Autoplay.
+15. Es gibt standardmäßig kein Autoplay. Auch die Playlist-Navigation wählt ein
+    Video nur aus und startet dessen Wiedergabe nicht.
 16. Der Editor prüft IDs und unterstützte Links zunächst lokal und ohne externe
     Anfrage auf syntaktische Gültigkeit.
 17. Nach erfolgreicher lokaler Prüfung kann der Redakteur die tatsächliche
