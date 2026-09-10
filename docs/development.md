@@ -308,6 +308,8 @@ Also test a playlist containing exactly one playable video. Its position must be
 render two blocks on the same page and confirm that navigating one player does
 not change the other player's position or controls. The labels and disabled
 states must remain understandable with keyboard navigation and a screen reader.
+For the required screen-reader setup, use the [manual accessibility instructions](accessibility.md#screen-reader-setup-in-edge); do not substitute Edge's
+**Read aloud** function for a real screen reader.
 
 These checks are the manual acceptance test for step 9. The automated tests mock
 the YouTube IFrame API and cover the beginning, middle, end, single-video and
