@@ -37,6 +37,10 @@ function mockYoutube() {
 					player.index = index;
 					events.onStateChange( { target: player } );
 				} ),
+				cuePlaylist: jest.fn( ( { index } ) => {
+					player.index = index;
+					events.onStateChange( { target: player } );
+				} ),
 				nextVideo: jest.fn( () =>
 					player.playVideoAt( player.index + 1 )
 				),
@@ -106,6 +110,7 @@ describe( 'privacy-aware frontend player', () => {
 					nextVideo: jest.fn(),
 					playVideoAt: jest.fn(),
 					previousVideo: jest.fn(),
+					cuePlaylist: jest.fn(),
 				};
 				players.push( { options, player, target } );
 				return player;
@@ -151,8 +156,13 @@ describe( 'privacy-aware frontend player', () => {
 		);
 
 		document.querySelector( '.ytpp-player__next' ).click();
-		expect( players[ 0 ].player.nextVideo ).toHaveBeenCalledTimes( 1 );
-		expect( players[ 1 ].player.nextVideo ).not.toHaveBeenCalled();
+		expect( players[ 0 ].player.cuePlaylist ).toHaveBeenCalledWith( {
+			listType: 'playlist',
+			list: 'PL-test-playlist',
+			index: 1,
+		} );
+		expect( players[ 0 ].player.nextVideo ).not.toHaveBeenCalled();
+		expect( players[ 1 ].player.cuePlaylist ).not.toHaveBeenCalled();
 
 		players[ 0 ].options.events.onError();
 		expect( document.querySelector( '.ytpp-player__first' ).disabled ).toBe(
@@ -178,6 +188,7 @@ describe( 'privacy-aware frontend player', () => {
 			nextVideo: jest.fn(),
 			playVideoAt: jest.fn(),
 			previousVideo: jest.fn(),
+			cuePlaylist: jest.fn(),
 		};
 		window.YT = {
 			Player: jest.fn( ( target, options ) => {
@@ -217,10 +228,29 @@ describe( 'privacy-aware frontend player', () => {
 		previousButton.click();
 		nextButton.click();
 		lastButton.click();
-		expect( player.playVideoAt ).toHaveBeenNthCalledWith( 1, 0 );
-		expect( player.previousVideo ).toHaveBeenCalledTimes( 1 );
-		expect( player.nextVideo ).toHaveBeenCalledTimes( 1 );
-		expect( player.playVideoAt ).toHaveBeenNthCalledWith( 2, 2 );
+		expect( player.cuePlaylist ).toHaveBeenNthCalledWith( 1, {
+			listType: 'playlist',
+			list: 'PL-test-playlist',
+			index: 0,
+		} );
+		expect( player.cuePlaylist ).toHaveBeenNthCalledWith( 2, {
+			listType: 'playlist',
+			list: 'PL-test-playlist',
+			index: 0,
+		} );
+		expect( player.cuePlaylist ).toHaveBeenNthCalledWith( 3, {
+			listType: 'playlist',
+			list: 'PL-test-playlist',
+			index: 2,
+		} );
+		expect( player.cuePlaylist ).toHaveBeenNthCalledWith( 4, {
+			listType: 'playlist',
+			list: 'PL-test-playlist',
+			index: 2,
+		} );
+		expect( player.playVideoAt ).not.toHaveBeenCalled();
+		expect( player.previousVideo ).not.toHaveBeenCalled();
+		expect( player.nextVideo ).not.toHaveBeenCalled();
 
 		index = 2;
 		events.onStateChange( { target: player } );
@@ -240,6 +270,7 @@ describe( 'privacy-aware frontend player', () => {
 			nextVideo: jest.fn(),
 			playVideoAt: jest.fn(),
 			previousVideo: jest.fn(),
+			cuePlaylist: jest.fn(),
 		};
 		window.YT = {
 			Player: jest.fn( ( target, options ) => {
@@ -418,7 +449,11 @@ describe( 'privacy-aware frontend player', () => {
 		await flushPromises();
 		players[ 2 ].events.onReady( { target: players[ 2 ].player } );
 		containers[ 0 ].querySelector( '.ytpp-player__next' ).click();
-		expect( players[ 2 ].player.nextVideo ).toHaveBeenCalledTimes( 1 );
+		expect( players[ 2 ].player.cuePlaylist ).toHaveBeenCalledWith( {
+			listType: 'playlist',
+			list: 'PL-test-playlist',
+			index: 1,
+		} );
 		expect( player.nextVideo ).not.toHaveBeenCalled();
 	} );
 

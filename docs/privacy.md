@@ -170,7 +170,7 @@ loaded, then navigation from `1 / 4` to `2 / 4`):
 | `fonts.gstatic.com` | Player font resources, after consent |
 | `www.gstatic.com` | Additional Google static resources, after consent |
 | `www.google.com`, `jnn-pa.googleapis.com` | Additional Google requests initiated by the embedded player, after consent; not separate plugin integrations |
-| `*.googlevideo.com` | Media delivery after navigation started playback; observed host `rr3---sn-hoxu-h0j6.googlevideo.com` |
+| `*.googlevideo.com` | Media delivery after a visitor manually started playback; observed host `rr3---sn-hoxu-h0j6.googlevideo.com` |
 
 Before consent there were **no YouTube/Google player requests or player iframes**.
 The page separately requested `secure.gravatar.com` for WordPress comment avatars;
