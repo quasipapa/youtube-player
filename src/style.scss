@@ -10,6 +10,41 @@
 	overflow-wrap: anywhere;
 }
 
+/* WordPress supplies these classes from the block alignment support. Keep the
+ * fallback scoped to this block so classic themes get predictable behavior. */
+.ytpp-player.aligncenter,
+.ytpp-player-editor.aligncenter {
+	margin-inline-start: auto;
+	margin-inline-end: auto;
+}
+
+.ytpp-player.alignleft,
+.ytpp-player-editor.alignleft {
+	float: left;
+	margin-inline-end: var(--wp--style--block-gap, 1.5rem);
+	margin-block-end: var(--wp--style--block-gap, 1.5rem);
+}
+
+.ytpp-player.alignright,
+.ytpp-player-editor.alignright {
+	float: right;
+	margin-inline-start: var(--wp--style--block-gap, 1.5rem);
+	margin-block-end: var(--wp--style--block-gap, 1.5rem);
+}
+
+@media (max-width: 600px) {
+
+	.ytpp-player.alignleft,
+	.ytpp-player.alignright,
+	.ytpp-player-editor.alignleft,
+	.ytpp-player-editor.alignright {
+		float: none;
+		margin-inline: 0;
+		margin-block-end: 0;
+		width: 100%;
+	}
+}
+
 .ytpp-player__video {
 	width: 100%;
 	aspect-ratio: var(--ytpp-aspect-ratio, 1.7777777778);

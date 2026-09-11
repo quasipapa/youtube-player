@@ -116,6 +116,32 @@ final class Test_Block_Render extends TestCase {
 	}
 
 	/**
+	 * WordPress alignment attributes render only their supported wrapper class.
+	 *
+	 * @return void
+	 */
+	public function test_supported_alignment_wrapper_classes(): void {
+		foreach ( array( 'wide', 'full', 'center', 'left', 'right' ) as $alignment ) {
+			$output = $this->render_block(
+				array(
+					'playlistId' => 'PL-test-playlist',
+					'align'      => $alignment,
+				)
+			);
+			$this->assertStringContainsString( 'class="ytpp-player align' . $alignment . '"', $output );
+		}
+
+		$output = $this->render_block(
+			array(
+				'playlistId' => 'PL-test-playlist',
+				'align'      => 'wide;bad',
+			)
+		);
+		$this->assertStringContainsString( 'class="ytpp-player"', $output );
+		$this->assertStringNotContainsString( 'bad', $output );
+	}
+
+	/**
 	 * The local consent gate can be disabled for an external content blocker.
 	 *
 	 * @return void

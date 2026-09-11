@@ -18,6 +18,10 @@ $ytpp_playlist_title  = isset( $attributes['playlistTitle'] )
 	? trim( (string) $attributes['playlistTitle'] )
 	: '';
 $ytpp_show_title      = isset( $attributes['showPlaylistTitle'] ) && true === $attributes['showPlaylistTitle'];
+$ytpp_alignment       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
+$ytpp_alignment_class = in_array( $ytpp_alignment, array( 'wide', 'full', 'center', 'left', 'right' ), true )
+	? ' align' . $ytpp_alignment
+	: '';
 
 /**
  * Filter the local consent gate. Only boolean false disables it.
@@ -30,7 +34,7 @@ $ytpp_require_consent = false !== apply_filters( 'ytpp_require_consent', $ytpp_r
 
 $ytpp_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class'                => 'ytpp-player',
+		'class'                => 'ytpp-player' . $ytpp_alignment_class,
 		'style'                => YTPP_Player_Sizing::style( $attributes ),
 		'data-playlist-id'     => $ytpp_playlist_id ?? '',
 		'data-require-consent' => $ytpp_require_consent ? 'true' : 'false',
