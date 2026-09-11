@@ -1,6 +1,6 @@
 # YouTube Playlist Player – Anforderungen und Umsetzungsplan
 
-Stand: 6. September 2026
+Stand: 11. September 2026
 Status: Milestone M0 in Arbeit
 
 ## 1. Ziel des Projekts
@@ -370,6 +370,12 @@ Nach der Korrektur der Buttonmaße, zusammengehaltenen Buttonpaare und
 Positionsschriftgröße wurden die manuellen Tests vom Benutzer als erfolgreich
 bestätigt. Damit ist Schritt 10 manuell abgenommen.
 
+Als zusätzliche Anforderung ist Schritt 10a eingeplant: Redakteure sollen für den
+Playlist-Block die fünf Gutenberg-Standardausrichtungen `wide`, `full`, `center`,
+`left` und `right` wählen können. Links- und rechtsbündige Blöcke sollen bei
+ausreichendem Platz und geeigneter Blockbreite von nachfolgendem Text umflossen
+werden. Die Umsetzung und Abnahme stehen noch aus.
+
 Für Schritt 11 technisch umgesetzt (7. September 2026):
 
 - Englisch ist durchgängig Quellsprache; PHP, JavaScript und Blockmetadaten
@@ -485,6 +491,10 @@ eine pauschale WCAG-Konformitätsbescheinigung sind nicht Bestandteil dieses Sch
     im Editor prüfen. Das Ergebnis unterscheidet zwischen verfügbar, nicht
     verfügbar und wegen Netzwerk-, Datenschutz- oder API-Einschränkungen nicht
     eindeutig prüfbar.
+18. Der Block bietet die Gutenberg-Standardausrichtungen `wide`, `full`, `center`,
+    `left` und `right` an. Bei `left` und `right` kann nachfolgender Text den Block
+    umfließen, sofern Theme, verfügbare Inhaltsbreite und konfigurierte maximale
+    Blockbreite dafür ausreichend Platz lassen.
 
 ### 4.2 Datenschutzanforderungen
 
@@ -562,8 +572,10 @@ pauschal die rechtliche Konformität einer gesamten Website.
   - Abstände;
   - Button-Hintergrund und -Textfarbe;
   - Rahmen, Radius und Fokusdarstellung.
-- Blockausrichtungen wie `wide` und `full` werden unterstützt, soweit das Theme sie
-  anbietet.
+- Die Gutenberg-Standardausrichtungen `wide`, `full`, `center`, `left` und `right`
+  werden unterstützt, soweit das Theme sie anbietet. `left` und `right` ermöglichen
+  bei geeigneter Breite umlaufenden Text; auf schmalen Ansichten darf der Block
+  ohne horizontales Abschneiden wieder die verfügbare Inhaltsbreite einnehmen.
 - Editor- und Frontend-Darstellung sollen möglichst übereinstimmen.
 - Die CSS-Dokumentation enthält Beispiele für klassische Themes und `theme.json`.
 - Die Mindestgröße des eingebetteten Players wird gegen die technischen
@@ -1076,6 +1088,56 @@ funktionieren.
 
 **Fertig, wenn:** Der gesamte Block bei allen Testgrößen ohne horizontales
 Abschneiden bedienbar bleibt und die konfigurierten Grenzen einhält.
+
+### Schritt 10a – Standardausrichtungen und Textumfluss ergänzen
+
+**Milestone:** `M3 – Responsive Design und i18n`
+
+**Status:** Neu eingeplant; Umsetzung und Abnahme stehen aus.
+
+**Codex:**
+
+1. Erweitert die Alignment-Unterstützung in `block.json` auf `wide`, `full`,
+   `center`, `left` und `right`, sodass WordPress die Standardauswahl in der
+   Block-Werkzeugleiste bereitstellt und die Ausrichtung im Blockattribut
+   speichert.
+2. Verwendet für Editor und dynamisch gerendertes Frontend die von WordPress
+   erzeugten `alignwide`-, `alignfull`-, `aligncenter`-, `alignleft`- und
+   `alignright`-Klassen; es wird keine parallele proprietäre
+   Ausrichtungseinstellung eingeführt.
+3. Stimmt die Alignment-Klassen mit der vorhandenen Maximalbreite,
+   Maximalhöhe und Seitenverhältnisberechnung ab. Insbesondere erhalten
+   `left` und `right` nur dann Textumfluss, wenn neben der wirksamen Blockbreite
+   ausreichend Platz verbleibt; `center` wird ohne Textumfluss zentriert.
+4. Ergänzt robuste, auf den Block begrenzte Fallback-Styles für klassische und
+   Block-Themes. Auf schmalen Viewports fällt eine seitliche Ausrichtung auf die
+   verfügbare Breite zurück, ohne horizontalen Überlauf oder unbedienbare
+   Navigation zu erzeugen; Theme-Vorgaben bleiben vorrangig nutzbar.
+5. Stellt sicher, dass die visuelle Ausrichtung weder DOM-, Lese- noch
+   Tab-Reihenfolge verändert und dass Editorvorschau und Frontend dasselbe
+   Verhalten zeigen.
+6. Ergänzt Jest-Tests für die registrierten Alignment-Optionen und die
+   Editor-Blockeigenschaften, PHPUnit-Tests für die serverseitig ausgegebenen
+   Wrapper-Klassen sowie responsive Browsertests für alle fünf Ausrichtungen,
+   Textumfluss links/rechts und den Rückfall auf kleinen Viewports.
+7. Erweitert `docs/styling.md` um das Zusammenspiel von Ausrichtung,
+   Maximalbreite, Theme-Unterstützung und Textumfluss sowie um eine manuelle
+   Prüfcheckliste.
+
+**Du:**
+
+1. Wählst im Gutenberg-Editor nacheinander Wide, Full, Center, Left und Right,
+   speicherst den Beitrag und prüfst, dass die Auswahl nach erneutem Öffnen
+   erhalten bleibt.
+2. Prüfst Left und Right mit nachfolgendem, ausreichend langem Absatz und einer
+   Maximalbreite, die neben dem Player Platz für Text lässt.
+3. Vergleichst Editor und Frontend in mindestens einem klassischen und einem
+   Block-Theme sowie auf Desktop- und Mobilbreite.
+
+**Fertig, wenn:** Alle fünf Standardausrichtungen auswählbar, gespeichert und in
+Editor wie Frontend wirksam sind; Left und Right ermöglichen bei ausreichendem
+Platz umlaufenden Text, während der Block auf schmalen Ansichten vollständig
+sichtbar und bedienbar bleibt.
 
 ### Schritt 11 – Internationalisierung fertigstellen
 
