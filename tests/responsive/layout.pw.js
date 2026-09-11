@@ -38,9 +38,9 @@ const scenarios = [
 	},
 	...[ 'wide', 'full', 'center', 'left', 'right' ].map( ( alignment ) => ( {
 		name: `${ alignment } alignment`,
-		attributes: { align: alignment, maxWidth: '320' },
+		attributes: { align: alignment, maxWidth: '400' },
 		ratio: 16 / 9,
-		width: 320,
+		width: 400,
 	} ) ),
 ];
 let fixtures;
