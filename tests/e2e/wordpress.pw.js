@@ -93,19 +93,36 @@ test.describe( 'WordPress editor and frontend integration', () => {
 			aspectRatio: '4:3',
 		} );
 
+		await page.close();
 		externalRequests.length = 0;
-		await page.goto( saved.permalink );
+		const frontendPage = await page.context().newPage();
+		frontendPage.on( 'request', ( request ) => {
+			const host = new URL( request.url() ).hostname;
+			if (
+				host.includes( 'youtube.com' ) ||
+				host.includes( 'youtube-nocookie.com' ) ||
+				host.includes( 'googlevideo.com' )
+			) {
+				externalRequests.push( request.url() );
+			}
+		} );
+
+		await frontendPage.goto( saved.permalink );
 		await expect(
-			page.getByText( 'Automated playlist', { exact: true } )
+			frontendPage.getByText( 'Automated playlist', { exact: true } )
 		).toBeVisible();
 		await expect(
-			page.getByRole( 'button', { name: 'Load YouTube playlist' } )
+			frontendPage.getByRole( 'button', {
+				name: 'Load YouTube playlist',
+			} )
 		).toBeVisible();
-		await expect( page.locator( '.ytpp-player' ) ).toHaveAttribute(
+		await expect( frontendPage.locator( '.ytpp-player' ) ).toHaveAttribute(
 			'style',
 			/--ytpp-aspect-ratio:1\.333/
 		);
 		expect( externalRequests ).toEqual( [] );
-		expect( await page.locator( '.ytpp-player iframe' ).count() ).toBe( 0 );
+		expect(
+			await frontendPage.locator( '.ytpp-player iframe' ).count()
+		).toBe( 0 );
 	} );
 } );
