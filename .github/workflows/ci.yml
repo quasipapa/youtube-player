@@ -34,7 +34,7 @@ jobs:
             - name: Start WordPress test environment
               run: npm run env:test:start
             - name: Run formatting, lint, tests, translations and build
-              run: npm run check
+              run: YTPP_WP_ENV_CONFIG=.wp-env.test.json npm run check
             - name: Verify versions agree
               run: |
                   node <<'NODE'

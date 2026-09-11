@@ -181,7 +181,7 @@ test( 'left and right alignment float beside following text on desktop', async (
 				JSON.stringify( {
 					playlistId: 'PL-test-playlist',
 					align: alignment,
-					maxWidth: '320',
+					maxWidth: '400',
 				} ),
 			],
 			{ encoding: 'utf8' }
