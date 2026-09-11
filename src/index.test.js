@@ -17,9 +17,8 @@ describe( 'player block registration', () => {
 	} );
 
 	it( 'uses dynamic server-side rendering', () => {
-		// expect( settings.save() ).toBeNull();
-    expect( settings.save() ).toBe( 'intentional failure' );
-  } );
+		expect( settings.save() ).toBeNull();
+	} );
 
 	it( 'supports all standard WordPress alignments', () => {
 		expect( metadata.supports.align ).toEqual( [
