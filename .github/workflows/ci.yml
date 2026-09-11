@@ -29,6 +29,10 @@ jobs:
                   cache: npm
             - name: Install JavaScript dependencies
               run: npm ci
+            - name: Install PHP dependencies
+              run: npm run composer:install
+            - name: Start WordPress test environment
+              run: npm run env:test:start
             - name: Run formatting, lint, tests, translations and build
               run: npm run check
             - name: Verify versions agree
@@ -84,7 +88,7 @@ jobs:
             - name: Install JavaScript dependencies
               run: npm ci
             - name: Run JavaScript, CSS and unit checks
-              run: npm run lint:js && npm run lint:css && npm run test:js && npm run i18n:check
+              run: npm run lint:js && npm run lint:css && npm run test:js
 
     wordpress:
         name: WordPress integration, E2E and Plugin Check

@@ -482,6 +482,14 @@ Für Schritt 14 technisch umgesetzt (11. September 2026):
   für die Kompatibilitätsmatrix und reproduziert den dokumentierten lokalen
   WordPress-/Playwright-Qualitätslauf.
 
+Nach dem ersten GitHub-Lauf korrigiert:
+
+- der frische lokale beziehungsweise CI-Qualitätslauf installiert Composer-
+  Abhängigkeiten vor den PHP-Prüfungen und startet die WordPress-Testumgebung
+  vor der reproduzierbaren Übersetzungsprüfung;
+- der reine JavaScript-/CSS-Job führt keine WordPress-abhängige i18n-Prüfung mehr
+  ohne Testumgebung aus; diese bleibt im Build- und Versionsjob enthalten.
+
 Die Aktivierung der erfolgreichen Jobs als verpflichtende Statusprüfungen für
 `main` sowie der erste erfolgreiche Lauf stehen noch aus.
 
