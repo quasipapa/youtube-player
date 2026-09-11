@@ -468,6 +468,31 @@ müssen die Datenschutztexte und die Konfiguration der gesamten Website fachlich
 beziehungsweise rechtlich bewertet werden. Ein Borlabs-spezifischer Adapter und
 eine pauschale WCAG-Konformitätsbescheinigung sind nicht Bestandteil dieses Schritts.
 
+Für Schritt 14 technisch umgesetzt (11. September 2026):
+
+- `.github/workflows/ci.yml` prüft Pushes nach `main` und Pull Requests mit
+  getrennten Jobs für Build/Versionen, PHP 8.0 und 8.3, JavaScript/CSS,
+  WordPress-Integration, E2E und Plugin Check;
+- die Workflow-Aktionen sind auf vollständige Commit-SHAs gepinnt und die
+  Standardberechtigungen auf Lesen beschränkt; nur der CI-Artefaktjob erhält die
+  zusätzlich erforderliche Berechtigung zum Hochladen;
+- ein erfolgreicher Lauf stellt ein zeitlich begrenztes Produktionsartefakt mit
+  ausschließlich auslieferbaren Plugin-Dateien bereit;
+- der Workflow verwendet die deklarierte Mindestplattform PHP 8.0 sowie PHP 8.3
+  für die Kompatibilitätsmatrix und reproduziert den dokumentierten lokalen
+  WordPress-/Playwright-Qualitätslauf.
+
+Nach dem ersten GitHub-Lauf korrigiert:
+
+- der frische lokale beziehungsweise CI-Qualitätslauf installiert Composer-
+  Abhängigkeiten vor den PHP-Prüfungen und startet die WordPress-Testumgebung
+  vor der reproduzierbaren Übersetzungsprüfung;
+- der reine JavaScript-/CSS-Job führt keine WordPress-abhängige i18n-Prüfung mehr
+  ohne Testumgebung aus; diese bleibt im Build- und Versionsjob enthalten.
+
+Die Aktivierung der erfolgreichen Jobs als verpflichtende Statusprüfungen für
+`main` sowie der erste erfolgreiche Lauf stehen noch aus.
+
 
 ## 4. Anforderungen
 

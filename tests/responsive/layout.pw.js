@@ -38,9 +38,9 @@ const scenarios = [
 	},
 	...[ 'wide', 'full', 'center', 'left', 'right' ].map( ( alignment ) => ( {
 		name: `${ alignment } alignment`,
-		attributes: { align: alignment, maxWidth: '320' },
+		attributes: { align: alignment, maxWidth: '400' },
 		ratio: 16 / 9,
-		width: 320,
+		width: 400,
 	} ) ),
 ];
 let fixtures;
@@ -181,7 +181,7 @@ test( 'left and right alignment float beside following text on desktop', async (
 				JSON.stringify( {
 					playlistId: 'PL-test-playlist',
 					align: alignment,
-					maxWidth: '320',
+					maxWidth: '400',
 				} ),
 			],
 			{ encoding: 'utf8' }

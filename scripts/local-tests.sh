@@ -12,6 +12,7 @@ export WP_ENV_HOME="${WP_ENV_HOME:-$project_root/.wp-env-home}"
 
 cd "$project_root"
 
+npm run composer:install
 npm run env:test:start
 YTPP_WP_ENV_CONFIG=.wp-env.test.json npm run check
 npm run test:plugin-check
