@@ -35,71 +35,71 @@ msgstr ""
 msgid "YouTube playlist preview"
 msgstr ""
 
-#: src/render.php:43
+#: src/render.php:47
 msgid "No playlist ID has been entered yet."
 msgstr ""
 
-#: src/render.php:47
+#: src/render.php:51
 #: src/edit.js:171
 msgid "Enter a valid YouTube playlist ID or supported playlist URL."
 msgstr ""
 
-#: src/render.php:53
-#: src/render.php:55
 #: src/render.php:57
+#: src/render.php:59
+#: src/render.php:61
 #: src/view.js:271
 #: src/view.js:335
 msgid "YouTube playlist player"
 msgstr ""
 
-#: src/render.php:61
+#: src/render.php:65
 msgid "Loading this playlist connects to YouTube and may transfer data to Google."
 msgstr ""
 
-#: src/render.php:62
+#: src/render.php:66
 msgid "Your choice is saved for this playlist in this browser."
 msgstr ""
 
-#: src/render.php:65
+#: src/render.php:69
 msgid "Load YouTube playlist"
 msgstr ""
 
-#: src/render.php:70
+#: src/render.php:74
 #: src/view.js:420
 msgid "The video playlist is loading."
 msgstr ""
 
-#: src/render.php:77
+#: src/render.php:81
 msgid "Retry loading playlist"
 msgstr ""
 
-#: src/render.php:78
+#: src/render.php:82
 msgid "Playlist navigation"
 msgstr ""
 
-#: src/render.php:80
-#: src/render.php:82
+#: src/render.php:84
+#: src/render.php:86
 #: src/edit.js:449
 #: src/edit.js:453
 msgid "First video"
 msgstr ""
 
-#: src/render.php:84
-#: src/render.php:86
+#: src/render.php:88
+#: src/render.php:90
 #: src/edit.js:466
 #: src/edit.js:470
 msgid "Previous video"
 msgstr ""
 
-#: src/render.php:91
-#: src/render.php:93
+#: src/render.php:95
+#: src/render.php:97
 #: src/edit.js:488
 #: src/edit.js:492
 msgid "Next video"
 msgstr ""
 
-#: src/render.php:95
-#: src/render.php:97
+#: src/render.php:99
+#: src/render.php:101
 #: src/edit.js:505
 #: src/edit.js:509
 msgid "Last video"

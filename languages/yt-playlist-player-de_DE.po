@@ -35,59 +35,59 @@ msgstr "quasipapa"
 msgid "YouTube playlist preview"
 msgstr "YouTube-Playlist-Vorschau"
 
-#: src/render.php:43
+#: src/render.php:47
 msgid "No playlist ID has been entered yet."
 msgstr "Es wurde noch keine Playlist-ID eingegeben."
 
-#: src/render.php:47
+#: src/render.php:51
 #: src/edit.js:171
 msgid "Enter a valid YouTube playlist ID or supported playlist URL."
 msgstr "Geben Sie eine gültige YouTube-Playlist-ID oder eine unterstützte Playlist-URL ein."
 
-#: src/render.php:61
+#: src/render.php:65
 msgid "Loading this playlist connects to YouTube and may transfer data to Google."
 msgstr "Beim Laden dieser Playlist wird eine Verbindung zu YouTube hergestellt; dabei können Daten an Google übertragen werden."
 
-#: src/render.php:62
+#: src/render.php:66
 msgid "Your choice is saved for this playlist in this browser."
 msgstr "Ihre Auswahl wird für diese Playlist in diesem Browser gespeichert."
 
-#: src/render.php:65
+#: src/render.php:69
 msgid "Load YouTube playlist"
 msgstr "YouTube-Playlist laden"
 
-#: src/render.php:70
+#: src/render.php:74
 #: src/view.js:420
 msgid "The video playlist is loading."
 msgstr "Die Video-Playlist wird geladen."
 
-#: src/render.php:78
+#: src/render.php:82
 msgid "Playlist navigation"
 msgstr "Playlist-Navigation"
 
-#: src/render.php:80
-#: src/render.php:82
+#: src/render.php:84
+#: src/render.php:86
 #: src/edit.js:449
 #: src/edit.js:453
 msgid "First video"
 msgstr "Erstes Video"
 
-#: src/render.php:84
-#: src/render.php:86
+#: src/render.php:88
+#: src/render.php:90
 #: src/edit.js:466
 #: src/edit.js:470
 msgid "Previous video"
 msgstr "Vorheriges Video"
 
-#: src/render.php:91
-#: src/render.php:93
+#: src/render.php:95
+#: src/render.php:97
 #: src/edit.js:488
 #: src/edit.js:492
 msgid "Next video"
 msgstr "Nächstes Video"
 
-#: src/render.php:95
-#: src/render.php:97
+#: src/render.php:99
+#: src/render.php:101
 #: src/edit.js:505
 #: src/edit.js:509
 msgid "Last video"
@@ -239,9 +239,9 @@ msgstr "Wählen Sie diesen Block aus und geben Sie die Playlist in den Block-Ein
 msgid "%1$d / %2$d"
 msgstr "%1$d / %2$d"
 
-#: src/render.php:53
-#: src/render.php:55
 #: src/render.php:57
+#: src/render.php:59
+#: src/render.php:61
 #: src/view.js:271
 #: src/view.js:335
 msgid "YouTube playlist player"
@@ -276,7 +276,7 @@ msgctxt "block keyword"
 msgid "playlist"
 msgstr "Playlist"
 
-#: src/render.php:77
+#: src/render.php:81
 msgid "Retry loading playlist"
 msgstr "Playlist erneut laden"
 
