@@ -28,9 +28,9 @@
 			"@lint:standards",
 			"@lint:compatibility"
 		],
-		"lint:syntax": "parallel-lint --exclude vendor --exclude node_modules --exclude build --exclude dist .",
+		"lint:syntax": "parallel-lint --exclude vendor --exclude node_modules --exclude build --exclude dist --exclude .wp-env-home .",
 		"lint:standards": "phpcs --standard=phpcs.xml.dist",
-		"lint:compatibility": "phpcs --standard=PHPCompatibilityWP --runtime-set testVersion 8.0- --extensions=php --ignore=vendor,node_modules,build,dist .",
+		"lint:compatibility": "phpcs --standard=PHPCompatibilityWP --runtime-set testVersion 8.0- --extensions=php --ignore=vendor,node_modules,build,dist,.wp-env-home .",
 		"format": "phpcbf --standard=phpcs.xml.dist",
 		"test": "phpunit --configuration phpunit.xml.dist"
 	}
