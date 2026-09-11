@@ -4,7 +4,10 @@ In the block inspector, **Player size** provides optional maximum width and heig
 in whole CSS pixels. Empty fields use the available content width. The height limit
 applies to the video area; the title, navigation and status appear outside it. Width
 limits apply to the whole block. Wide and full alignment are available when the
-theme supports them.
+theme supports them. The block also supports the standard `center`, `left` and
+`right` alignments. WordPress stores the selection in the block's `align`
+attribute and supplies the corresponding `alignwide`, `alignfull`, `aligncenter`,
+`alignleft` or `alignright` class.
 
 Choose 16:9, 4:3, 1:1 or **Custom**, using `width:height` (for example `9:16`). Custom
 ratios between 1:4 and 4:1 are supported; each part permits up to four integer digits
@@ -27,6 +30,14 @@ narrower containers. Navigation buttons are 3rem wide and 2rem high, with a defa
 Each pair stays together; only complete pairs can move to another line when
 necessary. The position text uses 1rem. Reading and keyboard order are preserved. Long titles wrap as needed. If large text
 makes the consent notice taller than the video area, that area scrolls locally.
+
+For `center`, the block is centered without changing document or keyboard order.
+`left` and `right` float the effective block width and leave the theme's block gap
+for following text. Text wrapping is therefore visible only when the configured
+maximum width leaves room beside the player. On narrow screens the plugin removes
+the float and returns the block to the available content width, preventing
+horizontal overflow. Themes remain free to override the standard WordPress
+alignment classes.
 
 ## Public CSS custom properties
 
@@ -120,4 +131,6 @@ Use this checklist for manual acceptance in one classic theme and one block them
 2. Check 320px, tablet and desktop widths, including a narrow column and long title.
 3. Check the consent gate, load the real player and navigate all four directions.
 4. Check empty, invalid and very small dimensions and the editor feedback.
-5. Check wide/full alignment where offered and keyboard navigation after wrapping.
+5. Check wide, full, center, left and right alignment where offered. For left/right,
+   add a long following paragraph and verify wrapping on desktop and the full-width
+   fallback on mobile; then verify keyboard navigation after wrapping.

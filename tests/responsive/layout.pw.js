@@ -36,6 +36,12 @@ const scenarios = [
 		ratio: 9 / 16,
 		height: 600,
 	},
+	...[ 'wide', 'full', 'center', 'left', 'right' ].map( ( alignment ) => ( {
+		name: `${ alignment } alignment`,
+		attributes: { align: alignment, maxWidth: '320' },
+		ratio: 16 / 9,
+		width: 320,
+	} ) ),
 ];
 let fixtures;
 test.beforeAll( () => {
@@ -154,4 +160,73 @@ test( 'navigation keeps button pairs together in a narrow content column', async
 				( element ) => element.scrollWidth <= element.clientWidth
 			)
 	).toBe( true );
+} );
+
+test( 'left and right alignment float beside following text on desktop', async ( {
+	page,
+} ) => {
+	for ( const alignment of [ 'left', 'right' ] ) {
+		const fixture = execFileSync(
+			'docker',
+			[
+				'run',
+				'--rm',
+				'--volume',
+				`${ root }:/app`,
+				'--workdir',
+				'/app',
+				'composer:2.9.5',
+				'php',
+				'tests/responsive/render.php',
+				JSON.stringify( {
+					playlistId: 'PL-test-playlist',
+					align: alignment,
+					maxWidth: '320',
+				} ),
+			],
+			{ encoding: 'utf8' }
+		);
+		await page.setViewportSize( { width: 1000, height: 1000 } );
+		await page.setContent(
+			`<style>${ css }</style><main style="width:900px"><div>${ fixture }</div><p class="following">${ 'Following text '.repeat(
+				80
+			) }</p></main>`
+		);
+		const player = page.locator( '.ytpp-player' );
+		await expect( player ).toHaveCSS( 'float', alignment );
+		const playerBox = await player.boundingBox();
+		const textBox = await page
+			.locator( '.following' )
+			.evaluate( ( element ) => {
+				const range = document.createRange();
+				range.setStart( element.firstChild, 0 );
+				range.setEnd( element.firstChild, 12 );
+				const rect = range.getBoundingClientRect();
+				return { x: rect.x, right: rect.right };
+			} );
+		if ( alignment === 'left' ) {
+			expect( textBox.x ).toBeGreaterThan(
+				playerBox.x + playerBox.width
+			);
+		} else {
+			expect( textBox.right ).toBeLessThan( playerBox.x );
+		}
+	}
+} );
+
+test( 'side alignment falls back to full width on a narrow viewport', async ( {
+	page,
+} ) => {
+	await page.setViewportSize( { width: 320, height: 1000 } );
+	for ( const alignment of [ 'left', 'right' ] ) {
+		await page.setContent(
+			`<style>${ css }</style><main style="width:288px">${
+				fixtures[ alignment === 'left' ? 8 : 9 ]
+			}</main>`
+		);
+		const player = page.locator( `.ytpp-player.align${ alignment }` );
+		await expect( player ).toHaveCSS( 'float', 'none' );
+		const box = await player.boundingBox();
+		expect( box.width ).toBeLessThanOrEqual( 288 );
+	}
 } );

@@ -404,6 +404,27 @@ Benutzer erfolgreich durchgeführt. Editor und Frontend reagieren vollständig
 auf den Sprachwechsel; die deutschen Formulierungen wurden fachlich abgenommen.
 Damit ist Schritt 11 vollständig abgenommen.
 
+Für Schritt 10a technisch umgesetzt (11. September 2026):
+
+- `block.json` stellt die Gutenberg-Standardausrichtungen `wide`, `full`,
+  `center`, `left` und `right` bereit;
+- Editor und serverseitiges Rendering verwenden die WordPress-
+  Alignment-Klassen `alignwide`, `alignfull`, `aligncenter`, `alignleft` und
+  `alignright`; unbekannte gespeicherte Werte werden verworfen;
+- `center` zentriert den Block ohne Änderung der DOM- oder Tab-Reihenfolge;
+  `left` und `right` ermöglichen bei ausreichender wirksamer Blockbreite den
+  Textumfluss und fallen auf schmalen Viewports float-frei auf die verfügbare
+  Breite zurück;
+- klassische Theme-Fallbacks, responsive Browser-Szenarien für alle fünf
+  Ausrichtungen und Textumfluss-/Mobile-Rückfalltests wurden ergänzt;
+- Jest, PHPUnit, Build, Format- und Lint-Prüfungen sind erfolgreich.
+
+Die manuelle Abnahme von Schritt 10a in einem klassischen und einem Block-Theme
+wurde am 11. September 2026 erfolgreich durchgeführt. Die responsive
+Browser-Suite benötigt wie dokumentiert die Playwright-Systembibliotheken
+beziehungsweise das offizielle Playwright-Docker-Setup; der lokale Versuch
+scheiterte an der fehlenden `libnspr4.so`.
+
 ### 3.4 Fortschritt in M4
 
 Für Schritt 12 technisch umgesetzt (10. September 2026):
@@ -1235,9 +1256,9 @@ bedienbar angesagt werden.
 Zwischenschritte ausführen kann.
 
 **Technischer Stand:** Die Testpyramide ist implementiert. PHPUnit und Jest
-decken die deterministische Logik ab; Playwright pr�ft Barrierefreiheit,
+decken die deterministische Logik ab; Playwright prüft Barrierefreiheit,
 responsive Darstellung sowie einen echten Gutenberg-Ablauf mit Speicherung,
-Neuladen und Datenschutz-Gate. Plugin Check l�uft gegen ein
+Neuladen und Datenschutz-Gate. Plugin Check läuft gegen ein
 produktionsnah zusammengestelltes Plugin-Verzeichnis. Das gemeinsame Kommando
 ist `npm run test:local`. Die manuelle Abnahme dieses Kommandos durch den
 Projektinhaber ist noch offen.
