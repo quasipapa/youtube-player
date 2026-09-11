@@ -348,7 +348,10 @@ when the block is rendered instead of loading player assets globally.
 ## Minimum-version WordPress instance
 
 The separate `.wp-env.test.json` configuration uses the latest maintenance state
-of the WordPress 6.1 branch with PHP 8.0 and port 8889:
+of the WordPress 6.6 branch with PHP 8.3 and port 8889. It is intentionally
+newer than the declared minimum platform because the current WordPress Plugin
+Check requires WordPress 6.3 or later; PHP 8.0 compatibility remains covered by
+the static PHP compatibility check and will be part of the CI matrix:
 
 ```bash
 npm run env:test:start
@@ -485,3 +488,52 @@ Stop the server with Ctrl+C afterwards. Only the local control port is exposed;
 the browser container has neither a project mount nor a Docker socket.
 Keep the Docker image version aligned with `@playwright/test` in `package.json`.
 This follows Playwright's [documented remote-browser workflow](https://playwright.dev/docs/docker#remote-connection).
+
+## Complete local verification
+
+Run the complete deterministic local quality gate from the repository root:
+
+```bash
+npm run test:local
+```
+
+The command starts the isolated test site at <http://localhost:8889>, runs all
+format, lint, PHPUnit, Jest, translation and build checks, executes WordPress
+Plugin Check, and then runs every Playwright suite. It creates a temporary
+Playwright Docker container and removes it when the run finishes. No separately
+started browser server is required.
+
+The WordPress integration test signs in with the standard local-only
+`admin` / `password` credentials, creates and publishes a post through the
+Gutenberg data API, reloads the editor, verifies persisted block attributes and
+checks the frontend privacy gate before any YouTube request is made.
+
+The isolated test environment deliberately uses WordPress 6.6 and PHP 8.3
+because the current Plugin Check release requires WordPress 6.3 or newer.
+WordPress 6.1 and PHP 8.0 remain the plugin's declared minimum versions and are
+covered separately by static compatibility checks and the CI matrix.
+
+### Plugin Check scope and exemptions
+
+`npm run test:plugin-check` stages only production files before checking the
+plugin. Development dependencies, tests and generated reports are therefore not
+mistaken for release contents. The following findings are narrowly exempted:
+
+- `block_api_version_too_low`: API version 2 is retained while WordPress 6.1 is
+  the declared minimum; reconsider this before WordPress 7 editor iframes become
+  relevant.
+- `plugin_updater_detected`: the GitHub `Update URI` is intentional while
+  releases are distributed outside WordPress.org.
+- `trademarked_term`: the current public plugin name contains YouTube;
+  reconsider the name before a WordPress.org submission.
+- `PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound`:
+  explicit loading is retained for translations shipped with GitHub releases.
+
+All other Plugin Check errors and warnings must be investigated. Real YouTube
+availability, playback, content blockers, theme compatibility and screenreader
+output remain manual smoke tests because they depend on external services or
+human perception. Their checklists live in the topic-specific documentation.
+
+To use an already running compatible Playwright server instead of the temporary
+container, set `PW_TEST_CONNECT_WS_ENDPOINT`. Set `WP_E2E_BASE_URL` as well
+when the WordPress test site is available under a different URL.

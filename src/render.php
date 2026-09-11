@@ -7,6 +7,8 @@
  * @package YouTube_Playlist_Player
  */
 
+defined( 'ABSPATH' ) || exit;
+
 $ytpp_playlist_input  = isset( $attributes['playlistId'] )
 	? (string) $attributes['playlistId']
 	: '';

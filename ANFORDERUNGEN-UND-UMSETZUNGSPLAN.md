@@ -1172,6 +1172,14 @@ bedienbar angesagt werden.
 **Fertig, wenn:** Eine frische Installation alle Prüfungen ohne manuelle
 Zwischenschritte ausführen kann.
 
+**Technischer Stand:** Die Testpyramide ist implementiert. PHPUnit und Jest
+decken die deterministische Logik ab; Playwright pr�ft Barrierefreiheit,
+responsive Darstellung sowie einen echten Gutenberg-Ablauf mit Speicherung,
+Neuladen und Datenschutz-Gate. Plugin Check l�uft gegen ein
+produktionsnah zusammengestelltes Plugin-Verzeichnis. Das gemeinsame Kommando
+ist `npm run test:local`. Die manuelle Abnahme dieses Kommandos durch den
+Projektinhaber ist noch offen.
+
 ### Schritt 13a – Gesamtdokumentation modularisieren
 
 **Milestone:** `M5 – Tests und CI`

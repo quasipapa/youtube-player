@@ -8,7 +8,11 @@ catalog_name='yt-playlist-player'
 locale='de_DE'
 
 run_wp_cli() {
-	"$project_root/node_modules/.bin/wp-env" run cli -- "$@"
+	if [ -n "${YTPP_WP_ENV_CONFIG:-}" ]; then
+		"$project_root/node_modules/.bin/wp-env" run --config="$YTPP_WP_ENV_CONFIG" cli -- "$@"
+	else
+		"$project_root/node_modules/.bin/wp-env" run cli -- "$@"
+	fi
 }
 
 generate_catalogs() {

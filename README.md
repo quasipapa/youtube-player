@@ -33,6 +33,14 @@ npm run env:start
 WordPress is then available at <http://localhost:8888>. The default `wp-env`
 credentials are `admin` / `password` and must only be used for local development.
 
+
+Run the complete local quality gate, including the isolated WordPress
+integration test and Plugin Check:
+
+```bash
+npm run test:local
+```
+
 Additional setup and troubleshooting information is available in
 [docs/development.md](docs/development.md).
 

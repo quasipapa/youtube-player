@@ -9,8 +9,10 @@
 /.phpunit.result.cache
 /.wp-env.override.json
 /.wp-env.test.override.json
+/.wp-env-home/
 /.i18n-check.*/
 
+/.plugin-check/
 # Environment and logs
 .env
 .env.*

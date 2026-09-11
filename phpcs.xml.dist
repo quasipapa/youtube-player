@@ -15,6 +15,7 @@
     <!-- The isolated test bootstrap intentionally provides WordPress global stubs. -->
     <exclude-pattern>/tests/bootstrap.php</exclude-pattern>
     <exclude-pattern>/vendor/*</exclude-pattern>
+    <exclude-pattern>/.wp-env-home/*</exclude-pattern>
 
     <rule ref="WordPress"/>
 
