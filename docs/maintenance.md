@@ -62,6 +62,8 @@ reviews, at least monthly and before each release:
 Development dependencies are not shipped in the plugin ZIP. Do not apply
 automatic breaking upgrades or `npm audit fix --force`; update intentionally,
 review the lockfile, and run the complete local and CI quality gates.
+The detailed record for the current alert remediation is in
+[docs/dependency-audit-63.md](dependency-audit-63.md).
 
 ## Release cadence and records
 
