@@ -515,6 +515,20 @@ vom Benutzer erfolgreich bestätigt. Damit ist Schritt 15 vollständig
 abgenommen.
 
 
+Für Schritt 16 technisch umgesetzt (12. September 2026):
+
+- `.github/workflows/release.yml` reagiert auf Tags im Format `v*` und
+  verifiziert deren Übereinstimmung mit allen Projektversionen;
+- vor der Veröffentlichung laufen der vollständige Qualitäts- und WordPress-
+  Smoke-Test sowie der reproduzierbare ZIP-Build;
+- ZIP-Inhalt und SHA-256-Prüfsumme werden geprüft und anschließend als Assets an
+  ein GitHub Release mit generierten Release Notes angehängt;
+- nur der Release-Job erhält `contents: write`, während die Workflow-
+  Standardeinstellung auf Lesen beschränkt bleibt;
+- der Ablauf und die bewusste Freigabe durch das Erstellen eines Tags sind in
+  `docs/release.md` dokumentiert.
+
+
 ## 4. Anforderungen
 
 ### 4.1 Funktionale Anforderungen

@@ -1,0 +1,78 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - 'v*'
+
+concurrency:
+    group: release-${{ github.ref }}
+    cancel-in-progress: false
+
+permissions:
+    contents: read
+
+env:
+    NODE_VERSION: '20'
+
+jobs:
+    release:
+        name: Build and publish release
+        runs-on: ubuntu-24.04
+        permissions:
+            contents: write
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+            - name: Set up Node.js
+              uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+            - name: Install JavaScript dependencies
+              run: npm ci
+            - name: Run complete quality gate and WordPress smoke tests
+              run: npm run test:local
+            - name: Verify tag and project versions agree
+              env:
+                  RELEASE_TAG: ${{ github.ref_name }}
+              run: |
+                  node <<'NODE'
+                  const fs = require('fs');
+                  const tag = process.env.RELEASE_TAG;
+                  const packageVersion = require('./package.json').version;
+                  const plugin = fs.readFileSync('yt-playlist-player.php', 'utf8');
+                  const header = plugin.match(/\n \* Version:\s+([^\n]+)/);
+                  const constant = plugin.match(/YTPP_VERSION',\s*\n\s*'([^']+)'/);
+                  const readme = fs.readFileSync('readme.txt', 'utf8');
+                  const stableTag = readme.match(/Stable tag:\s*([^\s]+)/);
+                  const tagVersion = tag.match(/^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$/)?.[1];
+                  const versions = [tagVersion, packageVersion, header?.[1], constant?.[1], stableTag?.[1]];
+                  if (versions.some((version) => !version) || new Set(versions).size !== 1) {
+                    console.error('Version mismatch:', versions);
+                    process.exit(1);
+                  }
+                  console.log(`Version ${packageVersion} is consistent with ${tag}.`);
+                  NODE
+            - name: Build release ZIP and checksum
+              run: npm run plugin:zip
+            - name: Verify release package contents and checksum
+              run: |
+                  sha256sum --check dist/yt-playlist-player.zip.sha256
+                  unzip -Z1 dist/yt-playlist-player.zip > /tmp/ytpp-release-files.txt
+                  grep -qx 'yt-playlist-player/yt-playlist-player.php' /tmp/ytpp-release-files.txt
+                  grep -qx 'yt-playlist-player/build/block.json' /tmp/ytpp-release-files.txt
+                  if grep -Eq '(^|/)(src|tests|node_modules|vendor|\.git|\.github)(/|$)' /tmp/ytpp-release-files.txt; then
+                      echo 'Development files found in release package.' >&2
+                      exit 1
+                  fi
+            - name: Publish GitHub release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  gh release create "${{ github.ref_name }}" \
+                      dist/yt-playlist-player.zip \
+                      dist/yt-playlist-player.zip.sha256 \
+                      --repo "${{ github.repository }}" \
+                      --title "${{ github.ref_name }}" \
+                      --generate-notes

@@ -52,3 +52,15 @@ administration upload flow in a WordPress instance. The plugin was activated and
 used as a Gutenberg block with a real playlist. The manual use check passed.
 Together with the automated production build, allowlist, reproducibility and
 checksum checks, this completes the acceptance criteria for Step 15.
+
+## GitHub releases
+
+Pushing a tag matching `vMAJOR.MINOR.PATCH` starts the release workflow. It
+repeats the complete quality gate and WordPress smoke tests, verifies that the
+tag matches all project version declarations, rebuilds the ZIP, checks its
+contents and checksum, and then publishes the ZIP and checksum as GitHub
+Release assets with generated notes. A failed check prevents publication.
+
+The repository's workflow permissions must allow the release job's
+`contents: write` token permission. The tag is the explicit release approval;
+creating and pushing a release tag remains a deliberate maintainer action.
