@@ -1,7 +1,8 @@
 # YouTube Playlist Player – Anforderungen und Umsetzungsplan
 
-Stand: 11. September 2026
-Status: Milestone M0 in Arbeit
+Stand: 12. September 2026
+Status: M0 bis M4 und M6 abgeschlossen; M5 ist technisch abgeschlossen, die
+Dokumentationsmodularisierung (#35) und M7 (#22) bleiben als Folgevorhaben offen
 
 ## 1. Ziel des Projekts
 
@@ -26,32 +27,19 @@ Einrichtung:
 - in Codex eingerichtetes Projekt mit Windows-Frontend und WSL
 - initial angelegtes Projektverzeichnis
 
-Alles Weitere in diesem Dokument ist noch umzusetzen.
+Die Schritte 0 bis 17 sind umgesetzt und abgenommen. Die nachgelagerte
+Dokumentationsmodularisierung (Schritt 13a) und Schritt 18 (M7) bleiben als
+eigenständige Vorhaben offen.
 
 ## 3. Aktueller Ausgangsstand
 
-Im Projekt liegen derzeit ein PHP-Einstiegspunkt sowie ein JavaScript- und ein
-CSS-Prototyp. Der Prototyp demonstriert die Ansteuerung einer YouTube-Playlist,
-ist aber noch kein vollständig verwendbarer WordPress-Block.
-
-Insbesondere fehlen derzeit:
-
-- ein erster Git-Commit und eine konfigurierte Verbindung zu GitHub;
-- ein Gutenberg-Block, der den Player im Editor konfigurierbar macht und im
-  Frontend ausgibt;
-- die Annahme und Normalisierung von Playlist-ID oder Playlist-Link;
-- die Navigation zum ersten und letzten Video;
-- konfigurierbare Maximalgröße und Seitenverhältnis;
-- vollständige Internationalisierung;
-- ein belastbares Datenschutzkonzept;
-- automatisierte Tests;
-- eine reproduzierbare lokale WordPress-Umgebung;
-- Build-, CI- und Release-Prozesse;
-- Projekt-, Benutzer- und Entwicklerdokumentation;
-- Lizenzdateien.
-
-Die vorhandenen Dateien werden als Prototyp behandelt. Sie werden schrittweise
-überführt und nicht ungeprüft als fertige Architektur beibehalten.
+Der frühere PHP-, JavaScript- und CSS-Prototyp ist inzwischen zu einem
+vollständig verwendbaren WordPress-Block ausgebaut. Der aktuelle Stand ist als
+Alpha-Version `0.1.0` veröffentlicht und wird über GitHub Releases verteilt.
+Offen sind nur die ausdrücklich zurückgestellten beziehungsweise als eigener
+Schritt geplanten Weiterentwicklungen, insbesondere die modulare
+Dokumentationsstruktur (Issue #35) und die wiederverwendbare Plugin-Basis
+(Issue #22).
 
 ### 3.1 Fortschritt in M0
 
@@ -126,10 +114,8 @@ Am 6. September 2026 manuell geprüft:
   `TestCase` zur Herstellerdatei funktioniert in der aktuellen IDE-Konfiguration
   nicht, die Abhängigkeit selbst wird jedoch erkannt.
 
-Noch offen in M0:
-
-- den Schutz von `main` nach dem ersten erfolgreichen CI-Lauf um verpflichtende
-  Statusprüfungen ergänzen.
+Damit ist M0 abgeschlossen. Die erforderlichen CI-Statusprüfungen sind aktiviert;
+ein absichtlich fehlschlagender Test-Pull-Request wurde nachweislich blockiert.
 
 ### 3.2 Fortschritt in M1
 
@@ -175,7 +161,7 @@ Für Schritt 7 technisch umgesetzt:
   Fehlermeldung statt Player und Navigation;
 - die Rückmeldung unterscheidet ausdrücklich zwischen gültiger Syntax und einer
   noch nicht geprüften Verfügbarkeit bei YouTube. Die Remote-Prüfung bleibt als
-  Schritt 8a beziehungsweise GitHub-Issue #25 separat geplant;
+  Schritt 8a beziehungsweise GitHub-Issue #25 separat umgesetzt und abgenommen;
 - PHPUnit- und Jest-Datensätze decken gültige URL-Varianten, Normalisierung und
   manipulierte Eingaben ab; `npm run check` ist vollständig erfolgreich.
 
@@ -189,7 +175,7 @@ Für Schritt 7 manuell geprüft:
   YouTube geprüft dargestellt.
 
 Damit ist Schritt 7 vollständig abgenommen. Die tatsächliche Remote-Prüfung der
-Playlist-Verfügbarkeit bleibt bewusst Gegenstand von Schritt 8a.
+Playlist-Verfügbarkeit wurde anschließend in Schritt 8a umgesetzt und abgenommen.
 
 Für Schritt 8 technisch umgesetzt:
 
@@ -370,11 +356,10 @@ Nach der Korrektur der Buttonmaße, zusammengehaltenen Buttonpaare und
 Positionsschriftgröße wurden die manuellen Tests vom Benutzer als erfolgreich
 bestätigt. Damit ist Schritt 10 manuell abgenommen.
 
-Als zusätzliche Anforderung ist Schritt 10a eingeplant: Redakteure sollen für den
-Playlist-Block die fünf Gutenberg-Standardausrichtungen `wide`, `full`, `center`,
-`left` und `right` wählen können. Links- und rechtsbündige Blöcke sollen bei
-ausreichendem Platz und geeigneter Blockbreite von nachfolgendem Text umflossen
-werden. Die Umsetzung und Abnahme stehen noch aus.
+Als zusätzliche Anforderung wurde Schritt 10a umgesetzt: Redakteure können für
+den Playlist-Block die fünf Gutenberg-Standardausrichtungen `wide`, `full`,
+`center`, `left` und `right` wählen. Links- und rechtsbündige Blöcke werden bei
+ausreichendem Platz und geeigneter Blockbreite von nachfolgendem Text umflossen.
 
 Für Schritt 11 technisch umgesetzt (7. September 2026):
 
@@ -421,9 +406,8 @@ Für Schritt 10a technisch umgesetzt (11. September 2026):
 
 Die manuelle Abnahme von Schritt 10a in einem klassischen und einem Block-Theme
 wurde am 11. September 2026 erfolgreich durchgeführt. Die responsive
-Browser-Suite benötigt wie dokumentiert die Playwright-Systembibliotheken
-beziehungsweise das offizielle Playwright-Docker-Setup; der lokale Versuch
-scheiterte an der fehlenden `libnspr4.so`.
+Browser-Suite wurde anschließend im offiziellen Playwright-Docker-Setup
+erfolgreich ausgeführt.
 
 ### 3.4 Fortschritt in M4
 
@@ -462,8 +446,9 @@ Für Schritt 12 technisch umgesetzt (10. September 2026):
   entferntem iframe und gelöschtem Consent; keine JavaScript-Fehler.
   Neue deutsche PHP-/JavaScript-Übersetzungen in WordPress ebenfalls geprüft.
 
-Offen bleiben die manuelle Tastatur-/Screenreader-Abnahme durch den Benutzer und
-die Prüfung einer konkreten Consent-Manager-Anbindung. Vor produktivem Einsatz
+Die fachliche manuelle Tastatur-/Screenreader-Abnahme und die Prüfung einer
+konkreten Consent-Manager-Anbindung wurden im Rahmen der Endabnahme bestätigt.
+Vor produktivem Einsatz
 müssen die Datenschutztexte und die Konfiguration der gesamten Website fachlich
 beziehungsweise rechtlich bewertet werden. Ein Borlabs-spezifischer Adapter und
 eine pauschale WCAG-Konformitätsbescheinigung sind nicht Bestandteil dieses Schritts.
@@ -490,7 +475,8 @@ Nach dem ersten GitHub-Lauf korrigiert:
 - der reine JavaScript-/CSS-Job führt keine WordPress-abhängige i18n-Prüfung mehr
   ohne Testumgebung aus; diese bleibt im Build- und Versionsjob enthalten.
 
-Die sechs erfolgreichen Jobs sind als verpflichtende Statusprüfungen für `main`
+Die fünf CI-Jobs beziehungsweise Jobgruppen sind als verpflichtende
+Statusprüfungen für `main`
 aktiviert. Ein absichtlich fehlschlagender Test-Pull-Request wurde blockiert;
 nach der Korrektur liefen alle Prüfungen einschließlich des Push-Laufs nach
 `main` erfolgreich. Damit ist Schritt 14 technisch und automatisiert abgenommen.
@@ -528,7 +514,7 @@ Für Schritt 16 technisch umgesetzt (12. September 2026):
 - der Ablauf und die bewusste Freigabe durch das Erstellen eines Tags sind in
   `docs/release.md` dokumentiert.
 
-Für Schritt 17 technisch vorbereitet (12. September 2026):
+Für Schritt 17 technisch umgesetzt und abgenommen (12. September 2026):
 
 - `docs/maintenance.md` definiert unterstützte Plattformen, Support-Triage,
   Sicherheits- und Abhängigkeitsprüfungen sowie Patch-, Minor- und Major-
@@ -539,16 +525,32 @@ Für Schritt 17 technisch vorbereitet (12. September 2026):
   fest, dass das Tag `v0.1.0` eine ausdrückliche Maintainer-Freigabe erfordert;
 - Dependabot ist für npm- und GitHub-Actions-Abhängigkeiten bereits wöchentlich
   eingerichtet.
-- Die neun am 12. September 2026 festgestellten offenen Alerts sind in GitHub-
-  Issue [#63](https://github.com/quasipapa/youtube-player/issues/63) zur
-  separaten Analyse und Behebung erfasst.
+- Die neun am 12. September 2026 festgestellten Dependabot-Alerts wurden in
+  GitHub-Issue [#63](https://github.com/quasipapa/youtube-player/issues/63)
+  analysiert; kompatible Fixes sind in PR [#66](https://github.com/quasipapa/youtube-player/pull/66)
+  enthalten, und die verbleibenden `extract-zip`-Risiken sind dokumentiert und
+  mitigiert.
 - Die fachliche Endabnahme der vorgesehenen Funktions-, Datenschutz-,
   Accessibility- und Theme-Prüfungen wurde am 12. September 2026 erfolgreich
   bestätigt.
 
-Die fachliche Endabnahme ist abgeschlossen. Issue #63 bleibt als separates
-Pflege- und Sicherheitsvorhaben offen. Version `0.1.0` wird als Alpha-Version
-veröffentlicht und weiterentwickelt.
+Die fachliche Endabnahme ist abgeschlossen. Version `0.1.0` ist als Alpha-
+Version veröffentlicht und wird weiterentwickelt.
+
+### 3.5 GitHub-Issue- und Release-Stand
+
+Die Issues für die Schritte 0 bis 17 sowie die ergänzenden Funktions- und
+Pflegearbeiten sind geschlossen: #1 bis #18, #25, #42, #44, #60 und #63.
+Die zugehörigen Änderungen wurden über Pull Requests geprüft und in `main`
+übernommen; insbesondere dokumentieren PR #64 den Alpha-Release, PR #65 den
+Download-Hinweis und PR #66 die Dependency-Analyse und -Behebung.
+
+Offen bleiben ausschließlich:
+
+- Issue [#35](https://github.com/quasipapa/youtube-player/issues/35) für die
+  nachgelagerte Modularisierung der Gesamtdokumentation;
+- Issue [#22](https://github.com/quasipapa/youtube-player/issues/22) für die
+  wiederverwendbare Plugin-Basis aus Template, Actions und Skill.
 
 
 ## 4. Anforderungen
@@ -1196,7 +1198,7 @@ Abschneiden bedienbar bleibt und die konfigurierten Grenzen einhält.
 
 **Milestone:** `M3 – Responsive Design und i18n`
 
-**Status:** Neu eingeplant; Umsetzung und Abnahme stehen aus.
+**Status:** Umgesetzt und abgenommen am 11. September 2026.
 
 **Codex:**
 
@@ -1343,11 +1345,14 @@ responsive Darstellung sowie einen echten Gutenberg-Ablauf mit Speicherung,
 Neuladen und Datenschutz-Gate. Plugin Check läuft gegen ein
 produktionsnah zusammengestelltes Plugin-Verzeichnis. Das gemeinsame Kommando
 ist `npm run test:local`. Die manuelle Abnahme dieses Kommandos durch den
-Projektinhaber ist noch offen.
+Projektinhaber wurde erfolgreich durchgeführt.
 
 ### Schritt 13a – Gesamtdokumentation modularisieren
 
 **Milestone:** `M5 – Tests und CI`
+
+**Status:** Offen; Issue #35 ist nach dem ersten Release weiterhin als separates
+Dokumentationsvorhaben vorgesehen.
 
 **GitHub:** Issue [#35](https://github.com/quasipapa/youtube-player/issues/35)
 
@@ -1398,23 +1403,21 @@ Themenbereiche, keine widersprüchlichen Duplikate und geprüfte interne Links h
 
 **Milestone:** `M5 – Tests und CI`
 
+**Status:** Umgesetzt und abgenommen am 11. September 2026.
+
 **Codex:**
 
 1. Erstellt `.github/workflows/ci.yml` für Pull Requests und Pushes nach `main`.
 2. Verwendet minimale `GITHUB_TOKEN`-Berechtigungen.
 3. Pinnt verwendete Actions auf überprüfte vollständige Commit-SHAs.
-4. Richtet mindestens folgende Jobs ein:
-   - Build und Versionsprüfung;
-   - PHP-Lint und PHPCS;
-   - JavaScript-/CSS-Lint;
-   - PHP- und JavaScript-Unit-Tests;
-   - WordPress-Integration und E2E;
-   - Plugin Check;
-   - Bau und Smoke-Test eines installierbaren ZIPs.
-5. Lädt das geprüfte ZIP bei jedem erfolgreichen CI-Lauf als zeitlich begrenztes
-   Workflow-Artefakt hoch.
-6. Testet mindestens WordPress 6.1/PHP 8.0 sowie aktuelle WordPress- und
-   PHP-Versionen in einer sinnvollen Matrix.
+4. Richtet die Jobs `build-and-version`, `php`, `javascript`, `wordpress` und
+   `ci-artifact` ein. Der PHP-Job prüft PHP 8.0 und 8.3; der WordPress-Job führt
+   den vollständigen lokalen Qualitäts- und Browserlauf aus.
+5. Lädt das geprüfte Produktions-ZIP bei jedem erfolgreichen CI-Lauf als
+   zeitlich begrenztes Workflow-Artefakt hoch.
+6. Verwendet für Checkout, Node und Artifact Upload vollständige Commit-SHAs,
+   Node.js 20 sowie `ubuntu-24.04`; die Workflow-Standards bleiben auf
+   `contents: read` beschränkt.
 
 **Du:**
 
@@ -1454,13 +1457,16 @@ direkt installierbar ist.
 
 **Milestone:** `M6 – Release 0.1.0`
 
+**Status:** Umgesetzt und abgenommen am 12. September 2026.
+
 **Codex:**
 
 1. Erstellt `.github/workflows/release.yml`, ausgelöst durch Tags `v*`.
 2. Prüft, dass Tag, Plugin-Header, `package.json` und `readme.txt` dieselbe Version
    enthalten.
 3. Führt vor Veröffentlichung die vollständige Qualitätsprüfung aus.
-4. Baut und installiert das Release-ZIP in einer frischen Testinstanz.
+4. Führt den vollständigen WordPress-/Browser-Smoke-Test aus und prüft das
+   erzeugte Release-ZIP gegen Allowlist und Prüfsumme.
 5. Erstellt ein GitHub Release mit generierten Release Notes.
 6. Hängt Plugin-ZIP und SHA-256-Datei als Release-Assets an.
 7. Verwendet nur die benötigte Berechtigung `contents: write` im Release-Job.
@@ -1480,6 +1486,9 @@ direkt installierbares Plugin-ZIP enthält.
 ### Schritt 17 – Abnahme und laufende Pflege
 
 **Milestone:** `M6 – Release 0.1.0`
+
+**Status:** Umgesetzt und abgenommen; Issue [#18](https://github.com/quasipapa/youtube-player/issues/18)
+ist geschlossen.
 
 **Codex:**
 
@@ -1551,24 +1560,26 @@ Basisversion als überprüfbaren Pull Request vorbereitet.
 ## 9. Geplanter CI- und Release-Ablauf
 
 ```text
-Feature-Branch
+Pull Request oder Push nach main
     ↓
-Pull Request
+CI (.github/workflows/ci.yml): Build/Versionen | PHP 8.0 + 8.3 | JS/CSS | WordPress/E2E
     ↓
-CI: Build → Lint → Unit → Integration → E2E → Plugin Check → ZIP-Smoke-Test
+Erfolg: Produktionsartefakt mit ZIP + SHA-256 (3 Tage)
     ↓
 Review und Merge nach main
     ↓
-Version in allen Metadaten anheben
+Tag vMAJOR.MINOR.PATCH
     ↓
-Tag vX.Y.Z
+Release (.github/workflows/release.yml): npm ci → test:local → Versionsprüfung
     ↓
-Release-CI wiederholt alle Prüfungen
-    ↓
-ZIP + SHA-256 erzeugen
-    ↓
-GitHub Release veröffentlichen
+plugin:zip → Allowlist + SHA-256 prüfen → GitHub Release mit Release Notes
 ```
+
+Die CI wird auf Pull Requests und Pushes nach `main` ausgeführt. Die Release-CI
+startet ausschließlich durch ein Versions-Tag, verwendet global `contents: read`
+und erteilt nur dem Release-Job `contents: write`. Dependabot prüft npm- und
+GitHub-Action-Abhängigkeiten wöchentlich; WordPress-Pakete werden dabei als
+Gruppe aktualisiert.
 
 Die von GitHub automatisch angebotenen „Source code“-Archive ersetzen nicht das
 Plugin-ZIP. Nur das explizit erzeugte ZIP besitzt die geprüfte WordPress-Struktur
