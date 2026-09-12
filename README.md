@@ -4,6 +4,18 @@ YouTube Playlist Player is a WordPress plugin for embedding and navigating a
 YouTube playlist as a Gutenberg block. Version 0.1.0 is an Alpha release and
 will continue to evolve based on testing and feedback.
 
+## Download
+
+Download the current Alpha version directly from the
+[GitHub release page](https://github.com/quasipapa/youtube-player/releases/tag/v0.1.0):
+
+[Download the installable plugin ZIP](https://github.com/quasipapa/youtube-player/releases/download/v0.1.0/yt-playlist-player.zip)
+
+In WordPress, go to **Plugins → Add New → Upload Plugin**, select the downloaded
+ZIP file, install it and activate **YouTube Playlist Player**. This Alpha release
+is still being developed; review the compatibility, privacy and accessibility
+notes before using it on a public site.
+
 ## Project status
 
 The existing PHP, JavaScript, and CSS files are a prototype. The implementation
