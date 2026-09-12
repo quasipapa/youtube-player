@@ -490,8 +490,29 @@ Nach dem ersten GitHub-Lauf korrigiert:
 - der reine JavaScript-/CSS-Job führt keine WordPress-abhängige i18n-Prüfung mehr
   ohne Testumgebung aus; diese bleibt im Build- und Versionsjob enthalten.
 
-Die Aktivierung der erfolgreichen Jobs als verpflichtende Statusprüfungen für
-`main` sowie der erste erfolgreiche Lauf stehen noch aus.
+Die sechs erfolgreichen Jobs sind als verpflichtende Statusprüfungen für `main`
+aktiviert. Ein absichtlich fehlschlagender Test-Pull-Request wurde blockiert;
+nach der Korrektur liefen alle Prüfungen einschließlich des Push-Laufs nach
+`main` erfolgreich. Damit ist Schritt 14 technisch und automatisiert abgenommen.
+
+Für Schritt 15 technisch umgesetzt (12. September 2026):
+
+- `scripts/build-zip.sh` und das npm-Kommando `plugin:zip` bauen zuerst die
+  Produktionsassets und kopieren anschließend ausschließlich die für den
+  Plugin-Betrieb erforderlichen Dateien;
+- das ZIP verwendet den obersten Ordner `yt-playlist-player/` und enthält weder
+  Quellcode, Tests, Entwicklungsabhängigkeiten, GitHub-Dateien noch lokale
+  Konfiguration;
+- neben dem ZIP wird eine SHA-256-Prüfsummendatei erzeugt; normalisierte ZIP-
+  Zeitstempel stellen identische Prüfsummen bei identischem Inhalt sicher;
+- der Ablauf und die manuelle Upload-/Aktivierungsprüfung sind in
+  `docs/release.md` dokumentiert.
+
+Die lokale Erstellung, Inhaltsprüfung und Prüfsummenvalidierung waren
+erfolgreich. Die manuelle Installation über den WordPress-Upload und die
+Verwendung des Plugins mit einer realen Playlist wurden am 12. September 2026
+vom Benutzer erfolgreich bestätigt. Damit ist Schritt 15 vollständig
+abgenommen.
 
 
 ## 4. Anforderungen
