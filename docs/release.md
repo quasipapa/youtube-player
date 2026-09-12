@@ -64,3 +64,22 @@ Release assets with generated notes. A failed check prevents publication.
 The repository's workflow permissions must allow the release job's
 `contents: write` token permission. The tag is the explicit release approval;
 creating and pushing a release tag remains a deliberate maintainer action.
+
+## Step 17 acceptance checklist
+
+Before approving a release, the maintainer confirms:
+
+- functional, privacy, accessibility and theme checks are recorded;
+- the release ZIP was installed in a fresh WordPress test instance and tested
+  with a real playlist;
+- [docs/maintenance.md](maintenance.md) and [SECURITY.md](../SECURITY.md)
+  describe the current support, security and compatibility process;
+- Dependabot alerts and pending updates were reviewed;
+- the changelog, license, documentation and all version declarations agree;
+- the release tag and version `0.1.0` are explicitly approved;
+- the release is clearly described as an Alpha version that will continue to be
+  developed.
+
+The release classification is a deliberate maintainer decision. This Alpha
+version will continue to be developed; creating and pushing the release tag is
+the explicit approval action.
