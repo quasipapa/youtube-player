@@ -528,6 +528,28 @@ Für Schritt 16 technisch umgesetzt (12. September 2026):
 - der Ablauf und die bewusste Freigabe durch das Erstellen eines Tags sind in
   `docs/release.md` dokumentiert.
 
+Für Schritt 17 technisch vorbereitet (12. September 2026):
+
+- `docs/maintenance.md` definiert unterstützte Plattformen, Support-Triage,
+  Sicherheits- und Abhängigkeitsprüfungen sowie Patch-, Minor- und Major-
+  Release-Regeln;
+- `SECURITY.md` beschreibt die private Meldung von Sicherheitslücken und die
+  koordinierte Behebung;
+- README und Release-Dokumentation verweisen auf den Pflegeprozess und halten
+  fest, dass das Tag `v0.1.0` eine ausdrückliche Maintainer-Freigabe erfordert;
+- Dependabot ist für npm- und GitHub-Actions-Abhängigkeiten bereits wöchentlich
+  eingerichtet.
+- Die neun am 12. September 2026 festgestellten offenen Alerts sind in GitHub-
+  Issue [#63](https://github.com/quasipapa/youtube-player/issues/63) zur
+  separaten Analyse und Behebung erfasst.
+- Die fachliche Endabnahme der vorgesehenen Funktions-, Datenschutz-,
+  Accessibility- und Theme-Prüfungen wurde am 12. September 2026 erfolgreich
+  bestätigt.
+
+Die fachliche Endabnahme ist abgeschlossen. Issue #63 bleibt als separates
+Pflege- und Sicherheitsvorhaben offen. Version `0.1.0` wird als Alpha-Version
+veröffentlicht und weiterentwickelt.
+
 
 ## 4. Anforderungen
 

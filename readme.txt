@@ -9,6 +9,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 A privacy-aware Gutenberg block for embedding and navigating YouTube playlists.
+Version 0.1.0 is an Alpha release and remains under active development.
 
 == Description ==
 
@@ -17,12 +18,14 @@ Playlist input and privacy controls are available in the block settings sidebar,
 and the editor displays a preview for valid input. Full navigation is being added
 incrementally.
 
-The plugin is under active development and is not ready for production use.
+This Alpha release is under active development and is not intended as a promise
+of production readiness. Review the privacy, accessibility and compatibility
+documentation before using it on a public site.
 
 == Installation ==
 
-No stable plugin package is available yet. Development setup is documented in
-the GitHub repository.
+Download the installable package from the GitHub Releases page. Development
+setup and release documentation are available in the GitHub repository.
 
 == Frequently Asked Questions ==
 
@@ -37,4 +40,6 @@ protection. A valid playlist loads a youtube-nocookie.com preview in the editor.
 
 = 0.1.0 =
 
-* Initial development version. Not released.
+* Alpha release of the privacy-aware Gutenberg playlist player.
+* Includes playlist parsing, availability checks, navigation, responsive sizing,
+  accessibility support and consent integration.
