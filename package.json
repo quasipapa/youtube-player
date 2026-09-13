@@ -43,13 +43,13 @@
 		"@axe-core/playwright": "4.13.0",
 		"@playwright/test": "1.63.0",
 		"@testing-library/react": "16.3.3",
-		"@wordpress/block-editor": "17.0.0",
-		"@wordpress/blocks": "15.27.0",
-		"@wordpress/components": "40.0.0",
-		"@wordpress/element": "8.6.0",
-		"@wordpress/env": "11.14.0",
-		"@wordpress/i18n": "6.27.0",
-		"@wordpress/scripts": "34.2.0"
+		"@wordpress/block-editor": "17.1.0",
+		"@wordpress/blocks": "16.0.0",
+		"@wordpress/components": "40.1.0",
+		"@wordpress/element": "8.7.0",
+		"@wordpress/env": "11.15.0",
+		"@wordpress/i18n": "6.28.0",
+		"@wordpress/scripts": "35.0.0"
 	},
 	"overrides": {
 		"adm-zip": "0.6.1",
