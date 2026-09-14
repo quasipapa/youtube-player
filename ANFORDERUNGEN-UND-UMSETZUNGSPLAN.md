@@ -1416,7 +1416,7 @@ Themenbereiche, keine widersprüchlichen Duplikate und geprüfte interne Links h
 5. Lädt das geprüfte Produktions-ZIP bei jedem erfolgreichen CI-Lauf als
    zeitlich begrenztes Workflow-Artefakt hoch.
 6. Verwendet für Checkout, Node und Artifact Upload vollständige Commit-SHAs,
-   Node.js 20 sowie `ubuntu-24.04`; die Workflow-Standards bleiben auf
+   Node.js 22.19.0 sowie `ubuntu-24.04`; die Workflow-Standards bleiben auf
    `contents: read` beschränkt.
 
 **Du:**
