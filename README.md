@@ -36,7 +36,7 @@ according to [SECURITY.md](SECURITY.md), not through a public issue.
 Required local tools:
 
 - Docker Engine
-- Node.js 20 or later
+- Node.js 22.19.0 or later
 - npm 10.2.3 or later
 
 Install dependencies and start the local WordPress environment:

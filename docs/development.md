@@ -3,7 +3,7 @@
 ## Requirements
 
 - WSL with Docker Engine
-- Node.js 20 or later
+- Node.js 22.19.0 or later
 - npm 10.2.3 or later
 
 The repository should remain in the WSL filesystem for predictable file
