@@ -1,0 +1,40 @@
+# Codex MCP configuration for the WordPress staging server.
+#
+# Copy the [mcp_servers.wordpress_staging] section to:
+#   ~/.codex/config.toml
+# or to a trusted project-local .codex/config.toml.
+#
+# Do not commit credentials. Set WP_MCP_AUTHORIZATION only in the local
+# environment or a secret manager.
+
+[mcp_servers.wordpress_staging]
+url = "https://<wordpress-host>/wp-json/mcp/mcp-adapter-default-server"
+
+# WordPress Application Password authentication is supplied locally as a
+# complete HTTP Authorization header, for example:
+#   Authorization: Basic <base64(username:application-password)>
+env_http_headers = { Authorization = "WP_MCP_AUTHORIZATION" }
+
+# Read-only discovery is available automatically. Any tool not marked
+# read-only requires an approval in Codex.
+default_tools_approval_mode = "writes"
+
+# The adapter may need longer than the default timeout for content or media
+# operations.
+startup_timeout_sec = 20
+tool_timeout_sec = 120
+enabled = true
+
+# Keep the initial connection limited to the adapter's discovery layer.
+# Extend this list only after an authenticated tools/list inventory and a
+# permission review. The names use MCP's sanitized form (slashes become
+# hyphens).
+enabled_tools = [
+  "mcp-adapter-discover-abilities",
+  "mcp-adapter-get-ability-info",
+  "mcp-adapter-execute-ability"
+]
+
+# Explicitly retain the write gate for the generic execution entry point.
+[mcp_servers.wordpress_staging.tools.mcp-adapter-execute-ability]
+approval_mode = "writes"
