@@ -1,7 +1,7 @@
 {
 	"translation-revision-date": "2026-09-07 00:00+0200",
-	"generator": "WP-CLI/2.12.0",
-	"source": "build/index.js",
+	"generator": "WP-CLI\/2.12.0",
+	"source": "build\/index.js",
 	"domain": "messages",
 	"locale_data": {
 		"messages": {
@@ -93,7 +93,7 @@
 			"Playlist navigation preview": [
 				"Vorschau der Playlist-Navigation"
 			],
-			"\u2013 / \u2013": [ "\u2013 / \u2013" ],
+			"\u2013 \/ \u2013": [ "\u2013 \/ \u2013" ],
 			"Select this block and enter the playlist in the block settings sidebar.": [
 				"W\u00e4hlen Sie diesen Block aus und geben Sie die Playlist in den Block-Einstellungen der Seitenleiste ein."
 			]

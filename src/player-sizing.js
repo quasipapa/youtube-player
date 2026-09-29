@@ -8,7 +8,7 @@ export function getPlayerSizing( attributes = {} ) {
 	const input =
 		attributes.aspectRatio === 'custom'
 			? attributes.customAspectRatio
-			: attributes.aspectRatio ?? '16:9';
+			: ( attributes.aspectRatio ?? '16:9' );
 	const match =
 		typeof input === 'string' &&
 		input.match(

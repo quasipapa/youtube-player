@@ -20,5 +20,9 @@ manual layer for external services and human perception.
   environment uses the configured integration PHP version.
 - Current environment boundaries are listed in the
   [version matrix](../development/versions.md).
+- JavaScript tests intentionally remain on Jest for now. Scripts 36 runs them
+  through the maintenance-only `test-unit-jest` adapter with the repository's
+  explicit Jest and Babel configuration; a separate issue evaluates a later
+  Vitest migration.
 - Requirement-level test responsibility and known gaps are maintained in the
   [coverage matrix](coverage.md).

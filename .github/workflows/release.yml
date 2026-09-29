@@ -13,7 +13,7 @@ permissions:
     contents: read
 
 env:
-    NODE_VERSION: '22.19.0'
+    NODE_VERSION: '22.22.2'
 
 jobs:
     release:
