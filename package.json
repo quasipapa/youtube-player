@@ -10,6 +10,7 @@
 	},
 	"scripts": {
 		"build": "wp-scripts build",
+		"check:docs": "node scripts/check-docs.mjs",
 		"plugin:zip": "sh scripts/build-zip.sh",
 		"start": "wp-scripts start",
 		"lint:js": "wp-scripts lint-js src assets/js",

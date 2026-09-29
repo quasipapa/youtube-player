@@ -18,17 +18,17 @@ notes before using it on a public site.
 
 ## Project status
 
-The existing PHP, JavaScript, and CSS files are a prototype. The implementation
-will be developed incrementally according to the documented requirements and
-plan:
-
-- [Requirements and implementation plan](ANFORDERUNGEN-UND-UMSETZUNGSPLAN.md)
+Version 0.1.0 implements the initial functional and non-functional requirements.
+Start with the [documentation index](docs/index.md) for requirements,
+architecture, verification, operations and future development. Planned outcomes
+and uncommitted ideas are kept separately in the [roadmap](docs/roadmap.md) and
+[idea register](docs/ideas.md).
 
 The plugin is distributed through GitHub Releases. Publication in the
 WordPress.org Plugin Directory may be considered later.
 
 Support, supported platform versions and the maintenance process are documented
-in [docs/maintenance.md](docs/maintenance.md). Security issues must be reported
+in [maintenance and support](docs/operations/maintenance.md). Security issues must be reported
 according to [SECURITY.md](SECURITY.md), not through a public issue.
 
 ## Development environment
@@ -36,8 +36,8 @@ according to [SECURITY.md](SECURITY.md), not through a public issue.
 Required local tools:
 
 - Docker Engine
-- Node.js 22.19.0 or later
-- npm 10.2.3 or later
+- Node.js and npm meeting the current
+  [project version matrix](docs/development/versions.md)
 
 Install dependencies and start the local WordPress environment:
 
@@ -58,12 +58,12 @@ npm run test:local
 ```
 
 Additional setup and troubleshooting information is available in
-[docs/development.md](docs/development.md).
+[development setup](docs/development/setup.md).
 
 ## Player appearance
 
-See [player sizing and theme styling](docs/styling.md) for inspector controls,
-CSS custom properties and responsive verification.
+Editors can follow [player appearance](docs/user/appearance.md).
+Theme developers can use the [styling contract](docs/integrations/theming.md).
 
 ## Privacy
 
@@ -73,13 +73,16 @@ was remembered in this browser. The built-in gate is configurable for sites wher
 an external consent manager controls loading. Integrations can veto loading,
 grant permission and stop a player after revocation.
 
-The exact frontend and editor behavior, contacted domains, and verification
-steps are documented in [docs/privacy.md](docs/privacy.md).
+Read [privacy for editors](docs/user/privacy.md) for user-visible behavior.
+Administrators use [site configuration](docs/operations/site-configuration.md);
+developers use [consent integration](docs/integrations/consent.md).
 
 ## Accessibility
 
 Keyboard behavior, status announcements, focus, contrast and the manual acceptance
-checklist are documented in [docs/accessibility.md](docs/accessibility.md).
+requirements and checklist are documented in
+[accessibility requirements](docs/requirements/accessibility.md) and
+[manual acceptance](docs/testing/manual-acceptance.md).
 
 ## License
 

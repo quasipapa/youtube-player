@@ -1,8 +1,10 @@
 # ADR 0001: Keyless playlist availability check
 
-- Status: Accepted
+- Status: Accepted – documented retrospectively
 - Date: 2026-09-07
-- Related work: Step 8a, GitHub issue #25
+- Evidence: issue #25 and commits `a090da2`, `66b629a`
+- Affected requirements: [FR-004](../../requirements/product.md#fr-004),
+  [NFR-PRIV-008](../../requirements/privacy.md#nfr-priv-008)
 
 ## Context
 

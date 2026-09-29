@@ -5,21 +5,21 @@ after the 0.1.x release line.
 
 ## Supported platforms
 
-The supported baseline is:
+The supported WordPress and PHP baseline is defined by
+[NFR-001](../requirements/quality.md#nfr-001). The current declared and tested
+versions are summarized in the [project version matrix](../development/versions.md).
+A current version of a supported evergreen browser with JavaScript enabled is
+also required.
 
-- WordPress 6.1 or later;
-- PHP 8.0 or later;
-- a current version of a supported evergreen browser with JavaScript enabled;
-- the current stable WordPress release is used for development and smoke tests.
-
-The CI matrix checks PHP 8.0 and 8.3. WordPress compatibility is verified with
-the configured `@wordpress/env` version and the browser suites. Older WordPress,
-PHP, or browser versions may work, but are not guaranteed or tested.
+WordPress compatibility is verified with the configured `@wordpress/env`
+version and the browser suites. The CI PHP matrix checks the configured
+compatibility boundaries. Older WordPress, PHP, or browser versions may work,
+but are not guaranteed or tested.
 
 The plugin depends on YouTube's IFrame Player API and on behavior outside the
 plugin's control. Availability, embedding permissions, contacted hosts and
 privacy behavior must be rechecked before deployment; see
-[the privacy documentation](privacy.md).
+[the privacy documentation](../user/privacy.md).
 
 ## Support process
 
@@ -39,7 +39,7 @@ There is no guaranteed response or fix time for unsupported platform versions.
 ## Security process
 
 Do not report a suspected vulnerability in a public issue. Follow
-[SECURITY.md](../SECURITY.md) for private reporting and the information needed
+[SECURITY.md](../../SECURITY.md) for private reporting and the information needed
 to investigate it.
 
 Security fixes are developed on a dedicated branch, reviewed through a pull
@@ -62,8 +62,8 @@ reviews, at least monthly and before each release:
 Development dependencies are not shipped in the plugin ZIP. Do not apply
 automatic breaking upgrades or `npm audit fix --force`; update intentionally,
 review the lockfile, and run the complete local and CI quality gates.
-The detailed record for the current alert remediation is in
-[docs/dependency-audit-63.md](dependency-audit-63.md).
+The dated evidence for the issue #63 alert remediation is in the
+[dependency audit record](../audits/dependency-audit-63.md).
 
 ## Release cadence and records
 
@@ -74,5 +74,5 @@ documents user-visible changes and records any manual privacy, accessibility or
 theme checks that were repeated.
 
 The release procedure, ZIP verification and tag approval are documented in
-[docs/release.md](release.md). Creating and pushing a release tag is an explicit
+[release packaging](releases.md). Creating and pushing a release tag is an explicit
 maintainer action.
