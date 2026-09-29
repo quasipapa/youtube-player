@@ -99,6 +99,12 @@ npm run test:local
 Expected result: installation from the updated lockfiles succeeds. The
 documentation check and complete local quality gate pass.
 
+The JavaScript unit suite uses Jest through the `wp-scripts test-unit-jest`
+adapter. Its runner, jsdom environment, Babel transform, WordPress preset and
+ESLint rules are installed explicitly because `@wordpress/scripts` 36 no
+longer bundles the Jest setup. Keep `jest.config.cjs` and `eslint.config.cjs`
+in sync when changing the unit-test tooling.
+
 The required security review, Dependabot handling, CI checks and release rules
 are defined in [maintenance](../operations/maintenance.md).
 
