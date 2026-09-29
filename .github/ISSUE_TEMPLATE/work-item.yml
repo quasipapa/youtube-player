@@ -34,6 +34,18 @@ body:
           description: Describe automated and manual tests required for this work.
       validations:
           required: true
+    - type: input
+      id: documentation_ids
+      attributes:
+          label: Related documentation IDs
+          description: List related RM-, IDEA-, FR-, NFR- or ADR identifiers, or write "None yet".
+          placeholder: RM-002, NFR-006, ADR 0005
+    - type: textarea
+      id: documentation_impact
+      attributes:
+          label: Documentation impact
+          description: State which requirements, decisions, workflows, user guidance or traceability links must change.
+          placeholder: Describe updates, or explain why documentation is unaffected.
     - type: textarea
       id: dependencies
       attributes:

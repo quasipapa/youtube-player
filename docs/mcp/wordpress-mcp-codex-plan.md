@@ -181,7 +181,7 @@ Windows und WSL haben getrennte Codex-Konfigurationen:
 
 Die WSL-Integration des Desktops ändert daran nichts: Ein im WSL-Terminal gestartetes `codex` liest die Linux-Datei. Codex Desktop liest die Windows-Datei. Wenn beide Oberflächen verwendet werden sollen, muss der MCP-Eintrag in beiden Dateien vorhanden sein. Der Endpunkt darf in beiden Konfigurationen identisch sein; Credentials müssen in der jeweiligen Umgebung verfügbar sein.
 
-Die Dateien unter `docs/` sind Vorlagen und werden nicht automatisch geladen. Die anonymisierte Vorlage liegt in [`docs/wordpress-mcp-server.toml`](wordpress-mcp-server.toml). Eine lokale, nicht versionierte Konfiguration kann in `docs/wordpress-mcp-server.local.toml` vorbereitet werden.
+Die Dateien unter `docs/mcp/` sind Vorlagen und werden nicht automatisch geladen. Die anonymisierte Vorlage liegt in [`wordpress-mcp-server.toml`](wordpress-mcp-server.toml). Eine lokale, nicht versionierte Konfiguration kann in `docs/mcp/wordpress-mcp-server.local.toml` vorbereitet werden.
 
 ### Schritt 1: Secret im Bitwarden Secrets Manager vorbereiten
 

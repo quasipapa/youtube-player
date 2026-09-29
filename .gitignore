@@ -18,6 +18,7 @@
 .env.*
 !.env.example
 docs/wordpress-mcp-server.local.toml
+docs/mcp/wordpress-mcp-server.local.toml
 *.log
 npm-debug.log*
 
