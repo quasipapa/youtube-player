@@ -51,7 +51,7 @@ npm run check:docs
 | `npm run lint:js` | ESLint reports no errors in `src/` or `assets/js/` |
 | `npm run lint:css` | Stylelint reports no errors in the SCSS sources |
 | `npm run lint:php` | PHP syntax, WordPress Coding Standards and checks against the declared PHP minimum pass |
-| `npm run test:js` | All Jest suites pass |
+| `npm run test:js` | All Jest suites pass through `wp-scripts test-unit-jest` |
 | `npm run test:php` | All PHPUnit suites pass |
 | `npm run check:docs` | Local Markdown targets and fragments exist, and stable documentation IDs are unique |
 
@@ -76,9 +76,10 @@ npm run check
 ```
 
 Expected result: formatting, JavaScript, CSS, PHP, PHPUnit, Jest and translation
-reproducibility checks pass. The command also refreshes the production assets in
-`build/`. It does not run `npm run check:docs`; keep that as a separate review
-step.
+reproducibility checks pass. JavaScript tests use the project-owned
+`jest.config.cjs` and the Scripts 36 maintenance adapter. The command also
+refreshes the production assets in `build/`. It does not run `npm run check:docs`;
+keep that as a separate review step.
 
 For code, test, dependency or delivery changes, run the complete local gate:
 

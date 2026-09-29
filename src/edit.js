@@ -75,7 +75,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const previewUrl = configuredPreviewUrl
 		? `${ configuredPreviewUrl }&playlist_id=${ encodeURIComponent(
 				validation.id
-		  ) }`
+			) }`
 		: '';
 
 	useEffect( () => {
@@ -225,11 +225,11 @@ export default function Edit( { attributes, setAttributes } ) {
 								? __(
 										'Visitors must actively load the playlist before any connection to YouTube is made.',
 										'yt-playlist-player'
-								  )
+									)
 								: __(
 										'YouTube loads immediately. Disable this only when another consent or content blocker reliably prevents external requests.',
 										'yt-playlist-player'
-								  )
+									)
 						}
 						checked={ requireConsent }
 						onChange={ ( value ) =>

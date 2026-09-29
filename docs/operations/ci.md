@@ -25,7 +25,7 @@ changes follow the
   compatibility boundaries and runs Composer lint and unit tests without
   coverage.
 - **JavaScript and CSS** installs locked npm dependencies and runs JS, SCSS and
-  Jest checks.
+  the project-configured Jest checks through `wp-scripts test-unit-jest`.
 - **WordPress integration, E2E and Plugin Check** runs `npm run test:local`.
 - **Upload CI plugin artifact** depends on every preceding job. It receives
   `actions: write`, builds runtime assets, stages the runtime allowlist, creates
