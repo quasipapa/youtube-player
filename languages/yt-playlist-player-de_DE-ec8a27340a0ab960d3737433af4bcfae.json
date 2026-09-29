@@ -1,6 +1,6 @@
 {
 	"translation-revision-date": "2026-09-07 00:00+0200",
-	"generator": "WP-CLI/2.12.0",
+	"generator": "WP-CLI\/2.12.0",
 	"source": "build/view.js",
 	"domain": "messages",
 	"locale_data": {
@@ -13,7 +13,7 @@
 			"The video playlist is loading.": [
 				"Die Video-Playlist wird geladen."
 			],
-			"%1$d / %2$d": [ "%1$d / %2$d" ],
+			"%1$d \/ %2$d": [ "%1$d \/ %2$d" ],
 			"YouTube playlist player": [ "YouTube-Playlist-Player" ],
 			"The YouTube playlist could not be loaded. Please try again.": [
 				"Die YouTube-Playlist konnte nicht geladen werden. Bitte versuchen Sie es erneut."
