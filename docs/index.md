@@ -25,7 +25,8 @@ for your task. A person may use more than one role's path.
 AI assistance follows the reading path for the role being performed, such as
 plugin developer or tester.
 
-1. Read the applicable repository and agent instructions.
+1. Read the applicable repository and agent instructions, starting with
+   [AGENTS.md](../AGENTS.md).
 2. Consult the [documentation policy](documentation-policy.md) and the relevant
    role's reading path above.
 3. Identify the requirements, interfaces and evidence affected by the task.

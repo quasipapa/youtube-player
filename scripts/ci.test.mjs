@@ -17,6 +17,7 @@ import { checkVersions, checkPackage } from './check-delivery.mjs';
 import { inspectMarkdown } from './markdown-contract.mjs';
 
 for ( const paths of [
+	[ 'AGENTS.md' ],
 	[ 'README.md' ],
 	[ 'SECURITY.md' ],
 	[ 'ANFORDERUNGEN-UND-UMSETZUNGSPLAN.md' ],

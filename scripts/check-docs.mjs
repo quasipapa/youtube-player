@@ -7,6 +7,7 @@ import { lint } from 'markdownlint/sync';
 const root = resolve( dirname( fileURLToPath( import.meta.url ) ), '..' );
 const roots = [ 'docs', '.github' ].map( ( path ) => join( root, path ) );
 const files = [
+	'AGENTS.md',
 	'README.md',
 	'SECURITY.md',
 	'THIRD_PARTY_NOTICES.md',
