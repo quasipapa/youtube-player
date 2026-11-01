@@ -27,7 +27,7 @@ retargeting or a moving base selects full CI rather than comparing the wrong dif
 
 | Class | Explicit allowlist | Required checks |
 | --- | --- | --- |
-| `docs-only` | Markdown under `docs/`; root README, SECURITY and project-plan Markdown; current PR template and the three current issue-template YAML files | Documentation and CI contract tests |
+| `docs-only` | Markdown under `docs/`; root `AGENTS.md`, `README.md`, `SECURITY.md` and the project-plan Markdown; the current PR template and the three current issue-template YAML files | Documentation and CI contract tests |
 | `metadata` | `readme.txt`, `LICENSE`, `THIRD_PARTY_NOTICES.md` | Documentation and CI contract tests; production build, version/license metadata, package contents and SHA-256 |
 | `full` | Every other path, including unknown paths | Documentation and all existing source, integration and artifact checks |
 

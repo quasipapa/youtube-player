@@ -165,7 +165,7 @@ Application Password authentifiziert den Benutzer lediglich; es erweitert
 nicht dessen WordPress-Capabilities. Änderungen an Rollen oder Capabilities
 müssen daher in WordPress vorgenommen werden, nicht in Codex.
 
-Application Passwords dürfen nicht in Git, `AGENTS.md`, Projektdateien oder Chatnachrichten gespeichert werden. Sie gehören in eine lokale Secret-Verwaltung oder Umgebungsvariablen.
+Application Passwords dürfen nicht in Git, `../../AGENTS.md`, Projektdateien oder Chatnachrichten gespeichert werden. Sie gehören in eine lokale Secret-Verwaltung oder Umgebungsvariablen.
 
 ## Einbindung in Codex unter Windows mit WSL
 
@@ -393,7 +393,7 @@ Falls der direkte Streamable-HTTP-Transport nicht funktioniert, kann als Fallbac
 
 ## Dauerhafte Codex-Arbeitsregeln
 
-Diese Regeln können in einer projektspezifischen `AGENTS.md` festgehalten werden:
+Diese Regeln können in einer projektspezifischen `../../AGENTS.md` festgehalten werden:
 
 ```text
 - Vor jeder Schreibaktion den aktuellen Zustand lesen.

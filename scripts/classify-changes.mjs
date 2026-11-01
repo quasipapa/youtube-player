@@ -3,6 +3,7 @@ import { appendFileSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 const editorialFiles = new Set( [
+	'AGENTS.md',
 	'README.md',
 	'SECURITY.md',
 	'ANFORDERUNGEN-UND-UMSETZUNGSPLAN.md',
