@@ -9,7 +9,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 A privacy-aware Gutenberg block for embedding and navigating YouTube playlists.
-Version 0.1.0 is an Alpha release and remains under active development.
+Version 0.1.0 is an Alpha release and remains under active development. Temporary CI acceptance probe.
 
 == Description ==
 
