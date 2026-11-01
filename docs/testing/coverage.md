@@ -59,7 +59,7 @@ Coverage status means:
 | [NFR-003](../requirements/quality.md#nfr-003) | Input validation, normalization and output safety | Parser/render unit tests, PHP/JavaScript lint and Plugin Check | [MAN-001](manual-acceptance.md#man-001) | combined |
 | [NFR-004](../requirements/quality.md#nfr-004) | Complete and reproducible localization | [`src/i18n.test.js`](../../src/i18n.test.js), [`tests/unit/test-i18n.php`](../../tests/unit/test-i18n.php), translation reproducibility check | [MAN-009](manual-acceptance.md#man-009) | combined |
 | [NFR-005](../requirements/quality.md#nfr-005) | Locked dependencies excluded from releases | Locked installation, CI and release allowlist checks | None | automated |
-| [NFR-006](../requirements/quality.md#nfr-006) | Reproducible layered quality gate | [`scripts/local-tests.sh`](../../scripts/local-tests.sh), CI workflow and test suites listed above | Applicable manual cases | combined |
+| [NFR-006](../requirements/quality.md#nfr-006) | Reproducible layered quality gate | [`scripts/local-tests.sh`](../../scripts/local-tests.sh), [`scripts/ci.test.mjs`](../../scripts/ci.test.mjs), CI workflow and test suites listed above | Applicable manual cases | combined |
 | [NFR-007](../requirements/quality.md#nfr-007) | Deterministic allowlisted ZIP and checksum | [`scripts/build-zip.sh`](../../scripts/build-zip.sh) and release workflow checks | [MAN-010](manual-acceptance.md#man-010) | combined |
 | [NFR-008](../requirements/quality.md#nfr-008) | License and metadata consistency | Plugin metadata tests, version checks and release allowlist | [MAN-010](manual-acceptance.md#man-010) | combined |
 

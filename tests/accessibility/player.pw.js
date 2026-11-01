@@ -104,7 +104,7 @@ async function openFixture(
 				: route.fulfill( {
 						contentType: 'application/javascript',
 						body: `(${ installMockPlayer.toString() })();`,
-				  } );
+					} );
 		}
 		if ( url.hostname === 'www.youtube-nocookie.com' ) {
 			return route.fulfill( {

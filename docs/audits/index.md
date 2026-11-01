@@ -11,6 +11,9 @@ compatibility and security process.
 
 ## Available records
 
+- [CI optimization acceptance for issue #73](ci-73.md) — classification, gate,
+  package verification and ruleset migration evidence
+
 - [Dependency audit for issue #63](dependency-audit-63.md) — npm development
   dependencies and Dependabot alerts reviewed on 12 September 2026
 - [Release audits](releases/index.md) — acceptance, open items and evidence for

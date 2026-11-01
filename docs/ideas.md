@@ -43,7 +43,8 @@ overview rather than a competing source. Adoption requires a separate ADR.
 
 Use a short documentation validation path for known docs-only changes while
 preserving complete checks for code, tooling and uncertain paths. The workflow
-change follows documentation modularization and will have its own ADR.
+change follows documentation modularization and is recorded in
+[ADR 0007](architecture/decisions/0007-change-sensitive-ci.md).
 
 <a id="idea-004"></a>
 ## IDEA-004 – Direct minimum-WordPress integration coverage

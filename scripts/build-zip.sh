@@ -22,7 +22,7 @@ cd "$project_dir"
 npm run build
 
 mkdir -p "$staging_plugin"
-cp yt-playlist-player.php readme.txt LICENSE "$staging_plugin/"
+cp yt-playlist-player.php readme.txt LICENSE THIRD_PARTY_NOTICES.md "$staging_plugin/"
 cp -R build includes languages "$staging_plugin/"
 
 python3 - "$staging_dir" "$zip_path" <<'PY'
@@ -45,6 +45,6 @@ with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as archive:
                 archive.writestr(info, source.read())
 PY
 
-sha256sum "$zip_path" > "$checksum_path"
+(cd "$output_dir" && sha256sum "$package_name.zip") > "$checksum_path"
 printf 'Created %s\n' "$zip_path"
 printf 'Created %s\n' "$checksum_path"

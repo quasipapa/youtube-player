@@ -42,6 +42,9 @@ sequenceDiagram
     actor Maintainer
     participant Repo as GitHub repository
     participant CI as CI workflow
+    participant Docs as Documentation job
+    participant Metadata as Metadata delivery job
+    participant Gate as CI gate
     participant BuildJob as Build + version job
     participant PHPJob as PHP matrix job
     participant JSJob as JavaScript + CSS job
@@ -56,6 +59,15 @@ sequenceDiagram
     alt Pull request or push to main
         Contributor->>Repo: Push commit
         Repo->>CI: Trigger workflow
+        CI->>CI: Classify complete diff (push to main always full)
+        CI->>Docs: Markdown, links, IDs, traceability + CI contract tests
+        alt Documentation only
+            Docs-->>Gate: Success; delivery jobs deliberately skipped
+        else Bounded metadata
+            CI->>Metadata: Build, shared version and package checks
+            Metadata-->>Gate: Success; full source jobs deliberately skipped
+            Docs-->>Gate: Success
+        else Full verification
         par Build and version
             CI->>BuildJob: npm ci + Composer install + npm run check
             BuildJob->>Build: Compile production assets
@@ -70,10 +82,14 @@ sequenceDiagram
         PHPJob-->>ArtifactJob: Success
         JSJob-->>ArtifactJob: Success
         WPJob-->>ArtifactJob: Success
-        ArtifactJob->>Build: npm run build
+        ArtifactJob->>Build: npm run plugin:zip
         ArtifactJob->>Stage: Copy runtime allowlist
         Stage->>Package: Create CI ZIP and checksum
         ArtifactJob->>GitHubOutput: Upload for 3 days
+        ArtifactJob-->>Gate: Success
+        Docs-->>Gate: Success
+        end
+        Gate->>Gate: Require successful selected jobs and intentional skips
     else Push of an approved v* tag
         Maintainer->>Repo: Push release tag
         Repo->>Release: Trigger workflow
@@ -98,7 +114,7 @@ and publishes the deterministic release package.
 | --- | --- | --- |
 | `build/` | `wp-scripts build` | Runtime allowlist for both package variants |
 | Compiled translation catalogs | i18n generation in the quality gate | Committed/runtime language files |
-| `yt-playlist-player-ci.zip` and checksum | CI artifact job | Review installation; retained for three days |
+| `yt-playlist-player.zip` and checksum in CI artifact | CI artifact job | Review installation; retained for three days |
 | `dist/yt-playlist-player.zip` and checksum | `scripts/build-zip.sh` | Release verification and GitHub Release |
 | GitHub Release notes | Tag workflow | Immutable release record |
 

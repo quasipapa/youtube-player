@@ -125,3 +125,4 @@ See [runtime flows](runtime.md) and [development architecture](development.md).
 - [ADR 0004: Same-origin editor preview](decisions/0004-same-origin-editor-preview.md)
 - [ADR 0005: Layered quality gate](decisions/0005-layered-quality-gate.md)
 - [ADR 0006: Reproducible allowlisted release package](decisions/0006-reproducible-allowlisted-release-package.md)
+- [ADR 0007: Always validate documentation and use a focused metadata gate](decisions/0007-change-sensitive-ci.md)
