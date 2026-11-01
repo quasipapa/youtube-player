@@ -22,6 +22,8 @@ Every PR starts the workflow. `scripts/classify-changes.mjs` compares the comple
 PR diff from the merge base to its head. Rename detection is disabled so both
 old and new paths are considered. Empty diffs, unavailable comparison data and
 unknown paths select `full`. Mixed changes use the strongest applicable class.
+The event's base SHA must match the fetched target branch. A stale SHA after
+retargeting or a moving base selects full CI rather than comparing the wrong diff.
 
 | Class | Explicit allowlist | Required checks |
 | --- | --- | --- |
@@ -88,18 +90,20 @@ blocks a full run. This contract is recorded in
 [ADR 0007](../architecture/decisions/0007-change-sensitive-ci.md).
 
 Add the PR label `ci:full` to force full CI. Label addition and removal trigger
-a new run, as do pushes. The label only escalates checks. Manual `CI` workflow
+a new run, as do pushes and PR edits, including a change of base branch. This
+ensures retargeting a PR cannot reuse a classification for a different diff.
+The label only escalates checks. Manual `CI` workflow
 dispatches and pushes to `main` always select `full`. Dispatch against the PR's
 branch to verify that exact head with all checks. No commit-message skip is used.
 
 ## Required-check migration
 
-The target required status is **CI gate**, bound to GitHub Actions. Migration
-is an operational step after successful full and probe runs: snapshot
+The required status in `Protect main` is **CI gate**, bound to GitHub Actions.
+Migration is performed after successful full and probe runs: snapshot
 `Protect main`, verify all gate dependencies, then replace the six existing
 required contexts with `CI gate`, preserving all other rules and the lack of
 bypass actors. Read the ruleset back and verify a failing docs probe cannot
-merge. Until migration, existing individual required checks remain in force.
+merge. Keep the individual checks enforced until this migration is ready.
 Record the actual migration and probe links in the
 [issue #73 audit](../audits/ci-73.md). Do not mark migration complete merely
 because the workflow YAML has changed.

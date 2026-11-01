@@ -13,22 +13,20 @@ export function inspectMarkdown( source ) {
 		if ( token.type === 'link_open' ) links.push( token.attrGet( 'href' ) );
 		if ( token.type === 'image' ) links.push( token.attrGet( 'src' ) );
 		if ( token.type === 'html_inline' || token.type === 'html_block' ) {
-			for ( const match of token.content.matchAll(
-				/\bid=["']([^"']+)["']/g
-			) ) {
-				explicitIds.push( match[ 1 ] );
-				anchors.add( match[ 1 ] );
-			}
 			const html = token.content.replace( /<!--[\s\S]*?-->/g, '' );
 			for ( const tag of html.matchAll( /<[a-z][^>]*>/gi ) ) {
 				for ( const attr of tag[ 0 ].matchAll(
-					/\s(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi
+					/\s(id|href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi
 				) ) {
-					links.push(
-						parser.utils.unescapeAll(
-							attr[ 1 ] ?? attr[ 2 ] ?? attr[ 3 ]
-						)
+					const value = parser.utils.unescapeAll(
+						attr[ 2 ] ?? attr[ 3 ] ?? attr[ 4 ]
 					);
+					if ( attr[ 1 ].toLowerCase() === 'id' ) {
+						explicitIds.push( value );
+						anchors.add( value );
+					} else {
+						links.push( value );
+					}
 				}
 			}
 		}

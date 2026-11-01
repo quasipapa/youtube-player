@@ -48,8 +48,8 @@ SHAs, job conclusions and unresolved limitations in a dated audit, such as
 Release verification uses a manual `Release` dispatch on the candidate branch
 with a matching `release_tag`. All verification must run while publication is
 skipped. See [release acceptance](../operations/releases.md#github-releases).
-When a new workflow is not yet available for dispatch, record that limitation
-and complete this probe after it reaches the default branch.
+The registered Release workflow can be dispatched against the implementation
+branch before merge; inspect that run's publication step to confirm it skipped.
 
 Plugin Check runs only against staged production files. Narrow exemptions are
 recorded in its script/configuration and cover block API version 2 for WordPress
