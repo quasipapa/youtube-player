@@ -33,6 +33,11 @@ metadata. Unknown paths, code, dependencies, build and automation changes requir
 full CI. Mixed changes use the strongest applicable class. Files containing
 executable code, such as the plugin bootstrap, cannot qualify as metadata merely
 because a version declaration was edited.
+Translation catalogs also select full CI because their existing consistency and
+reproducibility checks require WordPress CLI. The bounded metadata allowlist is
+limited to `readme.txt`, `LICENSE` and `THIRD_PARTY_NOTICES.md`. Packages include
+the third-party notices and must contain the PHP helpers and block runtime
+assets in addition to metadata and a valid checksum.
 
 Start the workflow for every pull request. A stable final gate requires the
 documentation job and every job expected for the selected class to succeed;
