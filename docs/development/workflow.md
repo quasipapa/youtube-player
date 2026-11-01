@@ -54,6 +54,9 @@ npm run check:docs
 | `npm run test:js` | All Jest suites pass through `wp-scripts test-unit-jest` |
 | `npm run test:php` | All PHPUnit suites pass |
 | `npm run check:docs` | Local Markdown targets and fragments exist, and stable documentation IDs are unique |
+| `npm run test:ci` | Classification, gate, Markdown and delivery contracts pass without Docker or WordPress |
+| `npm run check:versions` | Plugin, package and readme versions and license metadata agree |
+| `npm run check:package` | Built ZIP has required allowlisted contents and a matching SHA-256 checksum |
 
 Apply supported automatic fixes with:
 
@@ -78,8 +81,9 @@ npm run check
 Expected result: formatting, JavaScript, CSS, PHP, PHPUnit, Jest and translation
 reproducibility checks pass. JavaScript tests use the project-owned
 `jest.config.cjs` and the Scripts 36 maintenance adapter. The command also
-refreshes the production assets in `build/`. It does not run `npm run check:docs`;
-keep that as a separate review step.
+refreshes the production assets in `build/`. It includes documentation and CI
+contract checks. Documentation is validated for every CI change class; see
+[CI classes and overrides](../operations/ci.md#change-classes-and-jobs).
 
 For code, test, dependency or delivery changes, run the complete local gate:
 
