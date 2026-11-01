@@ -4,6 +4,12 @@ on:
     push:
         tags:
             - 'v*'
+    workflow_dispatch:
+        inputs:
+            release_tag:
+                description: Version tag to validate without publishing (for example v0.1.0)
+                required: true
+                type: string
 
 concurrency:
     group: release-${{ github.ref }}
@@ -25,7 +31,7 @@ jobs:
             - name: Check out repository
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
             - name: Set up Node.js
-              uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
               with:
                   node-version: ${{ env.NODE_VERSION }}
                   cache: npm
@@ -35,38 +41,14 @@ jobs:
               run: npm run test:local
             - name: Verify tag and project versions agree
               env:
-                  RELEASE_TAG: ${{ github.ref_name }}
-              run: |
-                  node <<'NODE'
-                  const fs = require('fs');
-                  const tag = process.env.RELEASE_TAG;
-                  const packageVersion = require('./package.json').version;
-                  const plugin = fs.readFileSync('yt-playlist-player.php', 'utf8');
-                  const header = plugin.match(/\n \* Version:\s+([^\n]+)/);
-                  const constant = plugin.match(/YTPP_VERSION',\s*\n\s*'([^']+)'/);
-                  const readme = fs.readFileSync('readme.txt', 'utf8');
-                  const stableTag = readme.match(/Stable tag:\s*([^\s]+)/);
-                  const tagVersion = tag.match(/^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$/)?.[1];
-                  const versions = [tagVersion, packageVersion, header?.[1], constant?.[1], stableTag?.[1]];
-                  if (versions.some((version) => !version) || new Set(versions).size !== 1) {
-                    console.error('Version mismatch:', versions);
-                    process.exit(1);
-                  }
-                  console.log(`Version ${packageVersion} is consistent with ${tag}.`);
-                  NODE
+                  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}
+              run: npm run check:versions
             - name: Build release ZIP and checksum
               run: npm run plugin:zip
             - name: Verify release package contents and checksum
-              run: |
-                  sha256sum --check dist/yt-playlist-player.zip.sha256
-                  unzip -Z1 dist/yt-playlist-player.zip > /tmp/ytpp-release-files.txt
-                  grep -qx 'yt-playlist-player/yt-playlist-player.php' /tmp/ytpp-release-files.txt
-                  grep -qx 'yt-playlist-player/build/block.json' /tmp/ytpp-release-files.txt
-                  if grep -Eq '(^|/)(src|tests|node_modules|vendor|\.git|\.github)(/|$)' /tmp/ytpp-release-files.txt; then
-                      echo 'Development files found in release package.' >&2
-                      exit 1
-                  fi
+              run: npm run check:package
             - name: Publish GitHub release
+              if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
               env:
                   GH_TOKEN: ${{ github.token }}
               run: |

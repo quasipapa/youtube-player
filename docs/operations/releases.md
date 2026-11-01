@@ -19,13 +19,14 @@ The command writes these files to `dist/`:
 - `yt-playlist-player.zip.sha256`
 
 The ZIP contains one top-level directory named `yt-playlist-player/`. Its
-contents are the plugin entry point, `readme.txt`, `LICENSE`, and the runtime
+contents are the plugin entry point, `readme.txt`, `LICENSE`,
+`THIRD_PARTY_NOTICES.md`, and the runtime
 directories `build/`, `includes/`, and `languages/`.
 
-Verify the checksum with:
+Verify versions, ZIP contents and checksum with:
 
 ```bash
-sha256sum --check dist/yt-playlist-player.zip.sha256
+npm run check:package
 ```
 
 ## Pre-release acceptance
@@ -74,6 +75,13 @@ The single job has `contents: write`; the workflow default remains
 `yt-playlist-player.zip` and `yt-playlist-player.zip.sha256`. Concurrency is per
 tag and is not cancelled in progress. Any failed test, version, checksum or
 content check prevents publication.
+
+For acceptance without publication, manually dispatch `Release` on the candidate
+branch with the `release_tag` input matching the intended version. This repeats
+the complete gate, tag/version agreement and package checks. The publication
+step only runs for a push to a `v*` tag. The existing registered Release workflow
+can be dispatched on the candidate branch with `gh workflow run release.yml
+--ref BRANCH -f release_tag=v0.1.0`. Do not create a release tag for a CI probe.
 
 The repository's workflow permissions must allow the release job's
 `contents: write` token permission. The tag is the explicit release approval;

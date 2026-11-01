@@ -181,9 +181,10 @@ results only.
 ## Verification and release reconciliation
 
 For documentation changes, check Markdown structure, internal paths, stable
-anchors and traceability references with `npm run check:docs`. Issue #73 will add
-a permanent optimized CI path; until then, run this check explicitly during
-review.
+anchors and traceability references with `npm run check:docs`. The documentation
+job runs in every CI class, including full product checks. See
+[ADR 0007](architecture/decisions/0007-change-sensitive-ci.md) and the
+[CI contract](operations/ci.md).
 
 Before a release, reconcile:
 

@@ -31,5 +31,6 @@ with `npm run test:local`. The current boundaries are listed in the
 
 Failures are detected at the cheapest relevant layer and critical flows run in
 WordPress and a real browser. The full gate uses Docker and is intentionally
-heavier; issue #73 will evaluate a safe fast path for documentation-only changes.
+heavier; [ADR 0007](0007-change-sensitive-ci.md) adds focused documentation and
+metadata paths while requiring documentation validation for every class.
 Manual screen-reader and site-specific privacy assessment remain human checks.

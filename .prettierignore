@@ -1,3 +1,5 @@
 .wp-env-home/
 vendor/
 test-results/
+build/
+dist/

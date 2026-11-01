@@ -25,6 +25,10 @@ and releases remain authoritative. Stable IDs are defined by the
 | [NFR-A11Y-001–008](requirements/accessibility.md#nfr-a11y-001) | [runtime architecture](architecture/runtime.md) | [accessibility coverage](testing/coverage.md#accessibility-requirements) |
 | [NFR-001–008](requirements/quality.md#nfr-001) | [development architecture](architecture/development.md), [ADR 0005](architecture/decisions/0005-layered-quality-gate.md), [ADR 0006](architecture/decisions/0006-reproducible-allowlisted-release-package.md) | [quality coverage](testing/coverage.md#quality-requirements) |
 
+The CI optimization links [ADR 0007](architecture/decisions/0007-change-sensitive-ci.md)
+to [issue #73 evidence](audits/ci-73.md). Direct minimum-WordPress integration
+coverage remains an uncommitted [IDEA-004](ideas.md#idea-004).
+
 The coverage matrix owns requirement-to-test mapping and known verification
 gaps. Test suites are inventoried in [automated testing](testing/automated.md),
 reusable human procedures are in
