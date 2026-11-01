@@ -4,6 +4,16 @@ on:
     push:
         branches: [main]
     pull_request:
+        types:
+            [
+                opened,
+                synchronize,
+                reopened,
+                ready_for_review,
+                labeled,
+                unlabeled,
+            ]
+    workflow_dispatch:
 
 concurrency:
     group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -16,8 +26,68 @@ env:
     NODE_VERSION: '22.22.2'
 
 jobs:
+    changes:
+        name: Classify changes
+        runs-on: ubuntu-24.04
+        outputs:
+            classification: ${{ steps.classify.outputs.classification }}
+        steps:
+            - name: Check out repository and comparison history
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+            - name: Set up Node.js
+              uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+            - name: Classify complete PR diff
+              id: classify
+              run: node scripts/classify-changes.mjs
+
+    docs:
+        name: Documentation
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - name: Set up Node.js
+              uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+            - name: Install locked JavaScript dependencies
+              run: npm ci
+            - name: Validate Markdown, links, anchors and traceability
+              run: npm run check:docs
+            - name: Test CI classification, gate and delivery contracts
+              run: npm run test:ci
+
+    metadata:
+        name: Metadata delivery checks
+        needs: changes
+        if: needs.changes.outputs.classification == 'metadata'
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - name: Set up Node.js
+              uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+            - name: Install locked JavaScript dependencies
+              run: npm ci
+            - name: Verify versions and metadata
+              run: npm run check:versions
+            - name: Build production package
+              run: npm run plugin:zip
+            - name: Verify package contents and checksum
+              run: npm run check:package
+
     build-and-version:
         name: Build and version
+        needs: changes
+        if: needs.changes.outputs.classification == 'full'
         runs-on: ubuntu-24.04
         steps:
             - name: Check out repository
@@ -36,25 +106,12 @@ jobs:
             - name: Run formatting, lint, tests, translations and build
               run: YTPP_WP_ENV_CONFIG=.wp-env.test.json npm run check
             - name: Verify versions agree
-              run: |
-                  node <<'NODE'
-                  const fs = require('fs');
-                  const packageVersion = require('./package.json').version;
-                  const plugin = fs.readFileSync('yt-playlist-player.php', 'utf8');
-                  const header = plugin.match(/\n \* Version:\s+([^\n]+)/);
-                  const constant = plugin.match(/YTPP_VERSION',\s*\n\s*'([^']+)'/);
-                  const readme = fs.readFileSync('readme.txt', 'utf8');
-                  const stableTag = readme.match(/Stable tag:\s*([^\s]+)/);
-                  const versions = [packageVersion, header?.[1], constant?.[1], stableTag?.[1]];
-                  if (versions.some((version) => !version) || new Set(versions).size !== 1) {
-                    console.error('Version mismatch:', versions);
-                    process.exit(1);
-                  }
-                  console.log(`Version ${packageVersion} is consistent.`);
-                  NODE
+              run: npm run check:versions
 
     php:
         name: PHP ${{ matrix.php }}
+        needs: changes
+        if: needs.changes.outputs.classification == 'full'
         runs-on: ubuntu-24.04
         strategy:
             fail-fast: false
@@ -76,6 +133,8 @@ jobs:
 
     javascript:
         name: JavaScript and CSS
+        needs: changes
+        if: needs.changes.outputs.classification == 'full'
         runs-on: ubuntu-24.04
         steps:
             - name: Check out repository
@@ -92,6 +151,8 @@ jobs:
 
     wordpress:
         name: WordPress integration, E2E and Plugin Check
+        needs: changes
+        if: needs.changes.outputs.classification == 'full'
         runs-on: ubuntu-24.04
         steps:
             - name: Check out repository
@@ -109,7 +170,8 @@ jobs:
     ci-artifact:
         name: Upload CI plugin artifact
         runs-on: ubuntu-24.04
-        needs: [build-and-version, php, javascript, wordpress]
+        needs: [changes, docs, build-and-version, php, javascript, wordpress]
+        if: needs.changes.outputs.classification == 'full'
         permissions:
             contents: read
             actions: write
@@ -123,23 +185,42 @@ jobs:
                   cache: npm
             - name: Install JavaScript dependencies
               run: npm ci
-            - name: Build production assets
-              run: npm run build
-            - name: Stage production plugin files
-              run: |
-                  mkdir -p ci-artifact/yt-playlist-player
-                  cp yt-playlist-player.php readme.txt LICENSE ci-artifact/yt-playlist-player/
-                  cp -R build includes languages ci-artifact/yt-playlist-player/
-            - name: Build checked plugin ZIP
-              run: |
-                  cd ci-artifact
-                  zip -qr yt-playlist-player-ci.zip yt-playlist-player
-                  sha256sum yt-playlist-player-ci.zip > yt-playlist-player-ci.zip.sha256
+            - name: Build production package
+              run: npm run plugin:zip
+            - name: Verify package contents and checksum
+              run: npm run check:package
             - name: Upload plugin artifact
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: yt-playlist-player-ci-${{ github.run_id }}
                   path: |
-                      ci-artifact/yt-playlist-player-ci.zip
-                      ci-artifact/yt-playlist-player-ci.zip.sha256
+                      dist/yt-playlist-player.zip
+                      dist/yt-playlist-player.zip.sha256
                   retention-days: 3
+
+    ci-gate:
+        name: CI gate
+        if: always()
+        needs:
+            [
+                changes,
+                docs,
+                metadata,
+                build-and-version,
+                php,
+                javascript,
+                wordpress,
+                ci-artifact,
+            ]
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - name: Set up Node.js
+              uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+            - name: Require all jobs selected by classification
+              env:
+                  CI_NEEDS: ${{ toJSON(needs) }}
+              run: node scripts/ci-gate.mjs

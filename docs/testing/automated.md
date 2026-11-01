@@ -17,6 +17,39 @@ Requirement-level automated and manual responsibility is maintained in the
   alignment reflow. Tests use local iframe doubles and make no YouTube requests.
 - `tests/accessibility/`: keyboard, focus, status, contrast, forced colors,
   multiple blocks and consent integration with local API doubles.
+- `scripts/ci.test.mjs`: Node test runner checks classification and gate failure
+  behavior, real Git rename diffs, Markdown parsing, version mismatch rejection,
+  and temporary ZIP corruption/content fixtures. Run with `npm run test:ci`;
+  only Node.js, Git and Python are needed.
+
+## CI workflow acceptance
+
+The implementation author (Codex or contributor) runs `npm run check:docs`,
+`npm run test:ci`, `npm run plugin:zip`, `npm run check:package` and the full
+`npm run test:local` gate. Then the author opens temporary draft probes against
+the implementation branch: Markdown only, `readme.txt` only and an unknown path.
+GitHub Actions must select the classes described in the
+[CI contract](../operations/ci.md#change-classes-and-jobs). The implementation PR
+itself verifies the code/tooling path. Inspect actual job conclusions, including
+deliberate skips and the final gate, rather than just the workflow conclusion.
+
+The author introduces an invalid link and a duplicate stable ID in a docs probe,
+one at a time. Each must fail documentation and the final gate. Restore the valid
+fixture and verify recovery. Add `ci:full` to a valid docs probe, observe full
+jobs, then remove it and verify the docs path returns. No probe is merged.
+
+The maintainer reviews the run evidence before replacing individual required
+checks with `CI gate`. After migration, inspect a failing probe's merge state
+and required-check rollup to confirm it is blocked. Re-read the ruleset to confirm
+other branch protections remain unchanged. The author records run URLs, commit
+SHAs, job conclusions and unresolved limitations in a dated audit, such as
+[the issue #73 audit](../audits/ci-73.md).
+
+Release verification uses a manual `Release` dispatch on the candidate branch
+with a matching `release_tag`. All verification must run while publication is
+skipped. See [release acceptance](../operations/releases.md#github-releases).
+When a new workflow is not yet available for dispatch, record that limitation
+and complete this probe after it reaches the default branch.
 
 Plugin Check runs only against staged production files. Narrow exemptions are
 recorded in its script/configuration and cover block API version 2 for WordPress

@@ -36,7 +36,7 @@ systems and make functionally equivalent reconstruction possible.
 ## RM-003 – Shorten CI safely for documentation-only changes
 
 **Scope:** development, testing, documentation\
-**Status:** planned after RM-002\
+**Status:** in progress\
 **Origin:** [IDEA-003](ideas.md#idea-003)\
 **Issue:** [#73](https://github.com/quasipapa/youtube-player/issues/73)\
 **Milestone:** M5 – Tests and CI\
