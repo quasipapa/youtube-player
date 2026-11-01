@@ -61,7 +61,7 @@
 		"babel-jest": "30.5.0",
 		"eslint-plugin-jest": "29.16.6",
 		"github-slugger": "2.0.0",
-		"jest": "30.5.0",
+		"jest": "30.5.2",
 		"jest-environment-jsdom": "30.5.0",
 		"markdown-it": "14.2.0",
 		"markdownlint": "0.41.1",
