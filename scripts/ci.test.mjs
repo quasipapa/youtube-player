@@ -29,15 +29,7 @@ for ( const paths of [
 	test( `Editorial paths: ${ paths }`, () =>
 		assert.equal( classifyChanges( paths ), 'docs-only' ) );
 
-for ( const path of [
-	'readme.txt',
-	'LICENSE',
-	'THIRD_PARTY_NOTICES.md',
-	'languages/test.po',
-	'languages/test.pot',
-	'languages/test.mo',
-	'languages/test.json',
-] ) {
+for ( const path of [ 'readme.txt', 'LICENSE', 'THIRD_PARTY_NOTICES.md' ] ) {
 	test( `Metadata with documentation: ${ path }`, () =>
 		assert.equal(
 			classifyChanges( [ 'docs/index.md', path ] ),
@@ -62,6 +54,10 @@ for ( const path of [
 	'docs/mcp/config.toml',
 	'docs/executable.js',
 	'languages/code.php',
+	'languages/test.po',
+	'languages/test.pot',
+	'languages/test.mo',
+	'languages/test.json',
 	'.markdownlint.json',
 	'unknown',
 	'../docs/test.md',
@@ -232,6 +228,13 @@ test( 'Versions reject invalid tags and inconsistent project metadata', ( t ) =>
 	assert.throws( () => checkVersions( root ), /Version mismatch/ );
 } );
 
+test( 'Raw HTML destinations are checked while HTML comments are ignored', () => {
+	const doc = inspectMarkdown(
+		'<a href="missing.md#anchor">Broken</a>\n\n<img src=missing.png alt="Image">\n\n<!-- <a href="example.md"> -->'
+	);
+	assert.deepEqual( doc.links, [ 'missing.md#anchor', 'missing.png' ] );
+} );
+
 test( 'Package checks reject corruption, unexpected content and missing required files', ( t ) => {
 	const root = mkdtempSync( join( tmpdir(), 'ytpp-ci-package-' ) );
 	t.after( () => rmSync( root, { recursive: true, force: true } ) );
@@ -243,6 +246,15 @@ test( 'Package checks reject corruption, unexpected content and missing required
 		'THIRD_PARTY_NOTICES.md',
 		'build/block.json',
 		'build/render.php',
+		'build/index.js',
+		'build/index.asset.php',
+		'build/index.css',
+		'build/view.js',
+		'build/view.asset.php',
+		'build/style-index.css',
+		'includes/class-ytpp-editor-preview.php',
+		'includes/class-ytpp-player-sizing.php',
+		'includes/class-ytpp-playlist-parser.php',
 	];
 	const build = ( names ) => {
 		rmSync( zip, { force: true } );
@@ -274,6 +286,14 @@ test( 'Package checks reject corruption, unexpected content and missing required
 	assert.throws( () => checkPackage( zip ), /checksum/ );
 	build( [ ...files, 'src/code.js' ] );
 	assert.throws( () => checkPackage( zip ), /Unexpected package entry/ );
-	build( files.filter( ( name ) => name !== 'build/block.json' ) );
-	assert.throws( () => checkPackage( zip ), /Missing package entry/ );
+	for ( const missing of [
+		'build/block.json',
+		'build/index.js',
+		'build/view.asset.php',
+		'build/style-index.css',
+		'includes/class-ytpp-playlist-parser.php',
+	] ) {
+		build( files.filter( ( name ) => name !== missing ) );
+		assert.throws( () => checkPackage( zip ), /Missing package entry/ );
+	}
 } );

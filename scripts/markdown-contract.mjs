@@ -19,6 +19,18 @@ export function inspectMarkdown( source ) {
 				explicitIds.push( match[ 1 ] );
 				anchors.add( match[ 1 ] );
 			}
+			const html = token.content.replace( /<!--[\s\S]*?-->/g, '' );
+			for ( const tag of html.matchAll( /<[a-z][^>]*>/gi ) ) {
+				for ( const attr of tag[ 0 ].matchAll(
+					/\s(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi
+				) ) {
+					links.push(
+						parser.utils.unescapeAll(
+							attr[ 1 ] ?? attr[ 2 ] ?? attr[ 3 ]
+						)
+					);
+				}
+			}
 		}
 		for ( const child of token.children ?? [] ) visit( child );
 	}

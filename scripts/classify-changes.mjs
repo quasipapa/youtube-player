@@ -32,10 +32,7 @@ export function classifyChanges( paths, forceFull = false ) {
 			/^docs\/(?:[^/]+\/)*[^/]+\.md$/.test( path )
 		)
 			continue;
-		if (
-			metadataFiles.has( path ) ||
-			/^languages\/[^/]+\.(?:po|pot|mo|json)$/.test( path )
-		) {
+		if ( metadataFiles.has( path ) ) {
 			result = 'metadata';
 			continue;
 		}
