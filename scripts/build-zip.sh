@@ -45,6 +45,6 @@ with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as archive:
                 archive.writestr(info, source.read())
 PY
 
-sha256sum "$zip_path" > "$checksum_path"
+(cd "$output_dir" && sha256sum "$package_name.zip") > "$checksum_path"
 printf 'Created %s\n' "$zip_path"
 printf 'Created %s\n' "$checksum_path"
