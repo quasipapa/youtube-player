@@ -92,6 +92,15 @@ export function checkPackage( zipPath ) {
 		'THIRD_PARTY_NOTICES.md',
 		'build/block.json',
 		'build/render.php',
+		'build/index.js',
+		'build/index.asset.php',
+		'build/index.css',
+		'build/view.js',
+		'build/view.asset.php',
+		'build/style-index.css',
+		'includes/class-ytpp-editor-preview.php',
+		'includes/class-ytpp-player-sizing.php',
+		'includes/class-ytpp-playlist-parser.php',
 	] ) {
 		if ( ! entries.includes( prefix + required ) )
 			throw new Error( `Missing package entry: ${ required }` );

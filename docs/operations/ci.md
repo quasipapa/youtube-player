@@ -26,12 +26,15 @@ unknown paths select `full`. Mixed changes use the strongest applicable class.
 | Class | Explicit allowlist | Required checks |
 | --- | --- | --- |
 | `docs-only` | Markdown under `docs/`; root README, SECURITY and project-plan Markdown; current PR template and the three current issue-template YAML files | Documentation and CI contract tests |
-| `metadata` | `readme.txt`, `LICENSE`, `THIRD_PARTY_NOTICES.md`; direct `languages/` files ending in `.po`, `.pot`, `.mo` or `.json` | Documentation and CI contract tests; production build, version/license metadata, package contents and SHA-256 |
+| `metadata` | `readme.txt`, `LICENSE`, `THIRD_PARTY_NOTICES.md` | Documentation and CI contract tests; production build, version/license metadata, package contents and SHA-256 |
 | `full` | Every other path, including unknown paths | Documentation and all existing source, integration and artifact checks |
 
 `docs/mcp/*.toml`, executable files, block metadata, dependency manifests and
 locks, scripts, workflows and checker configuration select `full`. The plugin
 bootstrap remains code even when only its version declaration changes.
+Translation catalogs also select `full`: their reproducibility check uses
+WordPress CLI and must verify PO, MO and JSON consistency. They cannot safely
+use the bounded metadata path with the current tooling.
 The executable allowlist is authoritative; adding a path requires review and
 classification tests.
 
