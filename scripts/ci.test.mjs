@@ -147,6 +147,64 @@ test( 'Classification CLI defaults safely to full on missing comparison data', (
 	assert.equal( readFileSync( output, 'utf8' ), 'classification=full\n' );
 } );
 
+test( 'Classification rejects stale base SHAs after retargeting and accepts matching docs diffs', ( t ) => {
+	const root = mkdtempSync( join( tmpdir(), 'ytpp-ci-retarget-' ) );
+	t.after( () => rmSync( root, { recursive: true, force: true } ) );
+	const git = ( ...args ) =>
+		execFileSync( 'git', args, { cwd: root, encoding: 'utf8' } ).trim();
+	git( 'init', '-q' );
+	git( 'config', 'user.name', 'CI fixture' );
+	git( 'config', 'user.email', 'ci@example.invalid' );
+	writeFileSync( join( root, 'code.js' ), 'initial\n' );
+	git( 'add', '.' );
+	git( 'commit', '-qm', 'main' );
+	const main = git( 'rev-parse', 'HEAD' );
+	writeFileSync( join( root, 'code.js' ), 'changed\n' );
+	git( 'add', '.' );
+	git( 'commit', '-qm', 'feature' );
+	const previousTarget = git( 'rev-parse', 'HEAD' );
+	writeFileSync( join( root, 'README.md' ), '# Docs\n' );
+	git( 'add', '.' );
+	git( 'commit', '-qm', 'docs' );
+	const head = git( 'rev-parse', 'HEAD' );
+	git( 'update-ref', 'refs/remotes/origin/main', main );
+	const eventPath = join( root, 'event.json' );
+	const output = join( root, 'output' );
+	writeFileSync(
+		eventPath,
+		JSON.stringify( {
+			pull_request: {
+				labels: [],
+				base: { ref: 'main', sha: previousTarget },
+				head: { sha: head },
+			},
+		} )
+	);
+	const run = () =>
+		execFileSync(
+			process.execPath,
+			[ resolve( 'scripts/classify-changes.mjs' ) ],
+			{
+				cwd: root,
+				env: {
+					...process.env,
+					GITHUB_EVENT_NAME: 'pull_request',
+					GITHUB_EVENT_PATH: eventPath,
+					GITHUB_OUTPUT: output,
+				},
+				stdio: [ 'pipe', 'pipe', 'pipe' ],
+			}
+		);
+	run();
+	assert.equal( readFileSync( output, 'utf8' ), 'classification=full\n' );
+	git( 'update-ref', 'refs/remotes/origin/main', previousTarget );
+	run();
+	assert.equal(
+		readFileSync( output, 'utf8' ),
+		'classification=full\nclassification=docs-only\n'
+	);
+} );
+
 const jobs = [
 	'changes',
 	'docs',

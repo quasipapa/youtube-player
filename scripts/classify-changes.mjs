@@ -54,7 +54,7 @@ export function classifyEvent( eventName, event, diff ) {
 	)
 		throw new Error( 'Invalid PR revisions' );
 	// Disable rename detection so both old and new paths affect the result.
-	return classifyChanges( diff( base.sha, head.sha ) );
+	return classifyChanges( diff( base.sha, head.sha, base.ref ) );
 }
 
 if (
@@ -66,8 +66,21 @@ if (
 		classification = classifyEvent(
 			process.env.GITHUB_EVENT_NAME,
 			JSON.parse( readFileSync( process.env.GITHUB_EVENT_PATH, 'utf8' ) ),
-			( base, head ) =>
-				execFileSync(
+			( base, head, baseRef ) => {
+				const actualBase = execFileSync(
+					'git',
+					[
+						'rev-parse',
+						'--verify',
+						`refs/remotes/origin/${ baseRef }^{commit}`,
+					],
+					{ encoding: 'utf8' }
+				).trim();
+				if ( actualBase !== base )
+					throw new Error(
+						'PR base SHA differs from fetched target branch'
+					);
+				return execFileSync(
 					'git',
 					[
 						'diff',
@@ -80,7 +93,8 @@ if (
 					{ encoding: 'utf8' }
 				)
 					.split( '\0' )
-					.filter( Boolean )
+					.filter( Boolean );
+			}
 		);
 	} catch ( error ) {
 		console.warn(
