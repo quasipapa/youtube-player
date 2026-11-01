@@ -79,8 +79,8 @@ content check prevents publication.
 For acceptance without publication, manually dispatch `Release` on the candidate
 branch with the `release_tag` input matching the intended version. This repeats
 the complete gate, tag/version agreement and package checks. The publication
-step only runs for a push to a `v*` tag. After this workflow reaches `main`, the
-dispatch is available through GitHub Actions or `gh workflow run release.yml
+step only runs for a push to a `v*` tag. The existing registered Release workflow
+can be dispatched on the candidate branch with `gh workflow run release.yml
 --ref BRANCH -f release_tag=v0.1.0`. Do not create a release tag for a CI probe.
 
 The repository's workflow permissions must allow the release job's
