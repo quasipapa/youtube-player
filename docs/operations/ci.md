@@ -88,7 +88,9 @@ blocks a full run. This contract is recorded in
 [ADR 0007](../architecture/decisions/0007-change-sensitive-ci.md).
 
 Add the PR label `ci:full` to force full CI. Label addition and removal trigger
-a new run, as do pushes. The label only escalates checks. Manual `CI` workflow
+a new run, as do pushes and PR edits, including a change of base branch. This
+ensures retargeting a PR cannot reuse a classification for a different diff.
+The label only escalates checks. Manual `CI` workflow
 dispatches and pushes to `main` always select `full`. Dispatch against the PR's
 branch to verify that exact head with all checks. No commit-message skip is used.
 
