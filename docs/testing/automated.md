@@ -10,7 +10,8 @@ Requirement-level automated and manual responsibility is maintained in the
 ## Automated suite inventory
 
 - `tests/unit/`: PHP metadata, parsing, rendering, preview and translation.
-- `src/*.test.{js,jsx}` and `assets/js/*.test.js`: editor, frontend, parser,
+- `src/*.test.{js,jsx}` (jsdom) and `src/*.browser.test.jsx` (Vitest Browser
+  Mode, real Chromium) plus `assets/js/*.test.js`: editor, frontend, parser,
   sizing, internationalization and editor preview controller.
 - `tests/e2e/wordpress.pw.js`: Gutenberg persistence and frontend privacy gate.
 - `tests/responsive/`: production markup at representative dimensions, portrait
