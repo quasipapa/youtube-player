@@ -23,7 +23,7 @@ automated quality checks and reproducible release packaging.
 ## RM-002 – Make project knowledge durable and navigable
 
 **Scope:** documentation\
-**Status:** in progress\
+**Status:** delivered\
 **Issue:** [#35](https://github.com/quasipapa/youtube-player/issues/35)\
 **Milestone:** M5 – Tests and CI\
 **Target release:** none; documentation and development infrastructure
@@ -36,7 +36,7 @@ systems and make functionally equivalent reconstruction possible.
 ## RM-003 – Shorten CI safely for documentation-only changes
 
 **Scope:** development, testing, documentation\
-**Status:** in progress\
+**Status:** delivered\
 **Origin:** [IDEA-003](ideas.md#idea-003)\
 **Issue:** [#73](https://github.com/quasipapa/youtube-player/issues/73)\
 **Milestone:** M5 – Tests and CI\
