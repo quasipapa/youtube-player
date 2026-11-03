@@ -99,11 +99,13 @@ npm run test:local
 Expected result: installation from the updated lockfiles succeeds. The
 documentation check and complete local quality gate pass.
 
-The JavaScript unit suite uses Jest through the `wp-scripts test-unit-jest`
-adapter. Its runner, jsdom environment, Babel transform, WordPress preset and
-ESLint rules are installed explicitly because `@wordpress/scripts` 36 no
-longer bundles the Jest setup. Keep `jest.config.cjs` and `eslint.config.cjs`
-in sync when changing the unit-test tooling.
+The JavaScript unit suite runs on Vitest 5 through `wp-scripts test-unit-js`
+with the project-owned `vitest.config.mjs` (jsdom environment, style mock,
+console guard and browser globals in `tests/vitest/`). Vitest and Vite are
+direct development dependencies because `@wordpress/scripts` no longer bundles
+a test runner; ESLint rules for tests come from `@vitest/eslint-plugin` in
+`eslint.config.cjs`. Keep `vitest.config.mjs` and `eslint.config.cjs` in sync
+when changing the unit-test tooling.
 
 The required security review, Dependabot handling, CI checks and release rules
 are defined in [maintenance](../operations/maintenance.md).

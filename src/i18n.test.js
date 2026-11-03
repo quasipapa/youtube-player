@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { describe, expect, it } from 'vitest';
 
 const projectRoot = path.resolve( __dirname, '..' );
 const languagesDirectory = path.join( projectRoot, 'languages' );
@@ -50,7 +51,7 @@ describe( 'internationalization', () => {
 	} );
 
 	it( 'does not contain direct visible English literals in JavaScript', () => {
-		const sources = [ 'edit.js', 'view.js' ].map( ( file ) => ( {
+		const sources = [ 'edit.jsx', 'view.js' ].map( ( file ) => ( {
 			file,
 			content: fs.readFileSync( path.join( __dirname, file ), 'utf8' ),
 		} ) );

@@ -1,22 +1,26 @@
-import { registerBlockType } from '@wordpress/blocks';
+import { describe, expect, it, vi } from 'vitest';
 
 import metadata from './block.json';
-import { settings } from './index';
 
-jest.mock( '@wordpress/blocks', () => ( {
-	registerBlockType: jest.fn(),
+vi.mock( '@wordpress/blocks', () => ( {
+	registerBlockType: vi.fn(),
 } ) );
-jest.mock( './edit', () => () => null );
+vi.mock( './edit', () => ( { default: () => null } ) );
 
 describe( 'player block registration', () => {
-	it( 'registers the block using its metadata name', () => {
+	it( 'registers the block using its metadata name', async () => {
+		const { registerBlockType } = await import( '@wordpress/blocks' );
+		const { settings } = await import( './index' );
+
 		expect( registerBlockType ).toHaveBeenCalledWith(
 			metadata.name,
 			settings
 		);
 	} );
 
-	it( 'uses dynamic server-side rendering', () => {
+	it( 'uses dynamic server-side rendering', async () => {
+		const { settings } = await import( './index' );
+
 		expect( settings.save() ).toBeNull();
 	} );
 

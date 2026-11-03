@@ -45,7 +45,7 @@ generate_catalogs() {
 		--domain="$catalog_name" \
 		--no-purge \
 		--pretty-print \
-		--use-map='{"src/edit.js":"build/index.js","src/view.js":"build/view.js"}'
+		--use-map='{"src/edit.jsx":"build/index.js","src/view.js":"build/view.js"}'
 
 	"$project_root/node_modules/.bin/wp-scripts" format \
 		"$output_dir"/"$catalog_name-$locale-"*.json

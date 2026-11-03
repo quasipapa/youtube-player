@@ -1,3 +1,5 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 function playerMarkup( requireConsent = true ) {
 	return `
 		<div class="ytpp-player" data-playlist-id="PL-test-playlist" data-require-consent="${ requireConsent }">
@@ -27,26 +29,26 @@ async function flushPromises() {
 function mockYoutube() {
 	const players = [];
 	window.YT = {
-		Player: jest.fn( ( target, { events } ) => {
+		Player: vi.fn( function ( target, { events } ) {
 			const player = {
 				index: 0,
 				getPlaylist: () => [ 'one', 'two', 'three' ],
 				getPlaylistIndex: () => player.index,
-				playVideoAt: jest.fn( ( index ) => {
+				playVideoAt: vi.fn( ( index ) => {
 					player.index = index;
 					events.onStateChange( { target: player } );
 				} ),
-				cuePlaylist: jest.fn( ( { index } ) => {
+				cuePlaylist: vi.fn( ( { index } ) => {
 					player.index = index;
 					events.onStateChange( { target: player } );
 				} ),
-				nextVideo: jest.fn( () =>
+				nextVideo: vi.fn( () =>
 					player.playVideoAt( player.index + 1 )
 				),
-				previousVideo: jest.fn( () =>
+				previousVideo: vi.fn( () =>
 					player.playVideoAt( player.index - 1 )
 				),
-				destroy: jest.fn(),
+				destroy: vi.fn(),
 			};
 			players.push( { player, events } );
 			return player;
@@ -57,24 +59,24 @@ function mockYoutube() {
 
 describe( 'privacy-aware frontend player', () => {
 	beforeEach( () => {
-		jest.useFakeTimers();
+		vi.useFakeTimers();
 		document.head.innerHTML = '';
 		document.body.innerHTML = '';
 		delete window.YT;
 		delete window.onYouTubeIframeAPIReady;
 		localStorage.clear();
-		jest.resetModules();
+		vi.resetModules();
 	} );
 	afterEach( () => {
-		jest.clearAllTimers();
-		jest.useRealTimers();
+		vi.clearAllTimers();
+		vi.useRealTimers();
 	} );
 
 	it( 'waits for consent and loads one API script for multiple players', async () => {
 		document.body.innerHTML = playerMarkup() + playerMarkup();
-		const previousReadyCallback = jest.fn();
+		const previousReadyCallback = vi.fn();
 		window.onYouTubeIframeAPIReady = previousReadyCallback;
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 
 		initializePlayers();
 
@@ -82,7 +84,7 @@ describe( 'privacy-aware frontend player', () => {
 			document.querySelector( 'script[src*="youtube.com"]' )
 		).toBeNull();
 
-		const consentEvents = jest.fn();
+		const consentEvents = vi.fn();
 		document.addEventListener( 'ytpp:consent', consentEvents );
 		const buttons = document.querySelectorAll(
 			'.ytpp-player__consent-button'
@@ -102,14 +104,14 @@ describe( 'privacy-aware frontend player', () => {
 
 		const players = [];
 		window.YT = {
-			Player: jest.fn( ( target, options ) => {
+			Player: vi.fn( function ( target, options ) {
 				const player = {
 					getPlaylist: () => [ 'video-one', 'video-two' ],
 					getPlaylistIndex: () => 0,
-					nextVideo: jest.fn(),
-					playVideoAt: jest.fn(),
-					previousVideo: jest.fn(),
-					cuePlaylist: jest.fn(),
+					nextVideo: vi.fn(),
+					playVideoAt: vi.fn(),
+					previousVideo: vi.fn(),
+					cuePlaylist: vi.fn(),
 				};
 				players.push( { options, player, target } );
 				return player;
@@ -190,18 +192,18 @@ describe( 'privacy-aware frontend player', () => {
 		const player = {
 			getPlaylist: () => playlist,
 			getPlaylistIndex: () => index,
-			nextVideo: jest.fn(),
-			playVideoAt: jest.fn(),
-			previousVideo: jest.fn(),
-			cuePlaylist: jest.fn(),
+			nextVideo: vi.fn(),
+			playVideoAt: vi.fn(),
+			previousVideo: vi.fn(),
+			cuePlaylist: vi.fn(),
 		};
 		window.YT = {
-			Player: jest.fn( ( target, options ) => {
+			Player: vi.fn( function ( target, options ) {
 				events = options.events;
 				return player;
 			} ),
 		};
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 
 		initializePlayers();
 		await flushPromises();
@@ -274,18 +276,18 @@ describe( 'privacy-aware frontend player', () => {
 		const player = {
 			getPlaylist: () => [ 'only-video' ],
 			getPlaylistIndex: () => 0,
-			nextVideo: jest.fn(),
-			playVideoAt: jest.fn(),
-			previousVideo: jest.fn(),
-			cuePlaylist: jest.fn(),
+			nextVideo: vi.fn(),
+			playVideoAt: vi.fn(),
+			previousVideo: vi.fn(),
+			cuePlaylist: vi.fn(),
 		};
 		window.YT = {
-			Player: jest.fn( ( target, options ) => {
+			Player: vi.fn( function ( target, options ) {
 				events = options.events;
 				return player;
 			} ),
 		};
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 
 		initializePlayers();
 		await flushPromises();
@@ -308,15 +310,17 @@ describe( 'privacy-aware frontend player', () => {
 		localStorage.setItem( 'ytpp-consent-v1:PL-test-playlist', '1' );
 		document.body.innerHTML = playerMarkup();
 		window.YT = {
-			Player: jest.fn( () => ( {
-				getPlaylist: () => [],
-				getPlaylistIndex: () => -1,
-				nextVideo: jest.fn(),
-				playVideoAt: jest.fn(),
-				previousVideo: jest.fn(),
-			} ) ),
+			Player: vi.fn( function () {
+				return {
+					getPlaylist: () => [],
+					getPlaylistIndex: () => -1,
+					nextVideo: vi.fn(),
+					playVideoAt: vi.fn(),
+					previousVideo: vi.fn(),
+				};
+			} ),
 		};
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 
 		initializePlayers();
 		await flushPromises();
@@ -333,15 +337,17 @@ describe( 'privacy-aware frontend player', () => {
 	it( 'loads immediately when the local consent gate is disabled', async () => {
 		document.body.innerHTML = playerMarkup( false );
 		window.YT = {
-			Player: jest.fn( () => ( {
-				getPlaylist: () => [],
-				getPlaylistIndex: () => -1,
-				nextVideo: jest.fn(),
-				playVideoAt: jest.fn(),
-				previousVideo: jest.fn(),
-			} ) ),
+			Player: vi.fn( function () {
+				return {
+					getPlaylist: () => [],
+					getPlaylistIndex: () => -1,
+					nextVideo: vi.fn(),
+					playVideoAt: vi.fn(),
+					previousVideo: vi.fn(),
+				};
+			} ),
 		};
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 
 		initializePlayers();
 		await flushPromises();
@@ -352,7 +358,7 @@ describe( 'privacy-aware frontend player', () => {
 
 	it( 'shows a retryable local error when the API script fails', async () => {
 		document.body.innerHTML = playerMarkup();
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 
 		initializePlayers();
 		const button = document.querySelector( '.ytpp-player__consent-button' );
@@ -390,12 +396,12 @@ describe( 'privacy-aware frontend player', () => {
 				source !== 'configuration'
 			);
 			const container = document.querySelector( '.ytpp-player' );
-			const veto = jest.fn( ( event ) => event.preventDefault() );
+			const veto = vi.fn( ( event ) => event.preventDefault() );
 			container.addEventListener( 'ytpp:before-load', veto );
 			if ( source === 'storage' ) {
 				localStorage.setItem( 'ytpp-consent-v1:PL-test-playlist', '1' );
 			}
-			const { initializePlayers } = require( './view' );
+			const { initializePlayers } = await import( './view' );
 			initializePlayers();
 			if ( source === 'button' ) {
 				container.querySelector( 'button' ).click();
@@ -414,7 +420,7 @@ describe( 'privacy-aware frontend player', () => {
 
 	it( 'cancels a pending activation on revocation and allows a fresh grant', async () => {
 		document.body.innerHTML = playerMarkup();
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 		initializePlayers();
 		const container = document.querySelector( '.ytpp-player' );
 		container.querySelector( 'button' ).click();
@@ -433,7 +439,7 @@ describe( 'privacy-aware frontend player', () => {
 	it( 'destroys only the revoked block and ignores its stale player events', async () => {
 		document.body.innerHTML = playerMarkup( false ) + playerMarkup( false );
 		const players = mockYoutube();
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 		initializePlayers();
 		await flushPromises();
 		const containers = document.querySelectorAll( '.ytpp-player' );
@@ -468,7 +474,7 @@ describe( 'privacy-aware frontend player', () => {
 	it( 'keeps keyboard focus through loading and navigation boundaries', async () => {
 		document.body.innerHTML = playerMarkup();
 		const players = mockYoutube();
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 		initializePlayers();
 		const button = document.querySelector( '.ytpp-player__consent-button' );
 		button.focus();
@@ -497,7 +503,7 @@ describe( 'privacy-aware frontend player', () => {
 		document.body.innerHTML =
 			playerMarkup() + '<button id="outside">Outside</button>';
 		const players = mockYoutube();
-		const { initializePlayers } = require( './view' );
+		const { initializePlayers } = await import( './view' );
 		initializePlayers();
 		document.querySelector( '.ytpp-player__consent-button' ).click();
 		const outside = document.querySelector( '#outside' );
@@ -514,10 +520,10 @@ describe( 'privacy-aware frontend player', () => {
 			if ( stage === 'player' ) {
 				mockYoutube();
 			}
-			const { initializePlayers } = require( './view' );
+			const { initializePlayers } = await import( './view' );
 			initializePlayers();
 			await flushPromises();
-			jest.advanceTimersByTime( 15000 );
+			vi.advanceTimersByTime( 15000 );
 			await flushPromises();
 			expect(
 				document.querySelector( '.ytpp-player__retry' ).hidden
