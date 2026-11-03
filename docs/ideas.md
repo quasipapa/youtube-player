@@ -50,7 +50,8 @@ change follows documentation modularization and is recorded in
 ## IDEA-004 – Direct minimum-WordPress integration coverage
 
 **Scope:** testing\
-**Status:** idea
+**Status:** formalized\
+**Formalized as:** [Issue #115](https://github.com/quasipapa/youtube-player/issues/115)
 
 The integrated Plugin Check site uses a newer WordPress installation than the
 declared minimum; the concrete values are in the
