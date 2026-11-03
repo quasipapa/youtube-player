@@ -19,6 +19,7 @@ npm run test:plugin-check
 
 if [ -n "${PW_TEST_CONNECT_WS_ENDPOINT:-}" ]; then
 	WP_E2E_BASE_URL="${WP_E2E_BASE_URL:-http://localhost:8889}" npm run test:browser
+	PW_TEST_CONNECT_WS_ENDPOINT="$PW_TEST_CONNECT_WS_ENDPOINT" npm run test:js:browser
 	exit 0
 fi
 
@@ -49,3 +50,5 @@ done
 WP_E2E_BASE_URL=http://localhost:8889 \
 	PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:9323/ \
 	npm run test:browser
+
+PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:9323/ npm run test:js:browser

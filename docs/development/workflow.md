@@ -51,7 +51,8 @@ npm run check:docs
 | `npm run lint:js` | ESLint reports no errors in `src/` or `assets/js/` |
 | `npm run lint:css` | Stylelint reports no errors in the SCSS sources |
 | `npm run lint:php` | PHP syntax, WordPress Coding Standards and checks against the declared PHP minimum pass |
-| `npm run test:js` | All Vitest suites pass through `wp-scripts test-unit-js` |
+| `npm run test:js` | All jsdom Vitest suites pass through `wp-scripts test-unit-js` |
+| `npm run test:js:browser` | Vitest Browser Mode suites pass in real Chromium |
 | `npm run test:php` | All PHPUnit suites pass |
 | `npm run check:docs` | Local Markdown targets and fragments exist, and stable documentation IDs are unique |
 | `npm run test:ci` | Classification, gate, Markdown and delivery contracts pass without Docker or WordPress |
