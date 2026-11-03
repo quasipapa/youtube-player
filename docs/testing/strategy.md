@@ -6,7 +6,7 @@ manual layer for external services and human perception.
 | Layer | Purpose | Main entry point |
 | --- | --- | --- |
 | Formatting/static analysis | source consistency, PHP compatibility and standards | `npm run check` |
-| PHP/Jest unit tests | parsing, sizing, rendering and browser-controller logic | `npm run test:php`, `npm run test:js` |
+| PHP/Vitest unit tests | parsing, sizing, rendering and browser-controller logic | `npm run test:php`, `npm run test:js` |
 | WordPress integration | registration, persistence and public privacy gate | `npm run test:local` |
 | Plugin Check | production package policy checks | `npm run test:plugin-check` |
 | Playwright | browser, responsive and accessibility behavior | `npm run test:browser` |
@@ -20,9 +20,11 @@ manual layer for external services and human perception.
   environment uses the configured integration PHP version.
 - Current environment boundaries are listed in the
   [version matrix](../development/versions.md).
-- JavaScript tests intentionally remain on Jest for now. Scripts 36 runs them
-  through the maintenance-only `test-unit-jest` adapter with the repository's
-  explicit Jest and Babel configuration; a separate issue evaluates a later
-  Vitest migration.
+- JavaScript tests run on Vitest 5 through `wp-scripts test-unit-js` with the
+  project-owned `vitest.config.mjs` (jsdom environment, style mock, console
+  guard and browser globals in `tests/vitest/`). Tests import `describe`,
+  `it`, `expect` and `vi` explicitly; JSX-bearing sources use `.jsx`. ESLint
+  rules for tests come from `@vitest/eslint-plugin`. A separate issue
+  evaluates the Vitest Browser Mode for selected component tests.
 - Requirement-level test responsibility and known gaps are maintained in the
   [coverage matrix](coverage.md).

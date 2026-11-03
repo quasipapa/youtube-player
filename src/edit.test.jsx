@@ -1,13 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import Edit from './edit';
 
-jest.mock( '@wordpress/block-editor', () => ( {
+vi.mock( '@wordpress/block-editor', () => ( {
 	InspectorControls: ( { children } ) => <aside>{ children }</aside>,
 	useBlockProps: ( props ) => props,
 } ) );
 
-jest.mock( '@wordpress/components', () => ( {
+vi.mock( '@wordpress/components', () => ( {
 	Button: ( { children, disabled, onClick } ) => (
 		<button type="button" disabled={ disabled } onClick={ onClick }>
 			{ children }
@@ -74,7 +75,7 @@ describe( 'Edit', () => {
 	} );
 
 	it( 'updates sizing controls and reflects saved values in the preview', () => {
-		const setAttributes = jest.fn();
+		const setAttributes = vi.fn();
 		const { container, rerender } = render(
 			<Edit
 				attributes={ {
@@ -126,7 +127,7 @@ describe( 'Edit', () => {
 	} );
 
 	it( 'places the playlist field in the block settings sidebar', () => {
-		const setAttributes = jest.fn();
+		const setAttributes = vi.fn();
 
 		render(
 			<Edit
@@ -147,7 +148,7 @@ describe( 'Edit', () => {
 	} );
 
 	it( 'normalizes a supported URL before storing it', () => {
-		const setAttributes = jest.fn();
+		const setAttributes = vi.fn();
 		const playlistId = 'OLAK5uy_mIGiJKnSXHRCdD6WbGjuZWNTpeXhIo2TU';
 
 		render(
@@ -175,7 +176,7 @@ describe( 'Edit', () => {
 		render(
 			<Edit
 				attributes={ { playlistId, requireConsent: true } }
-				setAttributes={ jest.fn() }
+				setAttributes={ vi.fn() }
 			/>
 		);
 
@@ -223,7 +224,7 @@ describe( 'Edit', () => {
 	} );
 
 	it( 'stores and previews an optional editorial playlist title', () => {
-		const setAttributes = jest.fn();
+		const setAttributes = vi.fn();
 
 		render(
 			<Edit
@@ -262,7 +263,7 @@ describe( 'Edit', () => {
 		render(
 			<Edit
 				attributes={ { playlistId, requireConsent: true } }
-				setAttributes={ jest.fn() }
+				setAttributes={ vi.fn() }
 			/>
 		);
 
@@ -286,7 +287,7 @@ describe( 'Edit', () => {
 		render(
 			<Edit
 				attributes={ { playlistId, requireConsent: true } }
-				setAttributes={ jest.fn() }
+				setAttributes={ vi.fn() }
 			/>
 		);
 
@@ -342,7 +343,7 @@ describe( 'Edit', () => {
 					playlistId: 'PL-test-playlist',
 					requireConsent: true,
 				} }
-				setAttributes={ jest.fn() }
+				setAttributes={ vi.fn() }
 			/>
 		);
 
@@ -369,7 +370,7 @@ describe( 'Edit', () => {
 	} );
 
 	it( 'stores the consent-gate setting', () => {
-		const setAttributes = jest.fn();
+		const setAttributes = vi.fn();
 
 		render(
 			<Edit
@@ -396,7 +397,7 @@ describe( 'Edit', () => {
 		render(
 			<Edit
 				attributes={ { playlistId: 'invalid!', requireConsent: true } }
-				setAttributes={ jest.fn() }
+				setAttributes={ vi.fn() }
 			/>
 		);
 

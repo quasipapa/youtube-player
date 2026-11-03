@@ -1,5 +1,5 @@
 const wpPlugin = require( '@wordpress/eslint-plugin' );
-const jestPlugin = require( 'eslint-plugin-jest' );
+const vitestPlugin = require( '@vitest/eslint-plugin' );
 
 module.exports = [
 	{ ignores: [ '**/build/**', '**/node_modules/**', '**/vendor/**' ] },
@@ -17,7 +17,7 @@ module.exports = [
 		},
 	},
 	{
-		...jestPlugin.configs[ 'flat/recommended' ],
+		...vitestPlugin.configs.recommended,
 		files: [
 			'**/@(test|__tests__)/**/*.{js,jsx,ts,tsx,mjs,cjs}',
 			'**/*.@(test|spec).{js,jsx,ts,tsx,mjs,cjs}',

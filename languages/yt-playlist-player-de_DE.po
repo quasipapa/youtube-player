@@ -16,7 +16,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: yt-playlist-player.php
-#: src/edit.js:526
+#: src/edit.jsx:526
 msgid "YouTube Playlist Player"
 msgstr "YouTube-Playlist-Player"
 
@@ -31,7 +31,7 @@ msgid "quasipapa"
 msgstr "quasipapa"
 
 #: includes/class-ytpp-editor-preview.php:55
-#: src/edit.js:428
+#: src/edit.jsx:428
 msgid "YouTube playlist preview"
 msgstr "YouTube-Playlist-Vorschau"
 
@@ -40,7 +40,7 @@ msgid "No playlist ID has been entered yet."
 msgstr "Es wurde noch keine Playlist-ID eingegeben."
 
 #: src/render.php:51
-#: src/edit.js:171
+#: src/edit.jsx:171
 msgid "Enter a valid YouTube playlist ID or supported playlist URL."
 msgstr "Geben Sie eine gültige YouTube-Playlist-ID oder eine unterstützte Playlist-URL ein."
 
@@ -67,29 +67,29 @@ msgstr "Playlist-Navigation"
 
 #: src/render.php:84
 #: src/render.php:86
-#: src/edit.js:449
-#: src/edit.js:453
+#: src/edit.jsx:449
+#: src/edit.jsx:453
 msgid "First video"
 msgstr "Erstes Video"
 
 #: src/render.php:88
 #: src/render.php:90
-#: src/edit.js:466
-#: src/edit.js:470
+#: src/edit.jsx:466
+#: src/edit.jsx:470
 msgid "Previous video"
 msgstr "Vorheriges Video"
 
 #: src/render.php:95
 #: src/render.php:97
-#: src/edit.js:488
-#: src/edit.js:492
+#: src/edit.jsx:488
+#: src/edit.jsx:492
 msgid "Next video"
 msgstr "Nächstes Video"
 
 #: src/render.php:99
 #: src/render.php:101
-#: src/edit.js:505
-#: src/edit.js:509
+#: src/edit.jsx:505
+#: src/edit.jsx:509
 msgid "Last video"
 msgstr "Letztes Video"
 
@@ -101,135 +101,135 @@ msgstr "Sie sind nicht berechtigt, eine Vorschau dieser Playlist anzuzeigen."
 msgid "The playlist ID is invalid."
 msgstr "Die Playlist-ID ist ungültig."
 
-#: src/edit.js:154
+#: src/edit.jsx:154
 msgid "Playlist settings"
 msgstr "Playlist-Einstellungen"
 
-#: src/edit.js:158
+#: src/edit.jsx:158
 msgid "Playlist ID or URL"
 msgstr "Playlist-ID oder URL"
 
-#: src/edit.js:162
+#: src/edit.jsx:162
 msgid "Enter a playlist ID or a supported YouTube playlist URL."
 msgstr "Geben Sie eine Playlist-ID oder eine unterstützte YouTube-Playlist-URL ein."
 
 #. translators: %s: YouTube playlist ID.
-#: src/edit.js:184
+#: src/edit.jsx:184
 #, js-format
 msgid "Playlist ID: %s. The syntax is valid."
 msgstr "Playlist-ID: %s. Die Syntax ist gültig."
 
-#: src/edit.js:193
+#: src/edit.jsx:193
 msgid "Show playlist title above the video"
 msgstr "Playlist-Titel über dem Video anzeigen"
 
-#: src/edit.js:204
+#: src/edit.jsx:204
 msgid "Playlist title"
 msgstr "Playlist-Titel"
 
-#: src/edit.js:208
+#: src/edit.jsx:208
 msgid "This title is entered manually and does not create an additional YouTube request."
 msgstr "Dieser Titel wird manuell eingegeben und erzeugt keine zusätzliche YouTube-Anfrage."
 
-#: src/edit.js:219
+#: src/edit.jsx:219
 msgid "Require consent before loading YouTube"
 msgstr "Zustimmung vor dem Laden von YouTube anfordern"
 
-#: src/edit.js:225
+#: src/edit.jsx:225
 msgid "Visitors must actively load the playlist before any connection to YouTube is made."
 msgstr "Besucher müssen die Playlist aktiv laden, bevor eine Verbindung zu YouTube hergestellt wird."
 
-#: src/edit.js:229
+#: src/edit.jsx:229
 msgid "YouTube loads immediately. Disable this only when another consent or content blocker reliably prevents external requests."
 msgstr "YouTube wird sofort geladen. Deaktivieren Sie diese Option nur, wenn ein anderes Consent- oder Content-Blocker-System externe Anfragen zuverlässig verhindert."
 
-#: src/edit.js:242
+#: src/edit.jsx:242
 msgid "The editor preview connects directly to youtube-nocookie.com."
 msgstr "Die Editorvorschau stellt eine direkte Verbindung zu youtube-nocookie.com her."
 
-#: src/edit.js:256
+#: src/edit.jsx:256
 msgid "Check playlist availability"
 msgstr "Playlist-Verfügbarkeit prüfen"
 
-#: src/edit.js:262
+#: src/edit.jsx:262
 msgid "The additional check loads the YouTube IFrame API only after you select the button. The editor preview itself already connects to YouTube."
 msgstr "Die zusätzliche Prüfung lädt die YouTube-IFrame-API erst, nachdem Sie die Schaltfläche ausgewählt haben. Die Editorvorschau selbst stellt bereits eine Verbindung zu YouTube her."
 
-#: src/edit.js:269
+#: src/edit.jsx:269
 msgid "Checking playlist availability…"
 msgstr "Playlist-Verfügbarkeit wird geprüft…"
 
-#: src/edit.js:280
+#: src/edit.jsx:280
 msgid "The playlist is available and contains at least one playable item."
 msgstr "Die Playlist ist verfügbar und enthält mindestens einen abspielbaren Eintrag."
 
-#: src/edit.js:291
+#: src/edit.jsx:291
 msgid "The playlist is unavailable, empty, or cannot be embedded."
 msgstr "Die Playlist ist nicht verfügbar, leer oder kann nicht eingebettet werden."
 
-#: src/edit.js:299
+#: src/edit.jsx:299
 msgid "Playlist availability could not be determined. Check the network or content blocker and try again."
 msgstr "Die Playlist-Verfügbarkeit konnte nicht ermittelt werden. Prüfen Sie das Netzwerk oder den Content Blocker und versuchen Sie es erneut."
 
-#: src/edit.js:311
+#: src/edit.jsx:311
 msgid "Playlist availability check"
 msgstr "Prüfung der Playlist-Verfügbarkeit"
 
-#: src/edit.js:323
+#: src/edit.jsx:323
 msgid "Forget saved consent for this playlist"
 msgstr "Gespeicherte Zustimmung für diese Playlist löschen"
 
-#: src/edit.js:333
+#: src/edit.jsx:333
 msgid "Saved consent for this playlist was removed."
 msgstr "Die gespeicherte Zustimmung für diese Playlist wurde gelöscht."
 
-#: src/edit.js:343
+#: src/edit.jsx:343
 msgid "Player size"
 msgstr "Player-Größe"
 
-#: src/edit.js:349
+#: src/edit.jsx:349
 msgid "Maximum width (px)"
 msgstr "Maximale Breite (px)"
 
-#: src/edit.js:353
+#: src/edit.jsx:353
 msgid "Maximum height (px)"
 msgstr "Maximale Höhe (px)"
 
-#: src/edit.js:363
+#: src/edit.jsx:363
 msgid "Leave empty for automatic sizing. Limits apply to the video area."
 msgstr "Für automatische Größenanpassung leer lassen. Die Grenzen gelten für den Videobereich."
 
-#: src/edit.js:370
+#: src/edit.jsx:370
 msgid "Aspect ratio"
 msgstr "Seitenverhältnis"
 
-#: src/edit.js:377
+#: src/edit.jsx:377
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#: src/edit.js:387
+#: src/edit.jsx:387
 msgid "Custom aspect ratio"
 msgstr "Benutzerdefiniertes Seitenverhältnis"
 
-#: src/edit.js:395
+#: src/edit.jsx:395
 msgid "Use width:height, for example 9:16. Ratios from 1:4 to 4:1 are supported."
 msgstr "Verwenden Sie Breite:Höhe, zum Beispiel 9:16. Verhältnisse von 1:4 bis 4:1 werden unterstützt."
 
 #. translators: 1: minimum width, 2: minimum height.
-#: src/edit.js:404
+#: src/edit.jsx:404
 #, js-format
 msgid "Enter a valid ratio and whole pixel limits between %1$d (width) or %2$d (height) and 10000. Invalid settings use automatic sizing or 16:9."
 msgstr "Geben Sie ein gültiges Verhältnis und ganzzahlige Pixelgrenzen zwischen %1$d (Breite) beziehungsweise %2$d (Höhe) und 10000 ein. Bei ungültigen Einstellungen werden die automatische Größenanpassung oder 16:9 verwendet."
 
-#: src/edit.js:440
+#: src/edit.jsx:440
 msgid "Playlist navigation preview"
 msgstr "Vorschau der Playlist-Navigation"
 
-#: src/edit.js:482
+#: src/edit.jsx:482
 msgid "– / –"
 msgstr "– / –"
 
-#: src/edit.js:530
+#: src/edit.jsx:530
 msgid "Select this block and enter the playlist in the block settings sidebar."
 msgstr "Wählen Sie diesen Block aus und geben Sie die Playlist in den Block-Einstellungen der Seitenleiste ein."
 

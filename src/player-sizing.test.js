@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { getPlayerSizing } from './player-sizing';
 
 describe( 'player sizing', () => {

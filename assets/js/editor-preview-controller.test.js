@@ -1,21 +1,25 @@
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
 function flushPromises() {
 	return new Promise( ( resolve ) => {
 		setTimeout( resolve, 0 );
 	} );
 }
 
-function initializeController( playerImplementation ) {
+async function initializeController( playerImplementation ) {
 	document.body.innerHTML =
 		'<iframe id="ytpp-preview-player" src="https://www.youtube-nocookie.com/embed?list=PL-test-playlist"></iframe>';
 	window.YT = {
-		Player: jest.fn( playerImplementation ),
+		Player: vi.fn( function ( ...args ) {
+			return playerImplementation( ...args );
+		} ),
 	};
-	const postMessage = jest
+	const postMessage = vi
 		.spyOn( window.parent, 'postMessage' )
 		.mockImplementation( () => {} );
 
-	jest.resetModules();
-	require( './editor-preview-controller' );
+	vi.resetModules();
+	await import( './editor-preview-controller' );
 
 	return { postMessage, player: window.YT.Player };
 }
@@ -26,11 +30,11 @@ describe( 'editor preview availability controller', () => {
 		delete window.onYouTubeIframeAPIReady;
 		document.head.innerHTML = '';
 		document.body.innerHTML = '';
-		jest.restoreAllMocks();
+		vi.restoreAllMocks();
 	} );
 
 	it( 'reports an available playlist to its direct parent', async () => {
-		const { player, postMessage } = initializeController(
+		const { player, postMessage } = await initializeController(
 			( iframe, options ) => {
 				options.events.onReady( {
 					target: { getPlaylist: () => [ 'video-one' ] },
@@ -47,11 +51,13 @@ describe( 'editor preview availability controller', () => {
 	} );
 
 	it( 'reports an empty ready playlist as unavailable', async () => {
-		const { postMessage } = initializeController( ( iframe, options ) => {
-			options.events.onReady( {
-				target: { getPlaylist: () => [] },
-			} );
-		} );
+		const { postMessage } = await initializeController(
+			( iframe, options ) => {
+				options.events.onReady( {
+					target: { getPlaylist: () => [] },
+				} );
+			}
+		);
 
 		await flushPromises();
 
@@ -64,11 +70,11 @@ describe( 'editor preview availability controller', () => {
 	it( 'reports API loading failure as unknown', async () => {
 		document.body.innerHTML =
 			'<iframe id="ytpp-preview-player" src="https://www.youtube-nocookie.com/embed?list=PL-test-playlist"></iframe>';
-		const postMessage = jest
+		const postMessage = vi
 			.spyOn( window.parent, 'postMessage' )
 			.mockImplementation( () => {} );
-		jest.resetModules();
-		require( './editor-preview-controller' );
+		vi.resetModules();
+		await import( './editor-preview-controller' );
 
 		const apiScript = document.querySelector(
 			'script[src="https://www.youtube.com/iframe_api"]'
@@ -90,9 +96,11 @@ describe( 'editor preview availability controller', () => {
 		[ 5, 'unknown' ],
 		[ 153, 'unknown' ],
 	] )( 'maps player error %d to %s', async ( error, status ) => {
-		const { postMessage } = initializeController( ( iframe, options ) => {
-			options.events.onError( { data: error } );
-		} );
+		const { postMessage } = await initializeController(
+			( iframe, options ) => {
+				options.events.onError( { data: error } );
+			}
+		);
 
 		await flushPromises();
 

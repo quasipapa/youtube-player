@@ -37,7 +37,7 @@ consent gate is accepted.
 
 ```text
 yt-playlist-player.php   Plugin bootstrap: header, YTPP_VERSION, block registration, AJAX editor preview
-src/                     Editable block sources: edit.js/view.js, SCSS, block.json, render.php
+src/                     Editable block sources: edit.jsx/view.js, SCSS, block.json, render.php
 includes/                PHP helper classes (playlist parser, player sizing, editor preview)
 assets/js/               Editor preview controller
 languages/               Text domain yt-playlist-player; de_DE PO editable, POT/MO/JSON generated
