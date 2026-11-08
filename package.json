@@ -45,7 +45,7 @@
 		"test:accessibility": "npm run build && playwright test tests/accessibility"
 	},
 	"devDependencies": {
-		"@axe-core/playwright": "4.13.0",
+		"@axe-core/playwright": "4.14.0",
 		"@playwright/test": "1.63.0",
 		"@testing-library/react": "16.3.3",
 		"@vitest/browser-playwright": "^5.1.0",
