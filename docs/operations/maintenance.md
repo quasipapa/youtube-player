@@ -49,7 +49,13 @@ upgrade or mitigation instructions.
 
 ## Dependency and compatibility review
 
-Dependabot checks npm and GitHub Actions dependencies weekly. Pull requests from
+Dependabot checks npm and GitHub Actions dependencies weekly. Tightly coupled
+npm packages are grouped into one pull request each: `wordpress-development`
+for `@wordpress/*`, and `markdown-tooling` for `markdownlint`,
+`markdownlint-cli` and `markdown-it`, which pin each other to narrow ranges.
+When a grouped update raises a package that also has an `overrides` entry,
+check that dependent overrides such as `linkify-it` still satisfy the new
+version (see [setup](../development/setup.md)). Pull requests from
 Dependabot must pass the same CI checks as all other changes. A maintainer
 reviews, at least monthly and before each release:
 

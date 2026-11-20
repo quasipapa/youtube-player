@@ -8,6 +8,13 @@ updates:
           wordpress-development:
               patterns:
                   - '@wordpress/*'
+          # markdownlint-cli pins markdownlint and markdown-it to narrow ranges,
+          # and markdown-it is also an override; update them together.
+          markdown-tooling:
+              patterns:
+                  - 'markdownlint'
+                  - 'markdownlint-cli'
+                  - 'markdown-it'
 
     - package-ecosystem: github-actions
       directory: /
