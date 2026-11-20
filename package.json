@@ -5,8 +5,8 @@
 	"private": true,
 	"license": "GPL-2.0-or-later",
 	"engines": {
-		"node": ">=22.22.2",
-		"npm": ">=10.2.3"
+		"node": ">=24.22.3",
+		"npm": ">=11.16.0"
 	},
 	"scripts": {
 		"build": "wp-scripts build",
