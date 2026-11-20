@@ -23,7 +23,7 @@ and releases remain authoritative. Stable IDs are defined by the
 | [FR-011–FR-015](requirements/product.md#fr-011) | [layout architecture](architecture/layout.md) | [functional coverage](testing/coverage.md#functional-requirements) |
 | [NFR-PRIV-001–008](requirements/privacy.md#nfr-priv-001) | [ADR 0003](architecture/decisions/0003-deferred-youtube-loading-and-consent.md), [ADR 0004](architecture/decisions/0004-same-origin-editor-preview.md) | [privacy coverage](testing/coverage.md#privacy-requirements) |
 | [NFR-A11Y-001–008](requirements/accessibility.md#nfr-a11y-001) | [runtime architecture](architecture/runtime.md) | [accessibility coverage](testing/coverage.md#accessibility-requirements) |
-| [NFR-001–008](requirements/quality.md#nfr-001) | [development architecture](architecture/development.md), [ADR 0005](architecture/decisions/0005-layered-quality-gate.md), [ADR 0006](architecture/decisions/0006-reproducible-allowlisted-release-package.md) | [quality coverage](testing/coverage.md#quality-requirements) |
+| [NFR-001–008](requirements/quality.md#nfr-001) | [development architecture](architecture/development.md), [ADR 0005](architecture/decisions/0005-layered-quality-gate.md), [ADR 0006](architecture/decisions/0006-reproducible-allowlisted-release-package.md), [ADR 0009](architecture/decisions/0009-wordpress-6-6-minimum.md) | [quality coverage](testing/coverage.md#quality-requirements) |
 
 The CI optimization links [ADR 0007](architecture/decisions/0007-change-sensitive-ci.md)
 to [issue #73 evidence](audits/ci-73.md). Direct minimum-WordPress integration
