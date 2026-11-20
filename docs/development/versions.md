@@ -12,7 +12,7 @@ sources and against technical references that must remain synchronized.
 | Node.js minimum and CI selection | `22.22.2` | Local development, CI and release workflow | `package.json` and workflow `NODE_VERSION` |
 | npm minimum | `10.2.3` | Local development | `package.json` |
 | Composer | `2.9.5` | Local container commands and CI PHP jobs | `scripts/composer.sh` and `.github/workflows/ci.yml` |
-| Playwright | `1.63.0` | Browser test package, server and container image | `package.json` and `scripts/local-tests.sh` |
+| Playwright | `1.65.1` | Browser test package, server and container image | `package.json` and `scripts/local-tests.sh` |
 | Daily WordPress | Current stable release when provisioned | Local manual development | `.wp-env.json` |
 | Daily PHP | `8.3` | Local manual development | `.wp-env.json` |
 | Integration WordPress | `6.6` | Isolated WordPress, browser and Plugin Check tests | `.wp-env.test.json` |
