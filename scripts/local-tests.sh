@@ -4,7 +4,7 @@ set -eu
 
 project_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 container_name="ytpp-playwright-local-$$"
-playwright_version="1.63.0"
+playwright_version="1.65.1"
 
 # Keep wp-env's generated Docker configuration inside the project when the
 # quality gate runs in a restricted or disposable WSL environment.
