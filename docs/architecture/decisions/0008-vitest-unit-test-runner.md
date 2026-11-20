@@ -21,6 +21,10 @@ project-owned `vitest.config.mjs`:
 
 - jsdom environment; browser globals, `@testing-library/react` cleanup and
   the former `@wordpress/jest-console` guard live in `tests/vitest/setup.js`.
+  `jsdom` is an exactly pinned direct development dependency because Vitest
+  declares it only as an optional peer dependency: npm drops undeclared
+  optional peers when it re-resolves the lockfile (for example in Dependabot
+  updates), which would leave the jsdom project unable to start.
 - SCSS imports resolve to `tests/vitest/style-mock.js`.
 - Tests import `describe`, `it`, `expect`, hooks and `vi` explicitly from
   `vitest`; JSX-bearing sources use the `.jsx` extension because Vite 8/oxc
