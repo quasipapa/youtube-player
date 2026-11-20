@@ -59,6 +59,13 @@ npm run composer:install
 Expected result: `npm ci` recreates `node_modules/` from `package-lock.json`.
 The Composer command creates or updates `vendor/` from `composer.lock`.
 
+npm 11 runs dependency install scripts only after they are approved, and the
+project approves none. `npm ci` therefore reports packages whose install
+scripts were skipped (`npm install-scripts ls` lists them). This is expected:
+`npm run check` and `npm run test:local` do not depend on those scripts. Do
+not approve install scripts locally to silence the notice; an approval is a
+reviewed project change.
+
 PHP and Composer are not required on the host. `scripts/composer.sh` declares
 the Composer container version recorded in the
 [version matrix](versions.md) and runs Composer in that container. Developers
