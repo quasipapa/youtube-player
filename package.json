@@ -59,7 +59,7 @@
 		"@wordpress/i18n": "7.1.0",
 		"@wordpress/scripts": "37.1.0",
 		"github-slugger": "2.0.0",
-		"jsdom": "26.1.0",
+		"jsdom": "31.0.1",
 		"markdown-it": "15.0.3",
 		"markdownlint": "0.42.1",
 		"markdownlint-cli": "0.50.0",
