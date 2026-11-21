@@ -7,7 +7,7 @@ sources and against technical references that must remain synchronized.
 
 | Concern | Current value | Applies to | Authoritative configuration |
 | --- | --- | --- | --- |
-| Supported WordPress minimum | `6.1` | Installed plugin runtime | Plugin header and `readme.txt` |
+| Supported WordPress minimum | `6.6` | Installed plugin runtime | Plugin header and `readme.txt` |
 | Supported PHP minimum | `8.0` | Installed plugin runtime and compatibility analysis | `composer.json`, plugin header and `readme.txt` |
 | Node.js minimum and CI selection | `24.22.3` | Local development, CI and release workflow | `package.json` and workflow `NODE_VERSION` |
 | npm minimum | `11.16.0` | Local development | `package.json` |

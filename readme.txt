@@ -1,7 +1,7 @@
 === YouTube Playlist Player ===
 Contributors: quasipapa
 Tags: youtube, playlist, video, block, privacy
-Requires at least: 6.1
+Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.0
 Stable tag: 0.1.0

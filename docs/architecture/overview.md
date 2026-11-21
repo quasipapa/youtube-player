@@ -120,10 +120,11 @@ See [runtime flows](runtime.md) and [development architecture](development.md).
 ## Architecture decisions
 
 - [ADR 0001: Keyless playlist availability check](decisions/0001-keyless-playlist-availability-check.md)
-- [ADR 0002: WordPress 6.1 minimum and metadata-driven dynamic rendering](decisions/0002-minimum-wordpress-and-dynamic-rendering.md)
+- [ADR 0002: WordPress 6.1 minimum and metadata-driven dynamic rendering](decisions/0002-minimum-wordpress-and-dynamic-rendering.md) (minimum superseded by ADR 0009)
 - [ADR 0003: Deferred YouTube loading and consent](decisions/0003-deferred-youtube-loading-and-consent.md)
 - [ADR 0004: Same-origin editor preview](decisions/0004-same-origin-editor-preview.md)
 - [ADR 0005: Layered quality gate](decisions/0005-layered-quality-gate.md)
 - [ADR 0006: Reproducible allowlisted release package](decisions/0006-reproducible-allowlisted-release-package.md)
 - [ADR 0007: Always validate documentation and use a focused metadata gate](decisions/0007-change-sensitive-ci.md)
 - [ADR 0008: Migrate the JavaScript unit suite from Jest to Vitest 5](decisions/0008-vitest-unit-test-runner.md)
+- [ADR 0009: WordPress 6.6 minimum for the shared React JSX runtime](decisions/0009-wordpress-6-6-minimum.md)

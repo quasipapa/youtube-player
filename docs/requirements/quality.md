@@ -3,9 +3,11 @@
 <a id="nfr-001"></a>
 ## NFR-001 – Supported platform
 
-The declared minimum platform is WordPress 6.1 and PHP 8.0. Current WordPress
-and maintained PHP versions are additionally exercised where the test tooling
-permits. See [ADR 0002](../architecture/decisions/0002-minimum-wordpress-and-dynamic-rendering.md).
+The declared minimum platform is WordPress 6.6 and PHP 8.0. The editor script
+depends on the `react-jsx-runtime` script that WordPress provides from 6.6.
+Current WordPress and maintained PHP versions are additionally exercised where
+the test tooling permits. See [ADR 0009](../architecture/decisions/0009-wordpress-6-6-minimum.md)
+and, for dynamic rendering, [ADR 0002](../architecture/decisions/0002-minimum-wordpress-and-dynamic-rendering.md).
 
 <a id="nfr-002"></a>
 ## NFR-002 – Metadata-driven dynamic block

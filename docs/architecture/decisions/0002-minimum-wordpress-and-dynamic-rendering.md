@@ -1,6 +1,8 @@
 # ADR 0002: WordPress 6.1 minimum and metadata-driven dynamic rendering
 
-- Status: Accepted – documented retrospectively
+- Status: Accepted – documented retrospectively; the WordPress minimum is
+  superseded by [ADR 0009](0009-wordpress-6-6-minimum.md), the dynamic
+  rendering decision remains in force
 - Date of decision: 2026-09-05
 - Evidence: commit `5862a17`; plugin header, `readme.txt` and `src/block.json`
 - Affected requirements: [NFR-001](../../requirements/quality.md#nfr-001),

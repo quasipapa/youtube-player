@@ -54,9 +54,11 @@ The registered Release workflow can be dispatched against the implementation
 branch before merge; inspect that run's publication step to confirm it skipped.
 
 Plugin Check runs only against staged production files. Narrow exemptions are
-recorded in its script/configuration and cover block API version 2 for WordPress
-6.1, the GitHub update URI, the YouTube name and explicit bundled translation
-loading. Other warnings or errors require investigation.
+recorded in its script/configuration and cover block API version 2, the GitHub
+update URI, the YouTube name and explicit bundled translation loading. The
+block deliberately stays on API version 2 until
+[issue #133](https://github.com/quasipapa/youtube-player/issues/133) decides on
+version 3. Other warnings or errors require investigation.
 
 The integration site uses the configured WordPress and PHP test versions because
 Plugin Check requires a newer WordPress installation than the declared minimum.

@@ -3,7 +3,7 @@
 ## Supported versions
 
 Only the latest published version receives security fixes. The supported
-platform baseline is WordPress 6.1 or later and PHP 8.0 or later.
+platform baseline is WordPress 6.6 or later and PHP 8.0 or later.
 
 ## Reporting a vulnerability
 

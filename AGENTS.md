@@ -16,7 +16,7 @@ consent gate is accepted.
 - **Language for code, comments, commits and documentation**: English (the
   legacy root file `ANFORDERUNGEN-UND-UMSETZUNGSPLAN.md` stays German as a
   historical entry point).
-- **Target platform**: WordPress ≥ 6.1, PHP ≥ 8.0 — exact values and the CI
+- **Target platform**: WordPress ≥ 6.6, PHP ≥ 8.0 — exact values and the CI
   matrix in the [version matrix](docs/development/versions.md).
 - **License**: GPL-2.0-or-later.
 

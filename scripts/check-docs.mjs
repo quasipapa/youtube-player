@@ -228,10 +228,7 @@ const qualityRequirements = readFileSync(
 	'utf8'
 );
 const platformDecision = readFileSync(
-	join(
-		root,
-		'docs/architecture/decisions/0002-minimum-wordpress-and-dynamic-rendering.md'
-	),
+	join( root, 'docs/architecture/decisions/0009-wordpress-6-6-minimum.md' ),
 	'utf8'
 );
 
@@ -252,7 +249,7 @@ checkVersion( 'Supported WordPress minimum', wordpressMinimum, [
 		),
 	],
 	[
-		'ADR 0002 WordPress minimum',
+		'ADR 0009 WordPress minimum',
 		capture( platformDecision, /Require WordPress ([\d.]+)/ ),
 	],
 ] );
@@ -282,7 +279,7 @@ checkVersion( 'Supported PHP minimum', phpMinimum, [
 		),
 	],
 	[
-		'ADR 0002 PHP minimum',
+		'ADR 0009 PHP minimum',
 		capture( platformDecision, /Require PHP ([\d.]+)/ ),
 	],
 ] );

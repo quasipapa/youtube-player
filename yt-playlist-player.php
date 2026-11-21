@@ -3,7 +3,7 @@
  * Plugin Name:       YouTube Playlist Player
  * Description:       Adds an enhanced navigation interface to embedded YouTube playlists.
  * Version:           0.1.0
- * Requires at least: 6.1
+ * Requires at least: 6.6
  * Requires PHP:      8.0
  * Author:            quasipapa
  * Copyright:         2026 quasipapa
