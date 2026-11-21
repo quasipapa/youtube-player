@@ -22,7 +22,7 @@ Requirement-level automated and manual responsibility is maintained in the
   multiple blocks and consent integration with local API doubles.
 - `scripts/ci.test.mjs`: Node test runner checks classification and gate failure
   behavior, real Git rename diffs, Markdown parsing, version mismatch rejection,
-  and temporary ZIP corruption/content fixtures. Run with `npm run test:ci`;
+  the CI concurrency rule and temporary ZIP corruption/content fixtures. Run with `npm run test:ci`;
   only Node.js, Git and Python are needed.
 
 ## CI workflow acceptance

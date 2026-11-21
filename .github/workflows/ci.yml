@@ -16,9 +16,12 @@ on:
             ]
     workflow_dispatch:
 
+# Pull requests share one group per ref so a new push cancels the outdated run.
+# Every other event (pushes to main, dispatches) gets its own group per commit,
+# so each merge commit on main is verified completely and never displaced.
 concurrency:
-    group: ci-${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+    group: ci-${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
     contents: read

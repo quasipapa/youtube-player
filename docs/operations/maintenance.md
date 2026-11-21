@@ -53,6 +53,10 @@ Dependabot checks npm and GitHub Actions dependencies weekly. Tightly coupled
 npm packages are grouped into one pull request each: `wordpress-development`
 for `@wordpress/*`, and `markdown-tooling` for `markdownlint`,
 `markdownlint-cli` and `markdown-it`, which pin each other to narrow ranges.
+All remaining npm minor and patch updates share the
+`development-minor-and-patch` pull request, and all GitHub Actions updates share
+`github-actions`. Major npm updates outside the coupled groups arrive as
+individual pull requests so that breaking changes are reviewed separately.
 When a grouped update raises a package that also has an `overrides` entry,
 check that dependent overrides such as `linkify-it` still satisfy the new
 version (see [setup](../development/setup.md)). Pull requests from
