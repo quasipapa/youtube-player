@@ -58,3 +58,18 @@ declared minimum; the concrete values are in the
 [version matrix](development/versions.md). Consider a separate minimum-version
 integration lane that does not run Plugin Check. Static PHP compatibility checks
 do not prove WordPress runtime behavior.
+
+<a id="idea-005"></a>
+## IDEA-005 – Block API version 3
+
+**Scope:** product, development\
+**Status:** formalized\
+**Formalized as:** [Issue #133](https://github.com/quasipapa/youtube-player/issues/133)
+
+The block declares API version 2, and Plugin Check reports it as too low. With
+the WordPress 6.6 minimum from
+[ADR 0009](architecture/decisions/0009-wordpress-6-6-minimum.md), version 3 is
+available on every supported version. Adopting it can render the editor canvas
+in an iframe, which affects the editor preview, the availability check and
+editor styles. The issue collects the decision criteria and the spike result
+before a Go/No-Go.
