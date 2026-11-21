@@ -46,5 +46,7 @@ The plugin header, `readme.txt`, NFR-001, this ADR and the
 `npm run check:docs` verifies their agreement. Block API version 3 becomes
 available on every supported version; whether to adopt it is decided separately
 in [issue #133](https://github.com/quasipapa/youtube-player/issues/133).
-Direct integration evidence for the declared minimum is the subject of
-[IDEA-004](../../ideas.md#idea-004).
+The minimum-platform lane from [IDEA-004](../../ideas.md#idea-004)
+(`npm run test:minimum`) runs the WordPress E2E suite on the declared minimum in
+CI and in the release workflow; it fails on WordPress 6.5 with the defect
+described above.

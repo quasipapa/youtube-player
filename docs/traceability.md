@@ -27,7 +27,10 @@ and releases remain authoritative. Stable IDs are defined by the
 
 The CI optimization links [ADR 0007](architecture/decisions/0007-change-sensitive-ci.md)
 to [issue #73 evidence](audits/ci-73.md). Direct minimum-WordPress integration
-coverage remains an uncommitted [IDEA-004](ideas.md#idea-004).
+coverage from [IDEA-004](ideas.md#idea-004) is delivered by
+[issue #115](https://github.com/quasipapa/youtube-player/issues/115); its
+finding [issue #132](https://github.com/quasipapa/youtube-player/issues/132) is
+decided in [ADR 0009](architecture/decisions/0009-wordpress-6-6-minimum.md).
 
 The coverage matrix owns requirement-to-test mapping and known verification
 gaps. Test suites are inventoried in [automated testing](testing/automated.md),

@@ -168,10 +168,37 @@ jobs:
             - name: Run WordPress and browser quality gate
               run: npm run test:local
 
+    wordpress-minimum:
+        name: WordPress minimum integration
+        needs: changes
+        if: needs.changes.outputs.classification == 'full'
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - name: Set up Node.js
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+            - name: Install JavaScript dependencies
+              run: npm ci
+            - name: Run E2E against the declared WordPress and PHP minimum
+              run: npm run test:minimum
+
     ci-artifact:
         name: Upload CI plugin artifact
         runs-on: ubuntu-24.04
-        needs: [changes, docs, build-and-version, php, javascript, wordpress]
+        needs:
+            [
+                changes,
+                docs,
+                build-and-version,
+                php,
+                javascript,
+                wordpress,
+                wordpress-minimum,
+            ]
         if: needs.changes.outputs.classification == 'full'
         permissions:
             contents: read
@@ -211,6 +238,7 @@ jobs:
                 php,
                 javascript,
                 wordpress,
+                wordpress-minimum,
                 ci-artifact,
             ]
         runs-on: ubuntu-24.04

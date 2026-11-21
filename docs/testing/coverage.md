@@ -54,7 +54,7 @@ Coverage status means:
 
 | Requirement | Test objective | Automated evidence | Manual evidence | Status or limit |
 | --- | --- | --- | --- | --- |
-| [NFR-001](../requirements/quality.md#nfr-001) | Declared platform compatibility | PHP compatibility lint, CI PHP matrix and [`scripts/check-docs.mjs`](../../scripts/check-docs.mjs) | None | partial; declared minimum WordPress has no direct integration lane |
+| [NFR-001](../requirements/quality.md#nfr-001) | Declared platform compatibility | PHP compatibility lint, CI PHP matrix, [`scripts/check-docs.mjs`](../../scripts/check-docs.mjs) and the minimum-platform lane [`scripts/minimum-tests.sh`](../../scripts/minimum-tests.sh) running [`tests/e2e/wordpress.pw.js`](../../tests/e2e/wordpress.pw.js) on the declared WordPress/PHP minimum | None | automated; Plugin Check, responsive, accessibility, editor preview and availability check run on the integration version only |
 | [NFR-002](../requirements/quality.md#nfr-002) | Metadata registration and dynamic rendering | [`src/index.test.js`](../../src/index.test.js), [`tests/unit/test-plugin-metadata.php`](../../tests/unit/test-plugin-metadata.php), [`tests/unit/test-block-render.php`](../../tests/unit/test-block-render.php) | None | automated |
 | [NFR-003](../requirements/quality.md#nfr-003) | Input validation, normalization and output safety | Parser/render unit tests, PHP/JavaScript lint and Plugin Check | [MAN-001](manual-acceptance.md#man-001) | combined |
 | [NFR-004](../requirements/quality.md#nfr-004) | Complete and reproducible localization | [`src/i18n.test.js`](../../src/i18n.test.js), [`tests/unit/test-i18n.php`](../../tests/unit/test-i18n.php), translation reproducibility check | [MAN-009](manual-acceptance.md#man-009) | combined |

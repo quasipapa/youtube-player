@@ -10,6 +10,7 @@ manual layer for external services and human perception.
 | Vitest jsdom project | unit tests with DOM doubles, fake timers and module resets | `npm run test:js` |
 | Vitest Browser Mode | isolated React component tests in real Chromium | `npm run test:js:browser` |
 | WordPress integration | registration, persistence and public privacy gate | `npm run test:local` |
+| WordPress minimum integration | editor script loading, registration, persistence and privacy gate on the declared WordPress/PHP minimum | `npm run test:minimum` |
 | Plugin Check | production package policy checks | `npm run test:plugin-check` |
 | Playwright | WordPress E2E, responsive and accessibility behavior | `npm run test:browser` |
 | Manual acceptance | real YouTube, screen reader, themes and site consent manager | [manual checklist](manual-acceptance.md) |
@@ -19,7 +20,8 @@ manual layer for external services and human perception.
 - Axe checks plugin-owned DOM but not the third-party iframe and is not a
   complete accessibility assessment.
 - Static PHP checks support the declared PHP minimum. The isolated WordPress
-  environment uses the configured integration PHP version.
+  environment uses the configured integration PHP version; the minimum-platform
+  environment runs the declared WordPress and PHP minimums.
 - Current environment boundaries are listed in the
   [version matrix](../development/versions.md).
 - JavaScript tests run on Vitest 5 through `wp-scripts test-unit-js` with the

@@ -12,6 +12,7 @@ export function gateErrors( needs ) {
 			'php',
 			'javascript',
 			'wordpress',
+			'wordpress-minimum',
 			'ci-artifact',
 		],
 	}[ classification ];

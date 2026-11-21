@@ -30,6 +30,8 @@
 		"env:logs": "wp-env logs --no-watch",
 		"env:test:start": "wp-env start --config=.wp-env.test.json",
 		"env:test:stop": "wp-env stop --config=.wp-env.test.json",
+		"env:minimum:start": "wp-env start --config=.wp-env.minimum.json",
+		"env:minimum:stop": "wp-env stop --config=.wp-env.minimum.json",
 		"format:php": "sh scripts/composer.sh run format",
 		"lint:php": "sh scripts/composer.sh run lint",
 		"test:php": "sh scripts/composer.sh run test",
@@ -41,6 +43,7 @@
 		"check": "npm run check:docs && npm run test:ci && npm run format:check && npm run lint:js && npm run lint:css && npm run lint:php && npm run test:php && npm run test:js && npm run i18n:check && npm run build",
 		"test:browser": "npm run build && playwright test",
 		"test:local": "sh scripts/local-tests.sh",
+		"test:minimum": "sh scripts/minimum-tests.sh",
 		"test:responsive": "npm run build && playwright test tests/responsive",
 		"test:accessibility": "npm run build && playwright test tests/accessibility"
 	},

@@ -202,6 +202,9 @@ const wpEnv = JSON.parse(
 const wpEnvTest = JSON.parse(
 	readFileSync( join( root, '.wp-env.test.json' ), 'utf8' )
 );
+const wpEnvMinimum = JSON.parse(
+	readFileSync( join( root, '.wp-env.minimum.json' ), 'utf8' )
+);
 const ciWorkflow = readFileSync(
 	join( root, '.github/workflows/ci.yml' ),
 	'utf8'
@@ -214,8 +217,8 @@ const composerScript = readFileSync(
 	join( root, 'scripts/composer.sh' ),
 	'utf8'
 );
-const localTests = readFileSync(
-	join( root, 'scripts/local-tests.sh' ),
+const playwrightServer = readFileSync(
+	join( root, 'scripts/playwright-server.sh' ),
 	'utf8'
 );
 const pluginHeader = readFileSync(
@@ -323,8 +326,8 @@ checkVersion( 'Composer', composerVersion, [
 const playwrightVersion = packageJson.devDependencies[ '@playwright/test' ];
 checkVersion( 'Playwright', playwrightVersion, [
 	[
-		'local-tests.sh Playwright version',
-		capture( localTests, /playwright_version="([^"]+)"/ ),
+		'playwright-server.sh Playwright version',
+		capture( playwrightServer, /playwright_version="([^"]+)"/ ),
 	],
 ] );
 
@@ -335,6 +338,15 @@ checkVersion(
 	[]
 );
 checkVersion( 'Integration PHP', wpEnvTest.phpVersion, [] );
+// The minimum lane must run exactly the declared platform minimums.
+checkVersion(
+	'Minimum integration WordPress',
+	capture( wpEnvMinimum.core, /#([\d.]+)-branch$/ ),
+	[ [ 'Supported WordPress minimum', wordpressMinimum ] ]
+);
+checkVersion( 'Minimum integration PHP', wpEnvMinimum.phpVersion, [
+	[ 'Supported PHP minimum', phpMinimum ],
+] );
 
 const phpMatrix = capture( ciWorkflow, /php:\s*\[([^\]]+)\]/ )
 	?.match( /['"]([^'"]+)['"]/g )

@@ -104,6 +104,26 @@ Expected result:
 The WordPress test environment remains running for inspection. Stop it with
 `npm run env:test:stop` when it is no longer needed.
 
+For changes to the editor script, block registration, build tooling,
+dependencies or the declared platform minimum, also run the minimum-platform
+lane. CI runs it for every `full` change:
+
+```bash
+npm run test:minimum
+```
+
+Expected result:
+
+- the production assets are built
+- the isolated WordPress environment from `.wp-env.minimum.json` is running and
+  reports the declared WordPress and PHP minimums; any other version fails the
+  lane
+- `tests/e2e/wordpress.pw.js` passes against that site
+- any temporary Playwright container created by the script is removed on exit
+
+Plugin Check is not part of this lane because it requires a newer WordPress
+installation. Stop the environment with `npm run env:minimum:stop`.
+
 Expected result: the command stops the test containers. It retains the test
 site's stored data for the next start.
 

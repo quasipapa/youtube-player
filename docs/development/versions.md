@@ -12,11 +12,13 @@ sources and against technical references that must remain synchronized.
 | Node.js minimum and CI selection | `24.22.3` | Local development, CI and release workflow | `package.json` and workflow `NODE_VERSION` |
 | npm minimum | `11.16.0` | Local development | `package.json` |
 | Composer | `2.9.5` | Local container commands and CI PHP jobs | `scripts/composer.sh` and `.github/workflows/ci.yml` |
-| Playwright | `1.65.1` | Browser test package, server and container image | `package.json` and `scripts/local-tests.sh` |
+| Playwright | `1.65.1` | Browser test package, server and container image | `package.json` and `scripts/playwright-server.sh` |
 | Daily WordPress | Current stable release when provisioned | Local manual development | `.wp-env.json` |
 | Daily PHP | `8.3` | Local manual development | `.wp-env.json` |
 | Integration WordPress | `6.6` | Isolated WordPress, browser and Plugin Check tests | `.wp-env.test.json` |
 | Integration PHP | `8.3` | Isolated WordPress, browser and Plugin Check tests | `.wp-env.test.json` |
+| Minimum integration WordPress | `6.6` | WordPress E2E against the declared minimum, without Plugin Check | `.wp-env.minimum.json`; must equal the supported WordPress minimum |
+| Minimum integration PHP | `8.0` | WordPress E2E against the declared minimum, without Plugin Check | `.wp-env.minimum.json`; must equal the supported PHP minimum |
 | CI PHP matrix | `8.0, 8.3` | PHP lint and unit jobs | `.github/workflows/ci.yml` |
 | GitHub runner | `ubuntu-24.04` | CI and release jobs | GitHub workflow `runs-on` values |
 
