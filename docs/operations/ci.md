@@ -66,6 +66,9 @@ The following jobs run for `full`:
 - **JavaScript and CSS** installs locked npm dependencies and runs JS, SCSS and
   the project-configured Vitest checks through `wp-scripts test-unit-js`.
 - **WordPress integration, E2E and Plugin Check** runs `npm run test:local`.
+- **WordPress minimum integration** runs `npm run test:minimum`: the WordPress
+  E2E suite against the declared WordPress and PHP minimums from
+  `.wp-env.minimum.json`, without Plugin Check.
 - **Upload CI plugin artifact** depends on the documentation and full source jobs. It receives
   `actions: write`, builds runtime assets, stages the runtime allowlist, creates
   a ZIP and checksum, and retains them for three days.

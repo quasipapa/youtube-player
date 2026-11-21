@@ -13,7 +13,8 @@ Requirement-level automated and manual responsibility is maintained in the
 - `src/*.test.{js,jsx}` (jsdom) and `src/*.browser.test.jsx` (Vitest Browser
   Mode, real Chromium) plus `assets/js/*.test.js`: editor, frontend, parser,
   sizing, internationalization and editor preview controller.
-- `tests/e2e/wordpress.pw.js`: Gutenberg persistence and frontend privacy gate.
+- `tests/e2e/wordpress.pw.js`: Gutenberg persistence and frontend privacy gate,
+  run against the integration site and the minimum-platform site.
 - `tests/responsive/`: production markup at representative dimensions, portrait
   and landscape ratios, separate and combined size limits, narrow columns and
   alignment reflow. Tests use local iframe doubles and make no YouTube requests.
@@ -62,6 +63,16 @@ version 3. Other warnings or errors require investigation.
 
 The integration site uses the configured WordPress and PHP test versions because
 Plugin Check requires a newer WordPress installation than the declared minimum.
-CI separately exercises the configured PHP compatibility boundaries. The
-declared WordPress minimum has no direct integration coverage. Concrete values
-and their sources are in the [version matrix](../development/versions.md).
+CI separately exercises the configured PHP compatibility boundaries.
+
+The minimum-platform lane (`npm run test:minimum`, CI job **WordPress minimum
+integration**, also part of the release workflow) runs
+`tests/e2e/wordpress.pw.js` against the declared WordPress and PHP minimums from
+`.wp-env.minimum.json`. The script fails when the running site reports other
+versions, and `npm run check:docs` fails when the configuration drifts from the
+declared minimums. The lane covers editor script loading, block registration,
+attribute persistence and the frontend privacy gate on the minimum platform. It
+does not run Plugin Check, the responsive or accessibility suites, or the
+editor preview and availability check, which remain covered on the integration
+version only. Concrete values and their sources are in the
+[version matrix](../development/versions.md).

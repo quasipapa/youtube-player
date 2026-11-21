@@ -39,6 +39,8 @@ jobs:
               run: npm ci
             - name: Run complete quality gate and WordPress smoke tests
               run: npm run test:local
+            - name: Run E2E against the declared WordPress and PHP minimum
+              run: npm run test:minimum
             - name: Verify tag and project versions agree
               env:
                   RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}

@@ -59,6 +59,12 @@ declared minimum; the concrete values are in the
 integration lane that does not run Plugin Check. Static PHP compatibility checks
 do not prove WordPress runtime behavior.
 
+**Outcome:** delivered as the minimum-platform lane (`npm run test:minimum`, CI
+job **WordPress minimum integration**). Its first run exposed
+[issue #132](https://github.com/quasipapa/youtube-player/issues/132), which led
+to the WordPress 6.6 minimum in
+[ADR 0009](architecture/decisions/0009-wordpress-6-6-minimum.md).
+
 <a id="idea-005"></a>
 ## IDEA-005 – Block API version 3
 

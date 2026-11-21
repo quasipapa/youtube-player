@@ -214,6 +214,7 @@ const jobs = [
 	'php',
 	'javascript',
 	'wordpress',
+	'wordpress-minimum',
 	'ci-artifact',
 ];
 for ( const [ classification, selected ] of Object.entries( {

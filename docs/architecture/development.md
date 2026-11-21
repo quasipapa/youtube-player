@@ -49,6 +49,7 @@ sequenceDiagram
     participant PHPJob as PHP matrix job
     participant JSJob as JavaScript + CSS job
     participant WPJob as WordPress job
+    participant MinJob as WordPress minimum job
     participant ArtifactJob as CI artifact job
     participant Release as Release workflow
     participant Build as Generated build/
@@ -77,11 +78,14 @@ sequenceDiagram
             CI->>JSJob: npm ci + JS/CSS unit and lint checks
         and WordPress integration
             CI->>WPJob: npm run test:local
+        and WordPress minimum integration
+            CI->>MinJob: npm run test:minimum
         end
         BuildJob-->>ArtifactJob: Success
         PHPJob-->>ArtifactJob: Success
         JSJob-->>ArtifactJob: Success
         WPJob-->>ArtifactJob: Success
+        MinJob-->>ArtifactJob: Success
         ArtifactJob->>Build: npm run plugin:zip
         ArtifactJob->>Stage: Copy runtime allowlist
         Stage->>Package: Create CI ZIP and checksum
@@ -93,7 +97,7 @@ sequenceDiagram
     else Push of an approved v* tag
         Maintainer->>Repo: Push release tag
         Repo->>Release: Trigger workflow
-        Release->>Release: npm ci + npm run test:local
+        Release->>Release: npm ci + npm run test:local + npm run test:minimum
         Release->>Release: Verify tag and version agreement
         Release->>Build: npm run plugin:zip compiles assets
         Build->>Stage: Copy runtime allowlist
