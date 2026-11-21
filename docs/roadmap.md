@@ -70,4 +70,7 @@ the source of truth for the generic base.
 
 After practical use, decide whether to extract the documentation schema and
 whether OpenSpec should manage future behavioral change specifications. Avoid
-two authoritative requirement sets.
+two authoritative requirement sets. First practical-use evidence is in the
+[documentation schema audit](audits/documentation-schema-practice-2026-11.md);
+the decision is tracked in
+[issue #137](https://github.com/quasipapa/youtube-player/issues/137).

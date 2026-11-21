@@ -21,6 +21,11 @@ Open questions:
 - Should distribution be a standalone skill, a repository template or both?
 - Which link and relationship checks justify deterministic scripts?
 
+Practical-use evidence from November 2026 is in the
+[documentation schema audit](audits/documentation-schema-practice-2026-11.md);
+the extraction decision is open in
+[issue #137](https://github.com/quasipapa/youtube-player/issues/137).
+
 <a id="idea-002"></a>
 ## IDEA-002 – Pilot OpenSpec for a substantial future change
 
