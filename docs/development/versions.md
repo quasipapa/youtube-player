@@ -22,6 +22,18 @@ sources and against technical references that must remain synchronized.
 | CI PHP matrix | `8.0, 8.3` | PHP lint and unit jobs | `.github/workflows/ci.yml` |
 | GitHub runner | `ubuntu-24.04` | CI and release jobs | GitHub workflow `runs-on` values |
 
+The matrix lists a version when at least one of these applies:
+
+- it defines the supported platform (WordPress, PHP);
+- it is declared in more than one place, so `npm run check:docs` must keep the
+  places in agreement (for example Node.js, Playwright, Composer);
+- it selects a runtime or container environment (wp-env, CI runners, PHP
+  matrix).
+
+Other npm and Composer dependencies are not listed. Their authoritative versions
+are `package.json`, `composer.json` and the lockfiles; updating them changes this
+matrix only when one of the criteria above starts to apply.
+
 Exact values remain in requirements or ADRs when they are part of a supported
 platform contract or recorded decision. Dated audit records preserve the values
 observed during that audit. Other current documentation links to this matrix

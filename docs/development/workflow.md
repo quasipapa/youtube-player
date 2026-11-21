@@ -168,6 +168,20 @@ Keep behavior, requirements, decisions, tests and operational instructions in
 the same change. Answer the documentation-impact questions in the pull request
 template. Update [traceability](../traceability.md) when relationships change.
 
+### Stacked pull requests
+
+A pull request may target another feature branch when it depends on that change.
+Deleting a base branch through the API or a merge command closes the pull
+requests that target it instead of retargeting them. Merge a stack bottom-up:
+
+1. Retarget the dependent pull request to `main` (`gh pr edit <n> --base main`
+   or the GitHub UI) before merging the base pull request.
+2. Merge the base pull request without deleting its branch.
+3. Delete the base branch after no open pull request targets it.
+
+Bring the dependent branch up to date with a merge from `main`; rebasing it
+would require a force-push.
+
 Start work on new behavior with an identified requirement. Record a
 consequential technical choice as an ADR. Ideas without commitment belong in
 [ideas](../ideas.md). Scheduled outcomes belong in the

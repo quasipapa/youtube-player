@@ -70,7 +70,10 @@ Idea statuses are `idea`, `evaluating`, `formalized`, `deferred` or `rejected`.
 Roadmap statuses are `planned`, `in progress`, `delivered`, `deferred` or
 `cancelled`. Requirements are `accepted`, `deprecated` or `retired`. ADRs use
 `proposed`, `accepted`, `superseded` or `rejected`; decisions reconstructed from
-evidence say `Accepted – documented retrospectively`.
+evidence say `Accepted – documented retrospectively`. When a later ADR replaces
+only part of an earlier one, the earlier ADR keeps its status and names the
+replaced part, for example `Accepted; the WordPress minimum is superseded by
+ADR 0009`. Record one decision per ADR so that partial supersession stays rare.
 
 Do not delete an idea when it is formalized or rejected. Keep a short record and
 link its outcome. Large inactive collections may move to an archive while their
