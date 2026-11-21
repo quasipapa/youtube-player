@@ -357,3 +357,23 @@ test( 'Package checks reject corruption, unexpected content and missing required
 		assert.throws( () => checkPackage( zip ), /Missing package entry/ );
 	}
 } );
+
+test( 'CI cancels only outdated pull-request runs and verifies every main commit', () => {
+	const workflow = readFileSync(
+		resolve(
+			dirname( new URL( import.meta.url ).pathname ),
+			'../.github/workflows/ci.yml'
+		),
+		'utf8'
+	);
+	const block = workflow.match( /^concurrency:\n((?:[ \t]+.*\n)+)/m )?.[ 1 ];
+	assert.ok( block, 'ci.yml declares a top-level concurrency block' );
+	assert.match(
+		block,
+		/group:.*github\.event_name == 'pull_request' && github\.ref \|\| github\.sha/
+	);
+	assert.match(
+		block,
+		/cancel-in-progress: \$\{\{ github\.event_name == 'pull_request' \}\}/
+	);
+} );

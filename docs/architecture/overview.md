@@ -128,3 +128,4 @@ See [runtime flows](runtime.md) and [development architecture](development.md).
 - [ADR 0007: Always validate documentation and use a focused metadata gate](decisions/0007-change-sensitive-ci.md)
 - [ADR 0008: Migrate the JavaScript unit suite from Jest to Vitest 5](decisions/0008-vitest-unit-test-runner.md)
 - [ADR 0009: WordPress 6.6 minimum for the shared React JSX runtime](decisions/0009-wordpress-6-6-minimum.md)
+- [ADR 0010: Up-to-date pull requests and verified main commits](decisions/0010-verified-main-commits.md)

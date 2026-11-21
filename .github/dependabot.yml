@@ -15,8 +15,21 @@ updates:
                   - 'markdownlint'
                   - 'markdownlint-cli'
                   - 'markdown-it'
+          # Remaining minor and patch updates share one weekly PR so that
+          # fewer PRs touch package-lock.json at the same time. A dependency
+          # joins the first group it matches; major updates stay separate.
+          development-minor-and-patch:
+              patterns:
+                  - '*'
+              update-types:
+                  - 'minor'
+                  - 'patch'
 
     - package-ecosystem: github-actions
       directory: /
       schedule:
           interval: weekly
+      groups:
+          github-actions:
+              patterns:
+                  - '*'

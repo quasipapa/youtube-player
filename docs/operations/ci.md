@@ -1,8 +1,11 @@
 # Continuous integration
 
 `.github/workflows/ci.yml` runs for every pull request and every push to `main`.
-Concurrency is scoped to workflow and ref; a newer run cancels an older run on
-the same ref. Default permission is read-only repository contents.
+For pull requests, concurrency is scoped to workflow and ref, and a newer run
+cancels the outdated one. Pushes to `main` and manual dispatches run in their own
+group per commit and are never cancelled, so every merge commit is verified
+([ADR 0010](../architecture/decisions/0010-verified-main-commits.md)). Default
+permission is read-only repository contents.
 
 ## Version sources
 
@@ -98,6 +101,27 @@ ensures retargeting a PR cannot reuse a classification for a different diff.
 The label only escalates checks. Manual `CI` workflow
 dispatches and pushes to `main` always select `full`. Dispatch against the PR's
 branch to verify that exact head with all checks. No commit-message skip is used.
+
+## Merging and main verification
+
+The `Protect main` ruleset requires **CI gate** and requires the pull request
+branch to be up to date with `main` before merging. When several pull requests
+are open, merge them one at a time:
+
+1. Merge a pull request whose **CI gate** passed on the current `main`.
+2. Update each remaining pull request (`gh pr update-branch <n>`, or
+   `@dependabot rebase` for Dependabot pull requests) and wait for its new
+   **CI gate** result before merging it.
+3. Confirm the `main` run of each merge commit; it is never cancelled by a later
+   merge.
+
+Lockfile-heavy Dependabot updates are grouped (see
+[maintenance](maintenance.md#dependency-and-compatibility-review)) to keep the
+number of serial update cycles small. A merge queue would automate this order
+but is unavailable for this user-owned repository. The rationale is recorded in
+[ADR 0010](../architecture/decisions/0010-verified-main-commits.md); stacked pull
+requests follow the
+[development workflow](../development/workflow.md#change-completion).
 
 ## Required-check migration
 
